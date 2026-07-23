@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Construction & Building | Aetheria Homes</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            navy: '#0B1B3D',
+                            navyLight: '#162A57',
+                            gold: '#D4AF37',
+                            goldLight: '#F3D573',
+                            emerald: '#10B981',
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles for inputs and scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #0B1B3D; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #162A57; }
+
+        .service-card { transition: all 0.3s ease; }
+        .service-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+
+        .pricing-card { transition: all 0.3s ease; }
+        .pricing-card:hover { transform: translateY(-8px); }
+
+        /* Animation classes for observer */
+        .opacity-0 { opacity: 0; }
+        .animate-on-scroll.is-visible { animation: fadeInUp 0.8s ease-out forwards; }
+    </style>
+</head>
+<body class="font-sans text-gray-800 antialiased bg-gray-50 selection:bg-brand-gold selection:text-brand-navy">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300 backdrop-blur-md bg-white/80 border-b border-gray-200" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="index.html" class="flex-shrink-0 flex items-center cursor-pointer">
+                    <i class="ph-fill ph-house-line text-3xl text-brand-navy mr-2"></i>
+                    <span class="font-heading font-bold text-2xl text-brand-navy tracking-tight">Aetheria<span class="text-brand-gold">.</span></span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-brand-navy font-medium transition-colors" data-i18n="navHome">Home</a>
+                    <a href="index.html#services" class="text-gray-600 hover:text-brand-navy font-medium transition-colors" data-i18n="navServices">Services</a>
+                    <a href="index.html#why-us" class="text-gray-600 hover:text-brand-navy font-medium transition-colors" data-i18n="navWhyUs">Why Us</a>
+                    <a href="index.html#portfolio" class="text-gray-600 hover:text-brand-navy font-medium transition-colors" data-i18n="navPortfolio">Portfolio</a>
+
+                    <!-- Language Toggle -->
+                    <div class="flex items-center bg-gray-100 p-1 rounded-full border border-gray-200">
+                        <button onclick="setLanguage('en')" id="btn-en" class="px-3 py-1 rounded-full text-sm font-semibold transition-all bg-white shadow-sm text-brand-navy">EN</button>
+                        <button onclick="setLanguage('id')" id="btn-id" class="px-3 py-1 rounded-full text-sm font-semibold transition-all text-gray-500 hover:text-gray-800">ID</button>
+                    </div>
+
+                    <a href="index.html#estimate" class="bg-brand-navy hover:bg-brand-navyLight text-white px-6 py-2.5 rounded-full font-medium transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5" data-i18n="navCTA">Get a Quote</a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-brand-navy focus:outline-none p-2">
+                        <i class="ph ph-list text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200 absolute w-full shadow-lg">
+            <div class="px-4 pt-2 pb-6 space-y-3">
+                <a href="index.html" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md" data-i18n="navHome">Home</a>
+                <a href="index.html#services" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md" data-i18n="navServices">Services</a>
+                <a href="index.html#why-us" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md" data-i18n="navWhyUs">Why Us</a>
+                <a href="index.html#portfolio" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md" data-i18n="navPortfolio">Portfolio</a>
+
+                <div class="flex items-center space-x-4 px-3 py-2">
+                    <span class="text-sm font-medium text-gray-500">Language:</span>
+                    <button onclick="setLanguage('en')" class="font-bold text-brand-navy">EN</button>
+                    <span class="text-gray-300">|</span>
+                    <button onclick="setLanguage('id')" class="font-bold text-brand-navy">ID</button>
+                </div>
+
+                <a href="index.html#estimate" class="block w-full text-center mt-4 bg-brand-navy text-white px-5 py-3 rounded-xl font-medium" data-i18n="navCTA">Get a Quote</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1541976590-713941681591?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Home Construction Site" class="w-full h-full object-cover object-center" />
+            <div class="absolute inset-0 bg-gradient-to-r from-brand-navy/95 via-brand-navy/80 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="max-w-2xl animate-fade-in-up">
+                <div class="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-6">
+                    <span class="flex h-2 w-2 rounded-full bg-brand-emerald animate-pulse"></span>
+                    <span class="text-white text-sm font-medium tracking-wide" data-i18n="heroBadge">Trusted Home Builders</span>
+                </div>
+
+                <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6 tracking-tight" data-i18n="heroTitle">
+                    Build Without the Headache. <span class="text-brand-gold">On Time, On Budget.</span>
+                </h1>
+
+                <p class="text-lg md:text-xl text-gray-300 mb-10 leading-relaxed max-w-lg" data-i18n="heroDesc">
+                    From foundation to finishing, our licensed builders and certified project managers deliver structurally sound homes with transparent budgeting — no surprise costs, no missed deadlines.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="index.html#estimate" class="bg-brand-gold hover:bg-brand-goldLight text-brand-navy px-8 py-4 rounded-full font-bold text-lg transition-all text-center shadow-[0_0_20px_rgba(212,175,55,0.4)]" data-i18n="heroCTA1">
+                        Get a Free Site Consultation
+                    </a>
+                    <a href="#pricing" class="bg-transparent border-2 border-white/30 text-white hover:bg-white/10 px-8 py-4 rounded-full font-bold text-lg transition-all text-center flex items-center justify-center group">
+                        <span data-i18n="heroCTA2">View Pricing &amp; Packages</span>
+                        <i class="ph ph-arrow-down ml-2 group-hover:translate-y-1 transition-transform"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us (Advantages) Section -->
+    <section id="advantages" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+                <!-- Image Side -->
+                <div class="w-full lg:w-1/2 relative animate-on-scroll opacity-0">
+                    <div class="relative rounded-3xl overflow-hidden shadow-2xl aspect-square lg:aspect-[4/5]">
+                        <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Construction Supervision">
+                    </div>
+                    <!-- Floating Badge -->
+                    <div class="absolute -bottom-8 -right-8 md:-right-4 bg-white p-6 rounded-2xl shadow-xl animate-float hidden md:block">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-brand-gold/20 p-3 rounded-full text-brand-gold">
+                                <i class="ph ph-hard-hat text-3xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold text-gray-900">300+ Homes</p>
+                                <p class="text-sm text-gray-500" data-i18n="whyBadge">Built &amp; Handed Over</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text Side -->
+                <div class="w-full lg:w-1/2 animate-on-scroll opacity-0" style="animation-delay: 200ms;">
+                    <h2 class="text-brand-gold font-bold tracking-wider uppercase text-sm mb-2" data-i18n="whyLabel">Why Build With Us</h2>
+                    <h3 class="text-4xl md:text-5xl font-heading font-bold text-brand-navy mb-6 leading-tight" data-i18n="whyTitle">Solid Foundations, Zero Compromises.</h3>
+                    <p class="text-gray-600 text-lg mb-8 leading-relaxed" data-i18n="whyDesc">We treat every project like it's our own home — with the discipline of a structural engineer and the transparency you deserve.</p>
+
+                    <ul class="space-y-6">
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 bg-green-100 p-1.5 rounded-full text-brand-emerald mt-1">
+                                <i class="ph-bold ph-check text-lg"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-xl font-bold text-gray-900" data-i18n="feat1Title">15+ Years of Building Experience</h4>
+                                <p class="text-gray-600 mt-1" data-i18n="feat1Desc">Our field supervisors and foremen have overseen hundreds of residential projects across Greater Jakarta, from simple renovations to multi-story custom homes.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 bg-green-100 p-1.5 rounded-full text-brand-emerald mt-1">
+                                <i class="ph-bold ph-check text-lg"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-xl font-bold text-gray-900" data-i18n="feat2Title">Daily On-Site Quality Supervision</h4>
+                                <p class="text-gray-600 mt-1" data-i18n="feat2Desc">A dedicated site supervisor inspects every structural stage — from rebar placement to concrete curing — before work proceeds to the next phase.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 bg-green-100 p-1.5 rounded-full text-brand-emerald mt-1">
+                                <i class="ph-bold ph-check text-lg"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-xl font-bold text-gray-900" data-i18n="feat3Title">Transparent Material Usage Reports</h4>
+                                <p class="text-gray-600 mt-1" data-i18n="feat3Desc">You receive itemized material delivery reports and progress photos every week, so you always know exactly what's being used and installed.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 bg-green-100 p-1.5 rounded-full text-brand-emerald mt-1">
+                                <i class="ph-bold ph-check text-lg"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-xl font-bold text-gray-900" data-i18n="feat4Title">3–6 Months Maintenance Warranty</h4>
+                                <p class="text-gray-600 mt-1" data-i18n="feat4Desc">Every build is covered by our post-handover warranty, covering structural defects, leaks, and finishing touch-ups at no extra cost.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing / Specification Tiers -->
+    <section id="pricing" class="py-24 bg-white border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 animate-on-scroll opacity-0">
+                <h2 class="text-brand-gold font-bold tracking-wider uppercase text-sm mb-2" data-i18n="pricingLabel">Transparent Specifications</h2>
+                <h3 class="text-4xl md:text-5xl font-heading font-bold text-brand-navy mb-4" data-i18n="pricingTitle">Choose Your Build Specification</h3>
+                <p class="text-gray-600 text-lg" data-i18n="pricingDesc">Every tier is engineered to the same structural standard — the difference lies in the finishing materials. Prices are per square meter and include labor.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+
+                <!-- Tier 1: Standard -->
+                <div class="pricing-card bg-white rounded-3xl border border-gray-200 p-8 md:p-10 relative animate-on-scroll opacity-0">
+                    <div class="bg-brand-navy/10 w-12 h-12 rounded-xl flex items-center justify-center text-brand-navy mb-6">
+                        <i class="ph ph-house-simple text-2xl"></i>
+                    </div>
+                    <h4 class="text-2xl font-heading font-bold text-gray-900 mb-1" data-i18n="tier1Name">Standard</h4>
+                    <p class="text-sm text-gray-500 mb-6" data-i18n="tier1Tagline">Solid &amp; Efficient</p>
+                    <div class="mb-8">
+                        <span class="text-xs text-gray-500 block" data-i18n="startFrom">Starts from</span>
+                        <span class="text-3xl md:text-4xl font-heading font-extrabold text-brand-navy">Rp 3.500.000</span>
+                        <span class="text-gray-500 font-medium" data-i18n="perSqm">/ m²</span>
+                    </div>
+                    <ul class="space-y-4 mb-10">
+                        <li class="flex items-start">
+                            <i class="ph-bold ph-check text-brand-emerald mt-1 mr-3"></i>
+                            <span class="text-gray-600" data-i18n="tier1Feat1">Standard granite flooring (60x60)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="ph-bold ph-check text-brand-emerald mt-1 mr-3"></i>
+                            <span class="text-gray-600" data-i18n="tier1Feat2">Light steel (baja ringan) roof structure</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="ph-bold ph-check text-brand-emerald mt-1 mr-3"></i>
+                            <span class="text-gray-600" data-i18n="tier1Feat3">Basic sanitary fittings &amp; fixtures</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="ph-bold ph-check text-brand-emerald mt-1 mr-3"></i>
+                            <span class="text-gray-600" data-i18n="tier1Feat4">Standard wall plaster &amp; interior paint</span>
+                        </li>
+                    </ul>
+                    <a href="index.html#estimate" class="block w-full text-center bg-gray-100 hover:bg-gray-200 text-brand-navy px-6 py-3.5 rounded-xl font-semibold transition-all" data-i18n="tier1CTA">Choose Standard</a>
+                </div>
+
+                <!-- Tier 2: Medium (Recommended) -->
+                <div class="pricing-card bg-brand-navy rounded-3xl border-2 border-brand-gold p-8 md:p-10 relative lg:scale-105 shadow-2xl animate-on-scroll opacity-0" style="animation-delay: 100ms;">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-gold text-brand-navy text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full shadow-lg" data-i18n="tier2Badge">Most Popular</div>
+                    <div class="bg-white/10 w-12 h-12 rounded-xl flex items-center justify-center text-brand-gold mb-6">
+                        <i class="ph ph-house-line text-2xl"></i>
+                    </div>
+                    <h4 class="text-2xl font-heading font-bold text-white mb-1" data-i18n="tier2Name">Medium</h4>
+                    <p class="text-sm text-gray-400 mb-6" data-i18n="tier2Tagline">Best Value for Families</p>
+                    <div class="mb-8">
+                        <span class="text-xs text-gray-400 block" data-i18n="startFrom">Starts from</span>
+                        <span class="text-3xl md:text-4xl font-heading font-extrabold text-white">Rp 4.500.000</span>
+                        <span class="text-gray-400 font-medium" data-i18n="perSqm">/ m²</span>
+                    </div>
+                    <ul class="space-y-4 mb-10">
+                        <li class="flex items-start">
+                            <i class="ph-bold ph-check text-brand-gold mt-1 mr-3"></i>
+                            <span class="text-gray-300" data-i18n="tier2Feat1">Premium granite flooring (80x80)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="ph-bold ph-check text-brand-gold mt-1 mr-3"></i>
+                            <span class="text-gray-300" data-i18n="tier2Feat2">Medium-grade sanitary ware (TOTO-class)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="ph-bold ph-check text-brand-gold mt-1 mr-3"></i>
+                            <span class="text-gray-300" data-i18n="tier2Feat3">High-quality exterior &amp; interior paint</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="ph-bold ph-check text-brand-gold mt-1 mr-3"></i>
+                            <span class="text-gray-300" data-i18n="tier2Feat4">Reinforced concrete + extra waterproofing</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="ph-bold ph-check text-brand-gold mt-1 mr-3"></i>
+                            <span class="text-gray-300" data-i18n="tier2Feat5">6-month maintenance warranty included</span>
+                        </li>
+                    </ul>
+                    <a href="index.html#estimate" class="block w-full text-center bg-brand-gold hover:bg-brand-goldLight text-brand-navy px-6 py-3.5 rounded-xl font-bold transition-all shadow-lg" data-i18n="tier2CTA">Choose Medium</a>
+                </div>
+
+                <!-- Tier 3: Luxury / Custom -->
+                <div class="pricing-card bg-white rounded-3xl border border-gray-200 p-8 md:p-10 relative animate-on-scroll opacity-0" style="animation-delay: 200ms;">
+                    <div class="bg-brand-navy/10 w-12 h-12 rounded-xl flex items-center justify-center text-brand-navy mb-6">
+                        <i class="ph ph-crown-simple text-2xl"></i>
+                    </div>
+                    <h4 class="text-2xl font-heading font-bold text-gray-900 mb-1" data-i18n="tier3Name">Luxury / Custom</h4>
+                    <p class="text-sm text-gray-500 mb-6" data-i18n="tier3Tagline">Fully Bespoke</p>
+                    <div class="mb-8">
+                        <span class="text-xs text-gray-500 block" data-i18n="startFrom">Starts from</span>
+                        <span class="text-3xl md:text-4xl font-heading font-extrabold text-brand-navy">Rp 6.000.000+</span>
+                        <span class="text-gray-500 font-medium" data-i18n="perSqm">/ m²</span>
+                    </div>
+                    <ul class="space-y-4 mb-10">
+                        <li class="flex items-start">
+                            <i class="ph-bold ph-check text-brand-emerald mt-1 mr-3"></i>
+                            <span class="text-gray-600" data-i18n="tier3Feat1">Engineered smart wood flooring</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="ph-bold ph-check text-brand-emerald mt-1 mr-3"></i>
+                            <span class="text-gray-600" data-i18n="tier3Feat2">Imported marble countertops &amp; accents</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="ph-bold ph-check text-brand-emerald mt-1 mr-3"></i>
+                            <span class="text-gray-600" data-i18n="tier3Feat3">Custom roster facade &amp; tempered glass</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="ph-bold ph-check text-brand-emerald mt-1 mr-3"></i>
+                            <span class="text-gray-600" data-i18n="tier3Feat4">Fully customizable floor plan</span>
+                        </li>
+                    </ul>
+                    <a href="index.html#estimate" class="block w-full text-center bg-gray-100 hover:bg-gray-200 text-brand-navy px-6 py-3.5 rounded-xl font-semibold transition-all" data-i18n="tier3CTA">Request Custom Quote</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Lead Magnet / CTA Section -->
+    <section class="py-24 bg-brand-navy relative overflow-hidden">
+        <!-- Abstract Shapes -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
+            <svg viewBox="0 0 100 100" class="absolute -top-20 -left-20 w-96 h-96 fill-brand-gold"><circle cx="50" cy="50" r="50"/></svg>
+            <svg viewBox="0 0 100 100" class="absolute -bottom-20 -right-20 w-[40rem] h-[40rem] fill-white"><circle cx="50" cy="50" r="50"/></svg>
+        </div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center animate-on-scroll opacity-0">
+            <div class="bg-brand-navyLight/50 w-16 h-16 rounded-2xl flex items-center justify-center text-brand-gold mx-auto mb-8 border border-white/10">
+                <i class="ph ph-calculator text-3xl"></i>
+            </div>
+            <h2 class="text-3xl md:text-5xl font-heading font-bold text-white mb-6 leading-tight" data-i18n="ctaTitle">Not Sure Which Package Fits Your Budget?</h2>
+            <p class="text-gray-300 text-lg mb-10 max-w-2xl mx-auto leading-relaxed" data-i18n="ctaDesc">Use our free online calculator to get an instant rough estimate based on your land size and chosen specification tier.</p>
+            <a href="index.html#estimate" class="inline-flex items-center justify-center bg-brand-gold hover:bg-brand-goldLight text-brand-navy px-10 py-4 rounded-full font-bold text-lg transition-all shadow-[0_0_20px_rgba(212,175,55,0.4)]">
+                <i class="ph-bold ph-calculator mr-3 text-xl"></i>
+                <span data-i18n="ctaButton">Calculate Your Estimated Cost</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-20 pb-10 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+
+                <!-- Brand -->
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center mb-6">
+                        <i class="ph-fill ph-house-line text-3xl text-white mr-2"></i>
+                        <span class="font-heading font-bold text-2xl tracking-tight">Aetheria<span class="text-brand-gold">.</span></span>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6" data-i18n="footerDesc">
+                        Redefining modern living by combining exceptional architecture with sustainable, smart technology.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-gold hover:text-brand-navy transition-all"><i class="ph-fill ph-instagram-logo text-xl"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-gold hover:text-brand-navy transition-all"><i class="ph-fill ph-facebook-logo text-xl"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-gold hover:text-brand-navy transition-all"><i class="ph-fill ph-linkedin-logo text-xl"></i></a>
+                    </div>
+                </div>
+
+                <!-- Links -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-white" data-i18n="footerServices">Services</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="index.html#services" class="hover:text-brand-gold transition-colors">Architecture & Design</a></li>
+                        <li><a href="home-building.html" class="text-brand-gold">Home Building</a></li>
+                        <li><a href="index.html#services" class="hover:text-brand-gold transition-colors">Renovation</a></li>
+                        <li><a href="index.html#services" class="hover:text-brand-gold transition-colors">Smart Home Integration</a></li>
+                        <li><a href="index.html#services" class="hover:text-brand-gold transition-colors">Solar Panel Setup</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-white" data-i18n="footerContact">Contact</h4>
+                    <ul class="space-y-4 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="ph-fill ph-map-pin text-brand-gold mt-1 mr-3 text-xl"></i>
+                            <span class="text-sm">Sudirman Central Business District (SCBD), Jakarta, Indonesia</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="ph-fill ph-phone text-brand-gold mr-3 text-xl"></i>
+                            <span class="text-sm">+62 812 3456 7890</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="ph-fill ph-envelope text-brand-gold mr-3 text-xl"></i>
+                            <span class="text-sm">hello@aetheriahomes.com</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-white" data-i18n="footerNewsletter">Newsletter</h4>
+                    <p class="text-gray-400 text-sm mb-4" data-i18n="footerNewsDesc">Get the latest trends in smart homes and modern architecture.</p>
+                    <form class="flex" onsubmit="event.preventDefault();">
+                        <input type="email" placeholder="Your email" class="w-full px-4 py-2 rounded-l-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:border-brand-gold text-sm">
+                        <button class="bg-brand-gold text-brand-navy px-4 py-2 rounded-r-lg font-bold hover:bg-brand-goldLight transition-colors">
+                            <i class="ph-bold ph-paper-plane-right"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
+                <p>&copy; 2026 Aetheria Homes. All rights reserved.</p>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/6281234567890" target="_blank" class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:shadow-2xl hover:scale-110 transition-all duration-300">
+        <i class="ph-fill ph-whatsapp-logo text-3xl"></i>
+        <!-- Ping effect -->
+        <span class="absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-75 animate-ping -z-10"></span>
+    </a>
+
+    <!-- Scripts -->
+    <script>
+        // --- 1. Language Translation Dictionary ---
+        const translations = {
+            en: {
+                navHome: "Home",
+                navServices: "Services",
+                navWhyUs: "Why Us",
+                navPortfolio: "Portfolio",
+                navCTA: "Get a Quote",
+                heroBadge: "Trusted Home Builders",
+                heroTitle: 'Build Without the Headache. <span class="text-brand-gold">On Time, On Budget.</span>',
+                heroDesc: "From foundation to finishing, our licensed builders and certified project managers deliver structurally sound homes with transparent budgeting — no surprise costs, no missed deadlines.",
+                heroCTA1: "Get a Free Site Consultation",
+                heroCTA2: "View Pricing & Packages",
+                whyLabel: "Why Build With Us",
+                whyBadge: "Built & Handed Over",
+                whyTitle: "Solid Foundations, Zero Compromises.",
+                whyDesc: "We treat every project like it's our own home — with the discipline of a structural engineer and the transparency you deserve.",
+                feat1Title: "15+ Years of Building Experience",
+                feat1Desc: "Our field supervisors and foremen have overseen hundreds of residential projects across Greater Jakarta, from simple renovations to multi-story custom homes.",
+                feat2Title: "Daily On-Site Quality Supervision",
+                feat2Desc: "A dedicated site supervisor inspects every structural stage — from rebar placement to concrete curing — before work proceeds to the next phase.",
+                feat3Title: "Transparent Material Usage Reports",
+                feat3Desc: "You receive itemized material delivery reports and progress photos every week, so you always know exactly what's being used and installed.",
+                feat4Title: "3–6 Months Maintenance Warranty",
+                feat4Desc: "Every build is covered by our post-handover warranty, covering structural defects, leaks, and finishing touch-ups at no extra cost.",
+                pricingLabel: "Transparent Specifications",
+                pricingTitle: "Choose Your Build Specification",
+                pricingDesc: "Every tier is engineered to the same structural standard — the difference lies in the finishing materials. Prices are per square meter and include labor.",
+                startFrom: "Starts from",
+                perSqm: "/ m²",
+                tier1Name: "Standard",
+                tier1Tagline: "Solid & Efficient",
+                tier1Feat1: "Standard granite flooring (60x60)",
+                tier1Feat2: "Light steel (baja ringan) roof structure",
+                tier1Feat3: "Basic sanitary fittings & fixtures",
+                tier1Feat4: "Standard wall plaster & interior paint",
+                tier1CTA: "Choose Standard",
+                tier2Badge: "Most Popular",
+                tier2Name: "Medium",
+                tier2Tagline: "Best Value for Families",
+                tier2Feat1: "Premium granite flooring (80x80)",
+                tier2Feat2: "Medium-grade sanitary ware (TOTO-class)",
+                tier2Feat3: "High-quality exterior & interior paint",
+                tier2Feat4: "Reinforced concrete + extra waterproofing",
+                tier2Feat5: "6-month maintenance warranty included",
+                tier2CTA: "Choose Medium",
+                tier3Name: "Luxury / Custom",
+                tier3Tagline: "Fully Bespoke",
+                tier3Feat1: "Engineered smart wood flooring",
+                tier3Feat2: "Imported marble countertops & accents",
+                tier3Feat3: "Custom roster facade & tempered glass",
+                tier3Feat4: "Fully customizable floor plan",
+                tier3CTA: "Request Custom Quote",
+                ctaTitle: "Not Sure Which Package Fits Your Budget?",
+                ctaDesc: "Use our free online calculator to get an instant rough estimate based on your land size and chosen specification tier.",
+                ctaButton: "Calculate Your Estimated Cost",
+                footerDesc: "Redefining modern living by combining exceptional architecture with sustainable, smart technology.",
+                footerServices: "Services",
+                footerContact: "Contact",
+                footerNewsletter: "Newsletter",
+                footerNewsDesc: "Get the latest trends in smart homes and modern architecture."
+            },
+            id: {
+                navHome: "Beranda",
+                navServices: "Layanan",
+                navWhyUs: "Kenapa Kami",
+                navPortfolio: "Portofolio",
+                navCTA: "Dapatkan Penawaran",
+                heroBadge: "Kontraktor Rumah Terpercaya",
+                heroTitle: 'Bangun Rumah Tanpa Pusing. <span class="text-brand-gold">Tepat Waktu &amp; Anggaran.</span>',
+                heroDesc: "Dari pondasi hingga finishing, tim kontraktor berpengalaman dan manajer proyek bersertifikat kami membangun rumah yang kokoh dengan anggaran transparan — tanpa biaya tersembunyi, tanpa keterlambatan jadwal.",
+                heroCTA1: "Konsultasi Lokasi Gratis",
+                heroCTA2: "Lihat Harga & Paket",
+                whyLabel: "Kenapa Membangun Bersama Kami",
+                whyBadge: "Selesai & Diserahterimakan",
+                whyTitle: "Fondasi Kokoh, Tanpa Kompromi.",
+                whyDesc: "Kami memperlakukan setiap proyek seperti rumah kami sendiri — dengan disiplin insinyur struktur dan transparansi yang Anda berhak dapatkan.",
+                feat1Title: "Pengalaman Membangun 15+ Tahun",
+                feat1Desc: "Tim pengawas lapangan dan mandor kami telah menangani ratusan proyek residensial di Jabodetabek, dari renovasi sederhana hingga rumah custom bertingkat.",
+                feat2Title: "Pengawasan Kualitas Harian di Lokasi",
+                feat2Desc: "Pengawas lapangan khusus memeriksa setiap tahap struktur — dari pemasangan besi hingga pengeringan beton — sebelum lanjut ke tahap berikutnya.",
+                feat3Title: "Laporan Penggunaan Material Transparan",
+                feat3Desc: "Anda menerima laporan pengiriman material terperinci dan foto progres setiap minggu, sehingga Anda selalu tahu persis material yang digunakan dan dipasang.",
+                feat4Title: "Garansi Perawatan 3–6 Bulan",
+                feat4Desc: "Setiap bangunan dilindungi garansi purna serah terima, mencakup cacat struktur, kebocoran, dan penyempurnaan finishing tanpa biaya tambahan.",
+                pricingLabel: "Spesifikasi Transparan",
+                pricingTitle: "Pilih Spesifikasi Bangunan Anda",
+                pricingDesc: "Setiap paket dibangun dengan standar struktur yang sama — perbedaannya ada pada material finishing. Harga per meter persegi sudah termasuk jasa.",
+                startFrom: "Mulai dari",
+                perSqm: "/ m²",
+                tier1Name: "Standard",
+                tier1Tagline: "Kokoh & Efisien",
+                tier1Feat1: "Granit standar 60x60",
+                tier1Feat2: "Struktur atap baja ringan",
+                tier1Feat3: "Perlengkapan sanitary dasar",
+                tier1Feat4: "Plester dinding & cat interior standar",
+                tier1CTA: "Pilih Standard",
+                tier2Badge: "Paling Populer",
+                tier2Name: "Medium",
+                tier2Tagline: "Nilai Terbaik untuk Keluarga",
+                tier2Feat1: "Granit premium 80x80",
+                tier2Feat2: "Sanitary kelas menengah (setara TOTO)",
+                tier2Feat3: "Cat eksterior & interior kualitas tinggi",
+                tier2Feat4: "Beton bertulang + waterproofing tambahan",
+                tier2Feat5: "Termasuk garansi perawatan 6 bulan",
+                tier2CTA: "Pilih Medium",
+                tier3Name: "Luxury / Custom",
+                tier3Tagline: "Sepenuhnya Kustom",
+                tier3Feat1: "Lantai kayu smart wood",
+                tier3Feat2: "Aksen meja & countertop marmer impor",
+                tier3Feat3: "Fasad roster custom & kaca tempered",
+                tier3Feat4: "Denah lantai sepenuhnya fleksibel",
+                tier3CTA: "Minta Penawaran Custom",
+                ctaTitle: "Belum Yakin Paket Mana yang Sesuai Anggaran Anda?",
+                ctaDesc: "Gunakan kalkulator online gratis kami untuk mendapatkan estimasi kasar instan berdasarkan luas tanah dan spesifikasi yang Anda pilih.",
+                ctaButton: "Kalkulator Estimasi Biaya",
+                footerDesc: "Mendefinisikan ulang kehidupan modern dengan menggabungkan arsitektur luar biasa dengan teknologi pintar dan berkelanjutan.",
+                footerServices: "Layanan",
+                footerContact: "Kontak",
+                footerNewsletter: "Buletin",
+                footerNewsDesc: "Dapatkan tren terbaru dalam smart home dan arsitektur modern."
+            }
+        };
+
+        // --- 2. Language Toggle Logic ---
+        function setLanguage(lang) {
+            // Update buttons styling
+            const btnEn = document.getElementById('btn-en');
+            const btnId = document.getElementById('btn-id');
+
+            if(lang === 'en') {
+                btnEn.className = "px-3 py-1 rounded-full text-sm font-semibold transition-all bg-white shadow-sm text-brand-navy";
+                btnId.className = "px-3 py-1 rounded-full text-sm font-semibold transition-all text-gray-500 hover:text-gray-800";
+            } else {
+                btnId.className = "px-3 py-1 rounded-full text-sm font-semibold transition-all bg-white shadow-sm text-brand-navy";
+                btnEn.className = "px-3 py-1 rounded-full text-sm font-semibold transition-all text-gray-500 hover:text-gray-800";
+            }
+
+            // Update all texts
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+        }
+
+        // --- 3. UI Interactions (Mobile Menu, Scroll, Observer) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu Toggle
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Navbar Background on Scroll
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    navbar.classList.add('shadow-md');
+                } else {
+                    navbar.classList.remove('shadow-md');
+                }
+            });
+
+            // Intersection Observer for scroll animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            animatedElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>

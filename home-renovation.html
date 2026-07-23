@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Renovation | Aetheria Homes</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            navy: '#0B1B3D',
+                            navyLight: '#162A57',
+                            gold: '#D4AF37',
+                            goldLight: '#F3D573',
+                            emerald: '#10B981',
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles for inputs and scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #0B1B3D; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #162A57; }
+
+        .service-card { transition: all 0.3s ease; }
+        .service-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+
+        /* Animation classes for observer */
+        .opacity-0 { opacity: 0; }
+        .animate-on-scroll.is-visible { animation: fadeInUp 0.8s ease-out forwards; }
+
+        /* Before / After comparison slider */
+        #ba-slider {
+            touch-action: none;
+        }
+        #ba-range {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            touch-action: none;
+        }
+        #ba-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+        }
+        #ba-range::-moz-range-thumb {
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            border: none;
+        }
+        #ba-range::-moz-range-track {
+            background: transparent;
+            border: none;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 antialiased bg-gray-50 selection:bg-brand-gold selection:text-brand-navy">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300 backdrop-blur-md bg-white/80 border-b border-gray-200" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="index.html" class="flex-shrink-0 flex items-center cursor-pointer">
+                    <i class="ph-fill ph-house-line text-3xl text-brand-navy mr-2"></i>
+                    <span class="font-heading font-bold text-2xl text-brand-navy tracking-tight">Aetheria<span class="text-brand-gold">.</span></span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-brand-navy font-medium transition-colors" data-i18n="navHome">Home</a>
+                    <a href="index.html#services" class="text-gray-600 hover:text-brand-navy font-medium transition-colors" data-i18n="navServices">Services</a>
+                    <a href="index.html#why-us" class="text-gray-600 hover:text-brand-navy font-medium transition-colors" data-i18n="navWhyUs">Why Us</a>
+                    <a href="index.html#portfolio" class="text-gray-600 hover:text-brand-navy font-medium transition-colors" data-i18n="navPortfolio">Portfolio</a>
+
+                    <!-- Language Toggle -->
+                    <div class="flex items-center bg-gray-100 p-1 rounded-full border border-gray-200">
+                        <button onclick="setLanguage('en')" id="btn-en" class="px-3 py-1 rounded-full text-sm font-semibold transition-all bg-white shadow-sm text-brand-navy">EN</button>
+                        <button onclick="setLanguage('id')" id="btn-id" class="px-3 py-1 rounded-full text-sm font-semibold transition-all text-gray-500 hover:text-gray-800">ID</button>
+                    </div>
+
+                    <a href="#cta" class="bg-brand-navy hover:bg-brand-navyLight text-white px-6 py-2.5 rounded-full font-medium transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5" data-i18n="navCTA">Free Site Survey</a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-brand-navy focus:outline-none p-2">
+                        <i class="ph ph-list text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200 absolute w-full shadow-lg">
+            <div class="px-4 pt-2 pb-6 space-y-3">
+                <a href="index.html" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md" data-i18n="navHome">Home</a>
+                <a href="index.html#services" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md" data-i18n="navServices">Services</a>
+                <a href="index.html#why-us" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md" data-i18n="navWhyUs">Why Us</a>
+                <a href="index.html#portfolio" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md" data-i18n="navPortfolio">Portfolio</a>
+
+                <div class="flex items-center space-x-4 px-3 py-2">
+                    <span class="text-sm font-medium text-gray-500">Language:</span>
+                    <button onclick="setLanguage('en')" class="font-bold text-brand-navy">EN</button>
+                    <span class="text-gray-300">|</span>
+                    <button onclick="setLanguage('id')" class="font-bold text-brand-navy">ID</button>
+                </div>
+
+                <a href="#cta" class="block w-full text-center mt-4 bg-brand-navy text-white px-5 py-3 rounded-xl font-medium" data-i18n="navCTA">Free Site Survey</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section: Before / After Slider -->
+    <section class="relative min-h-screen flex items-center bg-brand-navy pt-28 pb-16 md:pt-20 md:pb-0 overflow-hidden">
+        <!-- Abstract Shapes -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
+            <svg viewBox="0 0 100 100" class="absolute -top-24 -right-24 w-96 h-96 fill-brand-gold"><circle cx="50" cy="50" r="50"/></svg>
+            <svg viewBox="0 0 100 100" class="absolute -bottom-32 -left-32 w-[36rem] h-[36rem] fill-white"><circle cx="50" cy="50" r="50"/></svg>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+                <!-- Text -->
+                <div class="animate-fade-in-up order-2 lg:order-1">
+                    <div class="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-6">
+                        <span class="flex h-2 w-2 rounded-full bg-brand-emerald animate-pulse"></span>
+                        <span class="text-white text-sm font-medium tracking-wide" data-i18n="heroBadge">Renovation & Transformation</span>
+                    </div>
+
+                    <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6 tracking-tight" data-i18n="heroTitle">
+                        Transform Your <span class="text-brand-gold">Old Space</span> Into a Modern Masterpiece.
+                    </h1>
+
+                    <p class="text-lg md:text-xl text-gray-300 mb-10 leading-relaxed max-w-lg" data-i18n="heroDesc">
+                        From tired facades to forgotten yards, we re-engineer every square meter of your home with a modern-industrial touch — turning unused space into rooms you'll actually live in.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#cta" class="bg-brand-gold hover:bg-brand-goldLight text-brand-navy px-8 py-4 rounded-full font-bold text-lg transition-all text-center shadow-[0_0_20px_rgba(212,175,55,0.4)]" data-i18n="heroCTA1">
+                            Book a Free Site Survey
+                        </a>
+                        <a href="#types" class="bg-transparent border-2 border-white/30 text-white hover:bg-white/10 px-8 py-4 rounded-full font-bold text-lg transition-all text-center flex items-center justify-center group" data-i18n="heroCTA2">
+                            See Renovation Types
+                            <i class="ph ph-arrow-down ml-2 group-hover:translate-y-1 transition-transform"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Before / After Slider -->
+                <div class="order-1 lg:order-2 animate-fade-in-up" style="animation-delay: 150ms;">
+                    <div id="ba-slider" class="relative w-full aspect-[4/3] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl select-none border-4 border-white/10">
+                        <!-- After image (base layer, always full) -->
+                        <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=80" alt="After renovation - modern industrial facade" class="absolute inset-0 w-full h-full object-cover pointer-events-none" draggable="false">
+
+                        <!-- Before image (clipped overlay) -->
+                        <div id="ba-before-wrap" class="absolute inset-0 w-full h-full overflow-hidden" style="clip-path: inset(0 50% 0 0);">
+                            <img src="https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=1200&q=80" alt="Before renovation - dated house exterior" class="absolute inset-0 w-full h-full object-cover pointer-events-none" draggable="false">
+                        </div>
+
+                        <!-- Labels -->
+                        <div class="absolute top-4 left-4 z-20 bg-gray-900/80 backdrop-blur text-white text-xs font-bold tracking-wider px-3 py-1.5 rounded-full" data-i18n="beforeLabel">BEFORE</div>
+                        <div class="absolute top-4 right-4 z-20 bg-brand-emerald text-white text-xs font-bold tracking-wider px-3 py-1.5 rounded-full" data-i18n="afterLabel">AFTER</div>
+
+                        <!-- Divider handle -->
+                        <div id="ba-handle" class="absolute top-0 bottom-0 z-20 w-1 bg-white pointer-events-none" style="left: 50%; transform: translateX(-50%);">
+                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-brand-navy">
+                                <i class="ph-bold ph-arrows-left-right text-xl"></i>
+                            </div>
+                        </div>
+
+                        <!-- Range input driving the slider (mouse + touch + keyboard) -->
+                        <input type="range" id="ba-range" min="0" max="100" value="50" step="0.1" class="absolute inset-0 w-full h-full z-30 m-0 cursor-ew-resize" aria-label="Before and after comparison slider">
+                    </div>
+                    <p class="text-center text-white/60 text-sm mt-4 flex items-center justify-center gap-2">
+                        <i class="ph ph-hand-pointing text-lg"></i>
+                        <span data-i18n="dragHint">Drag the slider to see the transformation</span>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Types of Renovation -->
+    <section id="types" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 animate-on-scroll opacity-0">
+                <h2 class="text-brand-gold font-bold tracking-wider uppercase text-sm mb-2" data-i18n="typesLabel">Two Ways to Transform</h2>
+                <h3 class="text-4xl md:text-5xl font-heading font-bold text-brand-navy mb-4" data-i18n="typesTitle">Partial or Total, We Handle Both</h3>
+                <p class="text-gray-600 text-lg" data-i18n="typesDesc">Whether you need a single facelift or a floor-to-roof rebuild, our renovation team scopes the work around your budget and your daily life.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                <!-- Partial Renovation -->
+                <div class="service-card bg-white rounded-3xl border border-gray-100 overflow-hidden group animate-on-scroll opacity-0">
+                    <div class="h-56 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=900&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Partial Renovation - Facade Upgrade">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur p-2 rounded-xl text-brand-navy"><i class="ph ph-paint-roller text-2xl"></i></div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-2xl font-heading font-bold text-gray-900 mb-3" data-i18n="partialTitle">Partial Renovation</h4>
+                        <p class="text-gray-600 mb-6" data-i18n="partialDesc">Targeted upgrades that deliver maximum visual and functional impact without disrupting your whole household — perfect for a focused budget and a fast turnaround.</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 bg-green-100 p-1 rounded-full text-brand-emerald mt-1"><i class="ph-bold ph-check text-sm"></i></div>
+                                <span class="ml-3 text-gray-700" data-i18n="partialItem1">Facade & carport makeovers with modern-industrial materials</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 bg-green-100 p-1 rounded-full text-brand-emerald mt-1"><i class="ph-bold ph-check text-sm"></i></div>
+                                <span class="ml-3 text-gray-700" data-i18n="partialItem2">Kitchen & bathroom remodels, reworked layouts included</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 bg-green-100 p-1 rounded-full text-brand-emerald mt-1"><i class="ph-bold ph-check text-sm"></i></div>
+                                <span class="ml-3 text-gray-700" data-i18n="partialItem3">Adding a mezzanine or a second floor to an existing structure</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 bg-green-100 p-1 rounded-full text-brand-emerald mt-1"><i class="ph-bold ph-check text-sm"></i></div>
+                                <span class="ml-3 text-gray-700" data-i18n="partialItem4">Converting an unused garden into a carport or semi-outdoor lounge</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Total Renovation -->
+                <div class="service-card bg-brand-navy rounded-3xl border border-brand-navyLight overflow-hidden group animate-on-scroll opacity-0" style="animation-delay: 100ms;">
+                    <div class="h-56 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90" alt="Total Renovation - Full Rebuild">
+                        <div class="absolute top-4 right-4 bg-brand-gold text-brand-navy p-2 rounded-xl"><i class="ph ph-buildings text-2xl"></i></div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-2xl font-heading font-bold text-white mb-3" data-i18n="totalTitle">Total Renovation</h4>
+                        <p class="text-gray-400 mb-6" data-i18n="totalDesc">A complete structural and architectural overhaul — we strip the house down to its bones and rebuild it around the way your family actually lives today.</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 bg-brand-navyLight p-1 rounded-full text-brand-gold mt-1"><i class="ph-bold ph-check text-sm"></i></div>
+                                <span class="ml-3 text-gray-300" data-i18n="totalItem1">Full structural redesign, including foundation and roof rework</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 bg-brand-navyLight p-1 rounded-full text-brand-gold mt-1"><i class="ph-bold ph-check text-sm"></i></div>
+                                <span class="ml-3 text-gray-300" data-i18n="totalItem2">Space re-planning: merging, splitting, or repurposing every room</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 bg-brand-navyLight p-1 rounded-full text-brand-gold mt-1"><i class="ph-bold ph-check text-sm"></i></div>
+                                <span class="ml-3 text-gray-300" data-i18n="totalItem3">New electrical, plumbing, and MEP systems throughout</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 bg-brand-navyLight p-1 rounded-full text-brand-gold mt-1"><i class="ph-bold ph-check text-sm"></i></div>
+                                <span class="ml-3 text-gray-300" data-i18n="totalItem4">End-to-end interior and exterior finishing, ready to move in</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Strategy / RAB Section -->
+    <section id="pricing" class="py-24 bg-gray-50 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+
+                <!-- Illustration / Icon Side -->
+                <div class="w-full lg:w-2/5 relative animate-on-scroll opacity-0">
+                    <div class="relative bg-brand-navy rounded-3xl p-10 md:p-14 shadow-2xl overflow-hidden">
+                        <div class="absolute -top-10 -right-10 w-40 h-40 bg-brand-gold/10 rounded-full"></div>
+                        <div class="absolute -bottom-16 -left-16 w-56 h-56 bg-white/5 rounded-full"></div>
+                        <div class="relative z-10 flex items-center justify-center">
+                            <div class="bg-brand-navyLight w-24 h-24 rounded-2xl flex items-center justify-center text-brand-gold">
+                                <i class="ph ph-file-magnifying-glass text-5xl"></i>
+                            </div>
+                        </div>
+                        <div class="relative z-10 mt-8 space-y-4">
+                            <div class="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
+                                <i class="ph-fill ph-ruler text-brand-gold text-xl"></i>
+                                <span class="text-white text-sm" data-i18n="rabChip1">On-site measurement</span>
+                            </div>
+                            <div class="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
+                                <i class="ph-fill ph-calculator text-brand-gold text-xl"></i>
+                                <span class="text-white text-sm" data-i18n="rabChip2">Itemized cost calculation</span>
+                            </div>
+                            <div class="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
+                                <i class="ph-fill ph-file-text text-brand-gold text-xl"></i>
+                                <span class="text-white text-sm" data-i18n="rabChip3">Detailed RAB document</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text Side -->
+                <div class="w-full lg:w-3/5 animate-on-scroll opacity-0" style="animation-delay: 200ms;">
+                    <h2 class="text-brand-gold font-bold tracking-wider uppercase text-sm mb-2" data-i18n="pricingLabel">Our Pricing Philosophy</h2>
+                    <h3 class="text-4xl md:text-5xl font-heading font-bold text-brand-navy mb-6 leading-tight" data-i18n="pricingTitle">Every House Is Unique. So Is Every Quote.</h3>
+                    <p class="text-gray-600 text-lg mb-6 leading-relaxed" data-i18n="pricingDesc1">
+                        Unlike a new build on empty land, a renovation always meets an existing structure — hidden wiring, uneven foundations, and site quirks that no generic price-per-square-meter list can honestly account for. That's why we don't publish flat renovation rates.
+                    </p>
+                    <p class="text-gray-600 text-lg mb-8 leading-relaxed" data-i18n="pricingDesc2">
+                        Instead, our surveyors visit your property, assess the real condition of your space, and translate every finding into a transparent, itemized <strong>RAB (Rencana Anggaran Biaya / Bill of Quantities)</strong> — so you know exactly what you're paying for before a single wall comes down.
+                    </p>
+
+                    <ul class="space-y-5 mb-8">
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 bg-green-100 p-1.5 rounded-full text-brand-emerald mt-1">
+                                <i class="ph-bold ph-check text-lg"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-bold text-gray-900" data-i18n="rabItem1Title">Full Material Specifications</h4>
+                                <p class="text-gray-600 mt-1" data-i18n="rabItem1Desc">Every brick, tile, and finish is listed by brand, quantity, and unit price — no vague allowances.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 bg-green-100 p-1.5 rounded-full text-brand-emerald mt-1">
+                                <i class="ph-bold ph-check text-lg"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-bold text-gray-900" data-i18n="rabItem2Title">Labor Cost Breakdown</h4>
+                                <p class="text-gray-600 mt-1" data-i18n="rabItem2Desc">Clear labor charges per work stage, from demolition to final finishing touches.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 bg-green-100 p-1.5 rounded-full text-brand-emerald mt-1">
+                                <i class="ph-bold ph-check text-lg"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-bold text-gray-900" data-i18n="rabItem3Title">Realistic Work Timeline</h4>
+                                <p class="text-gray-600 mt-1" data-i18n="rabItem3Desc">A stage-by-stage schedule so you always know what's happening and when.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 bg-green-100 p-1.5 rounded-full text-brand-emerald mt-1">
+                                <i class="ph-bold ph-check text-lg"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-bold text-gray-900" data-i18n="rabItem4Title">No Hidden Costs Guarantee</h4>
+                                <p class="text-gray-600 mt-1" data-i18n="rabItem4Desc">The RAB is the final number — any change is discussed and approved with you first.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="cta" class="py-24 bg-brand-navy relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
+            <svg viewBox="0 0 100 100" class="absolute -top-20 -left-20 w-96 h-96 fill-brand-gold"><circle cx="50" cy="50" r="50"/></svg>
+            <svg viewBox="0 0 100 100" class="absolute -bottom-20 -right-20 w-[40rem] h-[40rem] fill-white"><circle cx="50" cy="50" r="50"/></svg>
+        </div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center animate-on-scroll opacity-0">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/10 border border-white/20 mb-8">
+                <i class="ph ph-clipboard-text text-3xl text-brand-gold"></i>
+            </div>
+            <h2 class="text-3xl md:text-5xl font-heading font-bold text-white mb-6" data-i18n="ctaTitle">Book a Free Site Survey</h2>
+            <p class="text-gray-300 text-lg mb-10 max-w-2xl mx-auto leading-relaxed" data-i18n="ctaDesc">Let our team walk through your space, understand what's possible, and prepare your transparent RAB — no cost, no obligation.</p>
+            <a href="https://wa.me/6281234567890" target="_blank" class="inline-flex items-center justify-center gap-3 bg-brand-gold hover:bg-brand-goldLight text-brand-navy px-10 py-4 rounded-full font-bold text-lg transition-all shadow-[0_0_20px_rgba(212,175,55,0.4)] transform hover:-translate-y-1" data-i18n="ctaButton">
+                <i class="ph-fill ph-whatsapp-logo text-2xl"></i>
+                Book a Free Site Survey
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-20 pb-10 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+
+                <!-- Brand -->
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center mb-6">
+                        <i class="ph-fill ph-house-line text-3xl text-white mr-2"></i>
+                        <span class="font-heading font-bold text-2xl tracking-tight">Aetheria<span class="text-brand-gold">.</span></span>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6" data-i18n="footerDesc">
+                        Redefining modern living by combining exceptional architecture with sustainable, smart technology.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-gold hover:text-brand-navy transition-all"><i class="ph-fill ph-instagram-logo text-xl"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-gold hover:text-brand-navy transition-all"><i class="ph-fill ph-facebook-logo text-xl"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-gold hover:text-brand-navy transition-all"><i class="ph-fill ph-linkedin-logo text-xl"></i></a>
+                    </div>
+                </div>
+
+                <!-- Links -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-white" data-i18n="footerServices">Services</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="index.html#services" class="hover:text-brand-gold transition-colors">Architecture & Design</a></li>
+                        <li><a href="index.html#services" class="hover:text-brand-gold transition-colors">Home Building</a></li>
+                        <li><a href="home-renovation.html" class="hover:text-brand-gold transition-colors">Renovation</a></li>
+                        <li><a href="index.html#services" class="hover:text-brand-gold transition-colors">Smart Home Integration</a></li>
+                        <li><a href="index.html#services" class="hover:text-brand-gold transition-colors">Solar Panel Setup</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-white" data-i18n="footerContact">Contact</h4>
+                    <ul class="space-y-4 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="ph-fill ph-map-pin text-brand-gold mt-1 mr-3 text-xl"></i>
+                            <span class="text-sm">Sudirman Central Business District (SCBD), Jakarta, Indonesia</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="ph-fill ph-phone text-brand-gold mr-3 text-xl"></i>
+                            <span class="text-sm">+62 812 3456 7890</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="ph-fill ph-envelope text-brand-gold mr-3 text-xl"></i>
+                            <span class="text-sm">hello@aetheriahomes.com</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-white" data-i18n="footerNewsletter">Newsletter</h4>
+                    <p class="text-gray-400 text-sm mb-4" data-i18n="footerNewsDesc">Get the latest trends in smart homes and modern architecture.</p>
+                    <form class="flex" onsubmit="event.preventDefault();">
+                        <input type="email" placeholder="Your email" class="w-full px-4 py-2 rounded-l-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:border-brand-gold text-sm">
+                        <button class="bg-brand-gold text-brand-navy px-4 py-2 rounded-r-lg font-bold hover:bg-brand-goldLight transition-colors">
+                            <i class="ph-bold ph-paper-plane-right"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
+                <p>&copy; 2026 Aetheria Homes. All rights reserved.</p>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/6281234567890" target="_blank" class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:shadow-2xl hover:scale-110 transition-all duration-300">
+        <i class="ph-fill ph-whatsapp-logo text-3xl"></i>
+        <!-- Ping effect -->
+        <span class="absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-75 animate-ping -z-10"></span>
+    </a>
+
+    <!-- Scripts -->
+    <script>
+        // --- 1. Language Translation Dictionary ---
+        const translations = {
+            en: {
+                navHome: "Home",
+                navServices: "Services",
+                navWhyUs: "Why Us",
+                navPortfolio: "Portfolio",
+                navCTA: "Free Site Survey",
+                heroBadge: "Renovation & Transformation",
+                heroTitle: 'Transform Your <span class="text-brand-gold">Old Space</span> Into a Modern Masterpiece.',
+                heroDesc: "From tired facades to forgotten yards, we re-engineer every square meter of your home with a modern-industrial touch — turning unused space into rooms you'll actually live in.",
+                heroCTA1: "Book a Free Site Survey",
+                heroCTA2: 'See Renovation Types <i class="ph ph-arrow-down ml-2 group-hover:translate-y-1 transition-transform"></i>',
+                beforeLabel: "BEFORE",
+                afterLabel: "AFTER",
+                dragHint: "Drag the slider to see the transformation",
+                typesLabel: "Two Ways to Transform",
+                typesTitle: "Partial or Total, We Handle Both",
+                typesDesc: "Whether you need a single facelift or a floor-to-roof rebuild, our renovation team scopes the work around your budget and your daily life.",
+                partialTitle: "Partial Renovation",
+                partialDesc: "Targeted upgrades that deliver maximum visual and functional impact without disrupting your whole household — perfect for a focused budget and a fast turnaround.",
+                partialItem1: "Facade & carport makeovers with modern-industrial materials",
+                partialItem2: "Kitchen & bathroom remodels, reworked layouts included",
+                partialItem3: "Adding a mezzanine or a second floor to an existing structure",
+                partialItem4: "Converting an unused garden into a carport or semi-outdoor lounge",
+                totalTitle: "Total Renovation",
+                totalDesc: "A complete structural and architectural overhaul — we strip the house down to its bones and rebuild it around the way your family actually lives today.",
+                totalItem1: "Full structural redesign, including foundation and roof rework",
+                totalItem2: "Space re-planning: merging, splitting, or repurposing every room",
+                totalItem3: "New electrical, plumbing, and MEP systems throughout",
+                totalItem4: "End-to-end interior and exterior finishing, ready to move in",
+                rabChip1: "On-site measurement",
+                rabChip2: "Itemized cost calculation",
+                rabChip3: "Detailed RAB document",
+                pricingLabel: "Our Pricing Philosophy",
+                pricingTitle: "Every House Is Unique. So Is Every Quote.",
+                pricingDesc1: "Unlike a new build on empty land, a renovation always meets an existing structure — hidden wiring, uneven foundations, and site quirks that no generic price-per-square-meter list can honestly account for. That's why we don't publish flat renovation rates.",
+                pricingDesc2: "Instead, our surveyors visit your property, assess the real condition of your space, and translate every finding into a transparent, itemized <strong>RAB (Rencana Anggaran Biaya / Bill of Quantities)</strong> — so you know exactly what you're paying for before a single wall comes down.",
+                rabItem1Title: "Full Material Specifications",
+                rabItem1Desc: "Every brick, tile, and finish is listed by brand, quantity, and unit price — no vague allowances.",
+                rabItem2Title: "Labor Cost Breakdown",
+                rabItem2Desc: "Clear labor charges per work stage, from demolition to final finishing touches.",
+                rabItem3Title: "Realistic Work Timeline",
+                rabItem3Desc: "A stage-by-stage schedule so you always know what's happening and when.",
+                rabItem4Title: "No Hidden Costs Guarantee",
+                rabItem4Desc: "The RAB is the final number — any change is discussed and approved with you first.",
+                ctaTitle: "Book a Free Site Survey",
+                ctaDesc: "Let our team walk through your space, understand what's possible, and prepare your transparent RAB — no cost, no obligation.",
+                ctaButton: '<i class="ph-fill ph-whatsapp-logo text-2xl"></i> Book a Free Site Survey',
+                footerDesc: "Redefining modern living by combining exceptional architecture with sustainable, smart technology.",
+                footerServices: "Services",
+                footerContact: "Contact",
+                footerNewsletter: "Newsletter",
+                footerNewsDesc: "Get the latest trends in smart homes and modern architecture."
+            },
+            id: {
+                navHome: "Beranda",
+                navServices: "Layanan",
+                navWhyUs: "Kenapa Kami",
+                navPortfolio: "Portofolio",
+                navCTA: "Survey Lokasi Gratis",
+                heroBadge: "Renovasi & Transformasi",
+                heroTitle: 'Ubah Wajah <span class="text-brand-gold">Lama Rumah</span> Anda Menjadi Mahakarya Modern.',
+                heroDesc: "Dari fasad yang membosankan hingga halaman yang terlupakan, kami merancang ulang setiap sudut rumah Anda dengan sentuhan modern-industrial — mengubah ruang yang tak terpakai menjadi ruang yang benar-benar Anda gunakan.",
+                heroCTA1: "Jadwalkan Survey Lokasi Gratis",
+                heroCTA2: 'Lihat Jenis Renovasi <i class="ph ph-arrow-down ml-2 group-hover:translate-y-1 transition-transform"></i>',
+                beforeLabel: "SEBELUM",
+                afterLabel: "SESUDAH",
+                dragHint: "Geser slider untuk melihat transformasinya",
+                typesLabel: "Dua Cara Bertransformasi",
+                typesTitle: "Renovasi Sebagian atau Total, Kami Siap",
+                typesDesc: "Baik Anda hanya butuh perbaikan tampilan atau pembangunan ulang dari lantai hingga atap, tim renovasi kami menyesuaikan cakupan pekerjaan dengan anggaran dan kebutuhan harian Anda.",
+                partialTitle: "Renovasi Sebagian",
+                partialDesc: "Perbaikan yang terarah dan memberikan dampak visual serta fungsional maksimal tanpa mengganggu seluruh isi rumah — cocok untuk anggaran terbatas dan waktu pengerjaan yang cepat.",
+                partialItem1: "Perombakan fasad & carport dengan material modern-industrial",
+                partialItem2: "Renovasi dapur & kamar mandi, termasuk penataan ulang layout",
+                partialItem3: "Penambahan mezzanine atau lantai dua pada struktur yang sudah ada",
+                partialItem4: "Mengubah taman yang tak terpakai menjadi carport atau ruang semi-outdoor",
+                totalTitle: "Renovasi Total",
+                totalDesc: "Perombakan struktur dan arsitektur secara menyeluruh — kami bongkar rumah hingga ke rangkanya dan bangun ulang sesuai gaya hidup keluarga Anda saat ini.",
+                totalItem1: "Perancangan ulang struktur penuh, termasuk pondasi dan atap",
+                totalItem2: "Penataan ulang ruang: menggabungkan, memisahkan, atau mengubah fungsi setiap ruangan",
+                totalItem3: "Instalasi listrik, plumbing, dan sistem MEP baru di seluruh rumah",
+                totalItem4: "Finishing interior dan eksterior menyeluruh, siap huni",
+                rabChip1: "Pengukuran langsung di lokasi",
+                rabChip2: "Perhitungan biaya terperinci",
+                rabChip3: "Dokumen RAB lengkap",
+                pricingLabel: "Filosofi Harga Kami",
+                pricingTitle: "Setiap Rumah Itu Unik. Begitu Juga Setiap Penawaran.",
+                pricingDesc1: "Berbeda dari membangun rumah baru di lahan kosong, renovasi selalu berhadapan dengan struktur yang sudah ada — instalasi kabel tersembunyi, pondasi yang tidak rata, dan kondisi lapangan unik yang tidak bisa dijelaskan secara jujur oleh daftar harga per meter persegi yang umum. Karena itu kami tidak mempublikasikan tarif renovasi yang baku.",
+                pricingDesc2: "Sebagai gantinya, tim surveyor kami akan mengunjungi properti Anda, menilai kondisi ruang yang sebenarnya, dan menuangkan setiap temuan ke dalam <strong>RAB (Rencana Anggaran Biaya)</strong> yang transparan dan terperinci — sehingga Anda tahu persis apa yang Anda bayar sebelum satu dinding pun dibongkar.",
+                rabItem1Title: "Spesifikasi Material Lengkap",
+                rabItem1Desc: "Setiap bata, keramik, dan finishing dicantumkan lengkap dengan merek, jumlah, dan harga satuan — tanpa perkiraan yang kabur.",
+                rabItem2Title: "Rincian Biaya Tenaga Kerja",
+                rabItem2Desc: "Biaya tenaga kerja yang jelas untuk setiap tahap pekerjaan, dari pembongkaran hingga sentuhan akhir.",
+                rabItem3Title: "Jadwal Kerja yang Realistis",
+                rabItem3Desc: "Jadwal per tahap sehingga Anda selalu tahu apa yang sedang dikerjakan dan kapan.",
+                rabItem4Title: "Jaminan Tanpa Biaya Tersembunyi",
+                rabItem4Desc: "RAB adalah angka final — setiap perubahan akan didiskusikan dan disetujui bersama Anda terlebih dahulu.",
+                ctaTitle: "Jadwalkan Survey Lokasi Gratis",
+                ctaDesc: "Biarkan tim kami meninjau langsung ruang Anda, memahami apa yang memungkinkan, dan menyiapkan RAB transparan Anda — tanpa biaya, tanpa kewajiban.",
+                ctaButton: '<i class="ph-fill ph-whatsapp-logo text-2xl"></i> Jadwalkan Survey Lokasi Gratis',
+                footerDesc: "Mendefinisikan ulang kehidupan modern dengan menggabungkan arsitektur luar biasa dengan teknologi pintar dan berkelanjutan.",
+                footerServices: "Layanan",
+                footerContact: "Kontak",
+                footerNewsletter: "Buletin",
+                footerNewsDesc: "Dapatkan tren terbaru dalam smart home dan arsitektur modern."
+            }
+        };
+
+        // --- 2. Language Toggle Logic ---
+        function setLanguage(lang) {
+            // Update buttons styling
+            const btnEn = document.getElementById('btn-en');
+            const btnId = document.getElementById('btn-id');
+
+            if(lang === 'en') {
+                btnEn.className = "px-3 py-1 rounded-full text-sm font-semibold transition-all bg-white shadow-sm text-brand-navy";
+                btnId.className = "px-3 py-1 rounded-full text-sm font-semibold transition-all text-gray-500 hover:text-gray-800";
+            } else {
+                btnId.className = "px-3 py-1 rounded-full text-sm font-semibold transition-all bg-white shadow-sm text-brand-navy";
+                btnEn.className = "px-3 py-1 rounded-full text-sm font-semibold transition-all text-gray-500 hover:text-gray-800";
+            }
+
+            // Update all texts
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+        }
+
+        // --- 3. UI Interactions (Mobile Menu, Scroll, Observer) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu Toggle
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Navbar Background on Scroll
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    navbar.classList.add('shadow-md');
+                } else {
+                    navbar.classList.remove('shadow-md');
+                }
+            });
+
+            // Intersection Observer for scroll animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            animatedElements.forEach(el => observer.observe(el));
+
+            // --- 4. Before / After Comparison Slider ---
+            initBeforeAfterSlider();
+        });
+
+        function initBeforeAfterSlider() {
+            const slider = document.getElementById('ba-slider');
+            const beforeWrap = document.getElementById('ba-before-wrap');
+            const handle = document.getElementById('ba-handle');
+            const range = document.getElementById('ba-range');
+            if (!slider || !beforeWrap || !handle || !range) return;
+
+            let isDragging = false;
+
+            function updateSlider(percent) {
+                percent = Math.max(0, Math.min(100, percent));
+                beforeWrap.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
+                handle.style.left = percent + '%';
+                range.value = percent;
+            }
+
+            function percentFromClientX(clientX) {
+                const rect = slider.getBoundingClientRect();
+                const x = clientX - rect.left;
+                return (x / rect.width) * 100;
+            }
+
+            // Native range input (keyboard, click-to-jump, and native mouse/touch drag)
+            range.addEventListener('input', (e) => {
+                updateSlider(parseFloat(e.target.value));
+            });
+
+            // Extra manual mouse dragging for a smoother, full-surface drag feel
+            range.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                updateSlider(percentFromClientX(e.clientX));
+            });
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                updateSlider(percentFromClientX(e.clientX));
+            });
+            window.addEventListener('mouseup', () => { isDragging = false; });
+
+            // Extra manual touch dragging
+            range.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                if (e.touches && e.touches[0]) {
+                    updateSlider(percentFromClientX(e.touches[0].clientX));
+                }
+            }, { passive: true });
+            range.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                if (e.touches && e.touches[0]) {
+                    updateSlider(percentFromClientX(e.touches[0].clientX));
+                }
+            }, { passive: true });
+            window.addEventListener('touchend', () => { isDragging = false; });
+
+            // Initialize at 50%
+            updateSlider(50);
+        }
+    </script>
+</body>
+</html>

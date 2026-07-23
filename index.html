@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aetheria Homes | Future-Ready Homes</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            navy: '#0B1B3D',
+                            navyLight: '#162A57',
+                            gold: '#D4AF37',
+                            goldLight: '#F3D573',
+                            emerald: '#10B981',
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles for inputs and scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #0B1B3D; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #162A57; }
+        
+        .service-card { transition: all 0.3s ease; }
+        .service-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        
+        /* Checkbox styling for interactive form */
+        .service-checkbox:checked + label {
+            background-color: #0B1B3D;
+            color: white;
+            border-color: #0B1B3D;
+        }
+
+        /* Animation classes for observer */
+        .opacity-0 { opacity: 0; }
+        .animate-on-scroll.is-visible { animation: fadeInUp 0.8s ease-out forwards; }
+    </style>
+</head>
+<body class="font-sans text-gray-800 antialiased bg-gray-50 selection:bg-brand-gold selection:text-brand-navy">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300 backdrop-blur-md bg-white/80 border-b border-gray-200" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <i class="ph-fill ph-house-line text-3xl text-brand-navy mr-2"></i>
+                    <span class="font-heading font-bold text-2xl text-brand-navy tracking-tight">Aetheria<span class="text-brand-gold">.</span></span>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#services" class="text-gray-600 hover:text-brand-navy font-medium transition-colors" data-i18n="navServices">Services</a>
+                    <a href="#why-us" class="text-gray-600 hover:text-brand-navy font-medium transition-colors" data-i18n="navWhyUs">Why Us</a>
+                    <a href="#portfolio" class="text-gray-600 hover:text-brand-navy font-medium transition-colors" data-i18n="navPortfolio">Portfolio</a>
+                    
+                    <!-- Language Toggle -->
+                    <div class="flex items-center bg-gray-100 p-1 rounded-full border border-gray-200">
+                        <button onclick="setLanguage('en')" id="btn-en" class="px-3 py-1 rounded-full text-sm font-semibold transition-all bg-white shadow-sm text-brand-navy">EN</button>
+                        <button onclick="setLanguage('id')" id="btn-id" class="px-3 py-1 rounded-full text-sm font-semibold transition-all text-gray-500 hover:text-gray-800">ID</button>
+                    </div>
+
+                    <a href="#estimate" class="bg-brand-navy hover:bg-brand-navyLight text-white px-6 py-2.5 rounded-full font-medium transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5" data-i18n="navCTA">Get a Quote</a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-brand-navy focus:outline-none p-2">
+                        <i class="ph ph-list text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200 absolute w-full shadow-lg">
+            <div class="px-4 pt-2 pb-6 space-y-3">
+                <a href="#services" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md" data-i18n="navServices">Services</a>
+                <a href="#why-us" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md" data-i18n="navWhyUs">Why Us</a>
+                <a href="#portfolio" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md" data-i18n="navPortfolio">Portfolio</a>
+                
+                <div class="flex items-center space-x-4 px-3 py-2">
+                    <span class="text-sm font-medium text-gray-500">Language:</span>
+                    <button onclick="setLanguage('en')" class="font-bold text-brand-navy">EN</button>
+                    <span class="text-gray-300">|</span>
+                    <button onclick="setLanguage('id')" class="font-bold text-brand-navy">ID</button>
+                </div>
+                
+                <a href="#estimate" class="block w-full text-center mt-4 bg-brand-navy text-white px-5 py-3 rounded-xl font-medium" data-i18n="navCTA">Get a Quote</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2075&q=80" alt="Modern Home" class="w-full h-full object-cover object-center" />
+            <div class="absolute inset-0 bg-gradient-to-r from-brand-navy/95 via-brand-navy/80 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="max-w-2xl animate-fade-in-up">
+                <div class="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-6">
+                    <span class="flex h-2 w-2 rounded-full bg-brand-emerald animate-pulse"></span>
+                    <span class="text-white text-sm font-medium tracking-wide" data-i18n="heroBadge">Next-Gen Living Space</span>
+                </div>
+                
+                <h1 class="text-5xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6 tracking-tight" data-i18n="heroTitle">
+                    Build Your <span class="text-brand-gold">Future-Ready</span> Home.
+                </h1>
+                
+                <p class="text-lg md:text-xl text-gray-300 mb-10 leading-relaxed max-w-lg" data-i18n="heroDesc">
+                    Seamlessly blending premium architectural design with sustainable solar energy and intuitive smart home technology.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#estimate" class="bg-brand-gold hover:bg-brand-goldLight text-brand-navy px-8 py-4 rounded-full font-bold text-lg transition-all text-center shadow-[0_0_20px_rgba(212,175,55,0.4)]" data-i18n="heroCTA1">
+                        Book a Free Consultation
+                    </a>
+                    <a href="#services" class="bg-transparent border-2 border-white/30 text-white hover:bg-white/10 px-8 py-4 rounded-full font-bold text-lg transition-all text-center flex items-center justify-center group" data-i18n="heroCTA2">
+                        Explore Services 
+                        <i class="ph ph-arrow-down ml-2 group-hover:translate-y-1 transition-transform"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 animate-on-scroll opacity-0">
+                <h2 class="text-brand-gold font-bold tracking-wider uppercase text-sm mb-2" data-i18n="servicesLabel">Our Expertise</h2>
+                <h3 class="text-4xl md:text-5xl font-heading font-bold text-brand-navy mb-4" data-i18n="servicesTitle">End-to-End Home Solutions</h3>
+                <p class="text-gray-600 text-lg" data-i18n="servicesDesc">From drafting the first blueprint to installing the final smart bulb, we handle everything under one roof.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Service 1: Architecture -->
+                <div class="service-card bg-white rounded-3xl border border-gray-100 overflow-hidden group animate-on-scroll opacity-0">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Architecture">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur p-2 rounded-xl text-brand-navy"><i class="ph ph-compass-tool text-2xl"></i></div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-2xl font-heading font-bold text-gray-900 mb-3" data-i18n="srv1Title">Architecture & Design</h4>
+                        <p class="text-gray-600 mb-6 line-clamp-3" data-i18n="srv1Desc">Bespoke architectural designs that reflect your lifestyle. We prioritize aesthetics, space optimization, and natural light.</p>
+                        <div class="flex items-center justify-between">
+                            <a href="architecture-design.html" class="text-brand-navy font-semibold hover:text-brand-gold transition-colors flex items-center" data-i18n="srv1CTA">Get a Free Consultation <i class="ph ph-arrow-right ml-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 2: Build -->
+                <div class="service-card bg-white rounded-3xl border border-gray-100 overflow-hidden group animate-on-scroll opacity-0" style="animation-delay: 100ms;">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1541976590-713941681591?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Construction">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur p-2 rounded-xl text-brand-navy"><i class="ph ph-crane text-2xl"></i></div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-2xl font-heading font-bold text-gray-900 mb-3" data-i18n="srv2Title">Home Building</h4>
+                        <p class="text-gray-600 mb-6 line-clamp-3" data-i18n="srv2Desc">Premium construction services with rigorous quality control, premium materials, and strict adherence to timelines.</p>
+                        <div class="flex items-center justify-between">
+                            <a href="home-building.html" class="text-brand-navy font-semibold hover:text-brand-gold transition-colors flex items-center" data-i18n="srv2CTA">Request a Custom Quote <i class="ph ph-arrow-right ml-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 3: Renovation -->
+                <div class="service-card bg-white rounded-3xl border border-gray-100 overflow-hidden group animate-on-scroll opacity-0" style="animation-delay: 200ms;">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Renovation">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur p-2 rounded-xl text-brand-navy"><i class="ph ph-paint-roller text-2xl"></i></div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-2xl font-heading font-bold text-gray-900 mb-3" data-i18n="srv3Title">Renovation</h4>
+                        <p class="text-gray-600 mb-6 line-clamp-3" data-i18n="srv3Desc">Transform your old spaces into modern masterpieces. From kitchen remodels to full house extensions.</p>
+                        <div class="flex items-center justify-between">
+                            <a href="home-renovation.html" class="text-brand-navy font-semibold hover:text-brand-gold transition-colors flex items-center" data-i18n="srv3CTA">Get an Estimate <i class="ph ph-arrow-right ml-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 4: Smart Home (Spans 2 cols on Large screens) -->
+                <div class="service-card bg-brand-navy rounded-3xl border border-brand-navyLight overflow-hidden group lg:col-span-2 flex flex-col md:flex-row animate-on-scroll opacity-0">
+                    <div class="md:w-1/2 p-8 md:p-10 flex flex-col justify-center">
+                        <div class="bg-brand-navyLight w-12 h-12 rounded-xl flex items-center justify-center text-brand-gold mb-6">
+                            <i class="ph ph-cpu text-2xl"></i>
+                        </div>
+                        <h4 class="text-3xl font-heading font-bold text-white mb-3" data-i18n="srv4Title">Smart Home System</h4>
+                        <p class="text-gray-400 mb-8" data-i18n="srv4Desc">Automate your lighting, security, and climate control. Manage your entire house seamlessly from your smartphone with unparalleled convenience and safety.</p>
+                        <div class="flex items-center justify-between mt-auto">
+                            <div class="bg-brand-navyLight/50 px-4 py-2 rounded-lg border border-white/10">
+                                <span class="text-xs text-gray-400 block" data-i18n="startFrom">Starts from</span>
+                                <span class="text-lg font-bold text-white">Rp 15.000.000</span>
+                            </div>
+                            <a href="smart-home.html" class="bg-white text-brand-navy px-5 py-2.5 rounded-full font-semibold hover:bg-gray-100 transition-colors" data-i18n="srv4CTA">Build Package</a>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 h-64 md:h-auto relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80 mix-blend-luminosity" alt="Smart Home">
+                    </div>
+                </div>
+
+                <!-- Service 5: Solar Panel -->
+                <div class="service-card bg-emerald-50 rounded-3xl border border-emerald-100 overflow-hidden group animate-on-scroll opacity-0" style="animation-delay: 100ms;">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Solar Panels">
+                        <div class="absolute top-4 right-4 bg-brand-emerald text-white p-2 rounded-xl"><i class="ph ph-solar-panel text-2xl"></i></div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-2xl font-heading font-bold text-gray-900 mb-3" data-i18n="srv5Title">Solar Panel Setup</h4>
+                        <p class="text-gray-600 mb-6 line-clamp-3" data-i18n="srv5Desc">Cut electricity bills and go green. Professional installation of high-efficiency solar panels with net-metering integration.</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex flex-col">
+                                <span class="text-xs text-gray-500" data-i18n="startFrom">Starts from</span>
+                                <span class="text-sm font-bold text-brand-emerald">Rp 12.000 / Wp</span>
+                            </div>
+                            <a href="solar-panel.html" class="text-brand-emerald font-semibold hover:text-green-700 transition-colors flex items-center" data-i18n="srv5CTA">Calculate <i class="ph ph-arrow-right ml-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-24 bg-white border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 animate-on-scroll opacity-0">
+                <h2 class="text-brand-gold font-bold tracking-wider uppercase text-sm mb-2" data-i18n="portfolioLabel">Our Featured Work</h2>
+                <h3 class="text-4xl md:text-5xl font-heading font-bold text-brand-navy mb-4" data-i18n="portfolioTitle">Residential @ Cimandala</h3>
+                <p class="text-gray-600 text-lg" data-i18n="portfolioDesc">A stunning 3-story residential project in Bogor, West Java, showcasing our expertise in architectural, interior, and exterior design.</p>
+            </div>
+
+            <!-- Blueprint & Exterior -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <div class="rounded-3xl overflow-hidden shadow-lg group relative h-[400px] animate-on-scroll opacity-0">
+                    <img src="https://images.unsplash.com/photo-1613545325278-f24b0cae1224?auto=format&fit=crop&w=1000&q=80" alt="Modern Minimalist Facade" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <div>
+                            <h4 class="text-white font-bold text-xl">Modern Facade & Carport</h4>
+                            <p class="text-gray-300 text-sm">Industrial touches with roster brick walls.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="rounded-3xl overflow-hidden shadow-lg group relative h-[400px] animate-on-scroll opacity-0" style="animation-delay: 100ms;">
+                    <img src="https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=1000&q=80" alt="Blueprint Planning" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <div>
+                            <h4 class="text-white font-bold text-xl">Meticulous Planning</h4>
+                            <p class="text-gray-300 text-sm">Detailed 1st and 2nd floor development design.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interior Showcase Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-on-scroll opacity-0">
+                <!-- Living Room -->
+                <div class="rounded-2xl overflow-hidden shadow-md group relative h-64 md:col-span-2">
+                    <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=80" alt="Living Room" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur px-4 py-2 rounded-lg">
+                        <span class="font-bold text-brand-navy text-sm block" data-i18n="portLiving">Living Room (R. Tamu)</span>
+                        <span class="text-xs text-gray-500">Elegant molding & warm lighting</span>
+                    </div>
+                </div>
+                
+                <!-- Kitchen -->
+                <div class="rounded-2xl overflow-hidden shadow-md group relative h-64">
+                    <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=800&q=80" alt="Kitchen" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur px-4 py-2 rounded-lg">
+                        <span class="font-bold text-brand-navy text-sm block" data-i18n="portKitchen">Modern Kitchen (Dapur)</span>
+                        <span class="text-xs text-gray-500">Island counter & UHD TV</span>
+                    </div>
+                </div>
+
+                <!-- Master Bedroom -->
+                <div class="rounded-2xl overflow-hidden shadow-md group relative h-64">
+                    <img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=800&q=80" alt="Master Bedroom" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur px-4 py-2 rounded-lg">
+                        <span class="font-bold text-brand-navy text-sm block" data-i18n="portMaster">Master Bed (K. Tidur Utama)</span>
+                        <span class="text-xs text-gray-500">Walk-in closet & Marble accents</span>
+                    </div>
+                </div>
+
+                <!-- Corridor / Game Room -->
+                <div class="rounded-2xl overflow-hidden shadow-md group relative h-64 md:col-span-2">
+                    <img src="https://images.unsplash.com/photo-1581850518616-bcb8077a2336?auto=format&fit=crop&w=1000&q=80" alt="Game Room / Corridor" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur px-4 py-2 rounded-lg">
+                        <span class="font-bold text-brand-navy text-sm block" data-i18n="portGameRoom">Lounge & Game Room (LT 3)</span>
+                        <span class="text-xs text-gray-500">Cozy bean bags & fluted panels</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                 <p class="text-sm text-gray-500 italic mb-4" data-i18n="portCredit">Architectural planning and 3D rendering presented in collaboration with Room Arsitek.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section id="why-us" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+                <!-- Image Side -->
+                <div class="w-full lg:w-1/2 relative animate-on-scroll opacity-0">
+                    <div class="relative rounded-3xl overflow-hidden shadow-2xl aspect-square lg:aspect-[4/5]">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Modern Architecture Details">
+                    </div>
+                    <!-- Floating Badge -->
+                    <div class="absolute -bottom-8 -right-8 md:-right-4 bg-white p-6 rounded-2xl shadow-xl animate-float hidden md:block">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-brand-gold/20 p-3 rounded-full text-brand-gold">
+                                <i class="ph ph-medal text-3xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold text-gray-900">10+ Years</p>
+                                <p class="text-sm text-gray-500" data-i18n="whyBadge">Industry Excellence</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text Side -->
+                <div class="w-full lg:w-1/2 animate-on-scroll opacity-0" style="animation-delay: 200ms;">
+                    <h2 class="text-brand-gold font-bold tracking-wider uppercase text-sm mb-2" data-i18n="whyLabel">Why Choose Us</h2>
+                    <h3 class="text-4xl md:text-5xl font-heading font-bold text-brand-navy mb-6 leading-tight" data-i18n="whyTitle">We Don't Just Build Houses, We Engineer Lifestyles.</h3>
+                    <p class="text-gray-600 text-lg mb-8 leading-relaxed" data-i18n="whyDesc">Our unique approach combines traditional craftsmanship with bleeding-edge technology, ensuring your home is beautiful, durable, and ready for the future.</p>
+                    
+                    <ul class="space-y-6">
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 bg-green-100 p-1.5 rounded-full text-brand-emerald mt-1">
+                                <i class="ph-bold ph-check text-lg"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-xl font-bold text-gray-900" data-i18n="feat1Title">Seamless Tech Integration</h4>
+                                <p class="text-gray-600 mt-1" data-i18n="feat1Desc">Smart home and solar systems are built into the architecture from day one, not added as an afterthought.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 bg-green-100 p-1.5 rounded-full text-brand-emerald mt-1">
+                                <i class="ph-bold ph-check text-lg"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-xl font-bold text-gray-900" data-i18n="feat2Title">Transparent Pricing</h4>
+                                <p class="text-gray-600 mt-1" data-i18n="feat2Desc">No hidden fees. We provide detailed, itemized quotes before any work begins.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 bg-green-100 p-1.5 rounded-full text-brand-emerald mt-1">
+                                <i class="ph-bold ph-check text-lg"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-xl font-bold text-gray-900" data-i18n="feat3Title">Eco-Friendly First</h4>
+                                <p class="text-gray-600 mt-1" data-i18n="feat3Desc">We prioritize sustainable materials and energy-efficient designs to reduce your carbon footprint.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Estimator Section -->
+    <section id="estimate" class="py-24 bg-brand-navy relative overflow-hidden">
+        <!-- Abstract Shapes -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
+            <svg viewBox="0 0 100 100" class="absolute -top-20 -left-20 w-96 h-96 fill-brand-gold"><circle cx="50" cy="50" r="50"/></svg>
+            <svg viewBox="0 0 100 100" class="absolute -bottom-20 -right-20 w-[40rem] h-[40rem] fill-white"><circle cx="50" cy="50" r="50"/></svg>
+        </div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 animate-on-scroll opacity-0">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl md:text-4xl font-heading font-bold text-brand-navy mb-4" data-i18n="formTitle">Estimate Your Project</h2>
+                    <p class="text-gray-600" data-i18n="formDesc">Select the services you need, and we'll get back to you with a custom consultation and rough estimate.</p>
+                </div>
+
+                <form id="estimation-form" class="space-y-8" onsubmit="handleFormSubmit(event)">
+                    <!-- Step 1: Services -->
+                    <div>
+                        <label class="block text-lg font-bold text-gray-900 mb-4" data-i18n="formQ1">1. What services are you looking for?</label>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                            <!-- Options -->
+                            <div class="relative">
+                                <input type="checkbox" id="chk-arch" class="service-checkbox sr-only" value="Architecture">
+                                <label for="chk-arch" class="block cursor-pointer text-center border-2 border-gray-200 rounded-xl py-3 px-4 transition-all hover:border-brand-navy text-gray-600 font-medium">Architecture</label>
+                            </div>
+                            <div class="relative">
+                                <input type="checkbox" id="chk-build" class="service-checkbox sr-only" value="Building">
+                                <label for="chk-build" class="block cursor-pointer text-center border-2 border-gray-200 rounded-xl py-3 px-4 transition-all hover:border-brand-navy text-gray-600 font-medium">Building</label>
+                            </div>
+                            <div class="relative">
+                                <input type="checkbox" id="chk-reno" class="service-checkbox sr-only" value="Renovation">
+                                <label for="chk-reno" class="block cursor-pointer text-center border-2 border-gray-200 rounded-xl py-3 px-4 transition-all hover:border-brand-navy text-gray-600 font-medium">Renovation</label>
+                            </div>
+                            <div class="relative">
+                                <input type="checkbox" id="chk-smart" class="service-checkbox sr-only" value="Smart Home">
+                                <label for="chk-smart" class="block cursor-pointer text-center border-2 border-gray-200 rounded-xl py-3 px-4 transition-all hover:border-brand-navy text-gray-600 font-medium">Smart Home</label>
+                            </div>
+                            <div class="relative">
+                                <input type="checkbox" id="chk-solar" class="service-checkbox sr-only" value="Solar Panel">
+                                <label for="chk-solar" class="block cursor-pointer text-center border-2 border-gray-200 rounded-xl py-3 px-4 transition-all hover:border-brand-navy text-gray-600 font-medium">Solar Panel</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Details -->
+                    <div>
+                        <label class="block text-lg font-bold text-gray-900 mb-4" data-i18n="formQ2">2. Your Details</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2" data-i18n="formName">Full Name</label>
+                                <input type="text" required class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-navy focus:border-brand-navy outline-none transition-all bg-gray-50" placeholder="John Doe">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2" data-i18n="formEmail">Email or WhatsApp Number</label>
+                                <input type="text" required class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-navy focus:border-brand-navy outline-none transition-all bg-gray-50" placeholder="example@mail.com">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-2" data-i18n="formNotes">Brief Description (Optional)</label>
+                                <textarea rows="3" class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-navy focus:border-brand-navy outline-none transition-all bg-gray-50" placeholder="I have a 200sqm land..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-brand-navy hover:bg-brand-navyLight text-white font-bold text-lg py-4 rounded-xl transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1" data-i18n="formSubmit">
+                        Request Consultation
+                    </button>
+                </form>
+
+                <!-- Success Message (Hidden) -->
+                <div id="form-success" class="hidden text-center py-10">
+                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="ph-bold ph-check text-4xl text-brand-emerald"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2" data-i18n="formSuccessTitle">Request Sent!</h3>
+                    <p class="text-gray-600" data-i18n="formSuccessDesc">Our team will contact you within 24 hours.</p>
+                    <button onclick="resetForm()" class="mt-6 text-brand-navy font-semibold underline">Submit another request</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-20 pb-10 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                
+                <!-- Brand -->
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center mb-6">
+                        <i class="ph-fill ph-house-line text-3xl text-white mr-2"></i>
+                        <span class="font-heading font-bold text-2xl tracking-tight">Aetheria<span class="text-brand-gold">.</span></span>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6" data-i18n="footerDesc">
+                        Redefining modern living by combining exceptional architecture with sustainable, smart technology.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-gold hover:text-brand-navy transition-all"><i class="ph-fill ph-instagram-logo text-xl"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-gold hover:text-brand-navy transition-all"><i class="ph-fill ph-facebook-logo text-xl"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-gold hover:text-brand-navy transition-all"><i class="ph-fill ph-linkedin-logo text-xl"></i></a>
+                    </div>
+                </div>
+
+                <!-- Links -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-white" data-i18n="footerServices">Services</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="architecture-design.html" class="hover:text-brand-gold transition-colors">Architecture & Design</a></li>
+                        <li><a href="home-building.html" class="hover:text-brand-gold transition-colors">Home Building</a></li>
+                        <li><a href="home-renovation.html" class="hover:text-brand-gold transition-colors">Renovation</a></li>
+                        <li><a href="smart-home.html" class="hover:text-brand-gold transition-colors">Smart Home Integration</a></li>
+                        <li><a href="solar-panel.html" class="hover:text-brand-gold transition-colors">Solar Panel Setup</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-white" data-i18n="footerContact">Contact</h4>
+                    <ul class="space-y-4 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="ph-fill ph-map-pin text-brand-gold mt-1 mr-3 text-xl"></i>
+                            <span class="text-sm">Sudirman Central Business District (SCBD), Jakarta, Indonesia</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="ph-fill ph-phone text-brand-gold mr-3 text-xl"></i>
+                            <span class="text-sm">+62 812 3456 7890</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="ph-fill ph-envelope text-brand-gold mr-3 text-xl"></i>
+                            <span class="text-sm">hello@aetheriahomes.com</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-white" data-i18n="footerNewsletter">Newsletter</h4>
+                    <p class="text-gray-400 text-sm mb-4" data-i18n="footerNewsDesc">Get the latest trends in smart homes and modern architecture.</p>
+                    <form class="flex" onsubmit="event.preventDefault();">
+                        <input type="email" placeholder="Your email" class="w-full px-4 py-2 rounded-l-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:border-brand-gold text-sm">
+                        <button class="bg-brand-gold text-brand-navy px-4 py-2 rounded-r-lg font-bold hover:bg-brand-goldLight transition-colors">
+                            <i class="ph-bold ph-paper-plane-right"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
+                <p>&copy; 2026 Aetheria Homes. All rights reserved.</p>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/6281234567890" target="_blank" class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:shadow-2xl hover:scale-110 transition-all duration-300">
+        <i class="ph-fill ph-whatsapp-logo text-3xl"></i>
+        <!-- Ping effect -->
+        <span class="absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-75 animate-ping -z-10"></span>
+    </a>
+
+    <!-- Scripts -->
+    <script>
+        // --- 1. Language Translation Dictionary ---
+        const translations = {
+            en: {
+                navServices: "Services",
+                navWhyUs: "Why Us",
+                navPortfolio: "Portfolio",
+                navCTA: "Get a Quote",
+                heroBadge: "Next-Gen Living Space",
+                heroTitle: 'Build Your <span class="text-brand-gold">Future-Ready</span> Home.',
+                heroDesc: "Seamlessly blending premium architectural design with sustainable solar energy and intuitive smart home technology.",
+                heroCTA1: "Book a Free Consultation",
+                heroCTA2: 'Explore Services <i class="ph ph-arrow-down ml-2 group-hover:translate-y-1 transition-transform"></i>',
+                servicesLabel: "Our Expertise",
+                servicesTitle: "End-to-End Home Solutions",
+                servicesDesc: "From drafting the first blueprint to installing the final smart bulb, we handle everything under one roof.",
+                srv1Title: "Architecture & Design",
+                srv1Desc: "Bespoke architectural designs that reflect your lifestyle. We prioritize aesthetics, space optimization, and natural light.",
+                srv1CTA: 'Get a Free Consultation <i class="ph ph-arrow-right ml-1"></i>',
+                srv2Title: "Home Building",
+                srv2Desc: "Premium construction services with rigorous quality control, premium materials, and strict adherence to timelines.",
+                srv2CTA: 'Request a Custom Quote <i class="ph ph-arrow-right ml-1"></i>',
+                srv3Title: "Renovation",
+                srv3Desc: "Transform your old spaces into modern masterpieces. From kitchen remodels to full house extensions.",
+                srv3CTA: 'Get an Estimate <i class="ph ph-arrow-right ml-1"></i>',
+                srv4Title: "Smart Home System",
+                srv4Desc: "Automate your lighting, security, and climate control. Manage your entire house seamlessly from your smartphone with unparalleled convenience and safety.",
+                startFrom: "Starts from",
+                srv4CTA: "Build Package",
+                srv5Title: "Solar Panel Setup",
+                srv5Desc: "Cut electricity bills and go green. Professional installation of high-efficiency solar panels with net-metering integration.",
+                srv5CTA: 'Calculate <i class="ph ph-arrow-right ml-1"></i>',
+                portfolioLabel: "Our Featured Work",
+                portfolioTitle: "Residential @ Cimandala",
+                portfolioDesc: "A stunning 3-story residential project in Bogor, West Java, showcasing our expertise in architectural, interior, and exterior design.",
+                portLiving: "Living Room",
+                portKitchen: "Modern Kitchen",
+                portMaster: "Master Bedroom",
+                portGameRoom: "Lounge & Game Room",
+                portCredit: "Architectural planning and 3D rendering presented in collaboration with Room Arsitek.",
+                whyLabel: "Why Choose Us",
+                whyBadge: "Industry Excellence",
+                whyTitle: "We Don't Just Build Houses, We Engineer Lifestyles.",
+                whyDesc: "Our unique approach combines traditional craftsmanship with bleeding-edge technology, ensuring your home is beautiful, durable, and ready for the future.",
+                feat1Title: "Seamless Tech Integration",
+                feat1Desc: "Smart home and solar systems are built into the architecture from day one, not added as an afterthought.",
+                feat2Title: "Transparent Pricing",
+                feat2Desc: "No hidden fees. We provide detailed, itemized quotes before any work begins.",
+                feat3Title: "Eco-Friendly First",
+                feat3Desc: "We prioritize sustainable materials and energy-efficient designs to reduce your carbon footprint.",
+                formTitle: "Estimate Your Project",
+                formDesc: "Select the services you need, and we'll get back to you with a custom consultation and rough estimate.",
+                formQ1: "1. What services are you looking for?",
+                formQ2: "2. Your Details",
+                formName: "Full Name",
+                formEmail: "Email or WhatsApp Number",
+                formNotes: "Brief Description (Optional)",
+                formSubmit: "Request Consultation",
+                formSuccessTitle: "Request Sent!",
+                formSuccessDesc: "Our team will contact you within 24 hours.",
+                footerDesc: "Redefining modern living by combining exceptional architecture with sustainable, smart technology.",
+                footerServices: "Services",
+                footerContact: "Contact",
+                footerNewsletter: "Newsletter",
+                footerNewsDesc: "Get the latest trends in smart homes and modern architecture."
+            },
+            id: {
+                navServices: "Layanan",
+                navWhyUs: "Kenapa Kami",
+                navPortfolio: "Portofolio",
+                navCTA: "Dapatkan Penawaran",
+                heroBadge: "Hunian Masa Depan",
+                heroTitle: 'Bangun Rumah <span class="text-brand-gold">Masa Depan</span> Anda.',
+                heroDesc: "Memadukan desain arsitektur premium dengan energi surya berkelanjutan dan teknologi rumah pintar yang intuitif.",
+                heroCTA1: "Jadwalkan Konsultasi Gratis",
+                heroCTA2: 'Lihat Layanan <i class="ph ph-arrow-down ml-2 group-hover:translate-y-1 transition-transform"></i>',
+                servicesLabel: "Keahlian Kami",
+                servicesTitle: "Solusi Rumah Terpadu",
+                servicesDesc: "Dari pembuatan cetak biru pertama hingga pemasangan lampu pintar terakhir, kami tangani semuanya dalam satu atap.",
+                srv1Title: "Arsitektur & Desain",
+                srv1Desc: "Desain arsitektur khusus yang mencerminkan gaya hidup Anda. Kami mengutamakan estetika, optimalisasi ruang, dan cahaya alami.",
+                srv1CTA: 'Konsultasi Gratis <i class="ph ph-arrow-right ml-1"></i>',
+                srv2Title: "Pembangunan Rumah",
+                srv2Desc: "Layanan konstruksi premium dengan kontrol kualitas ketat, material unggulan, dan kepatuhan waktu yang ketat.",
+                srv2CTA: 'Minta Penawaran Kustom <i class="ph ph-arrow-right ml-1"></i>',
+                srv3Title: "Renovasi Rumah",
+                srv3Desc: "Ubah ruang lama Anda menjadi mahakarya modern. Dari renovasi dapur hingga perluasan rumah penuh.",
+                srv3CTA: 'Dapatkan Estimasi <i class="ph ph-arrow-right ml-1"></i>',
+                srv4Title: "Sistem Smart Home",
+                srv4Desc: "Otomatisasi pencahayaan, keamanan, dan pengatur suhu. Kelola seluruh rumah Anda dari smartphone dengan kenyamanan maksimal.",
+                startFrom: "Mulai dari",
+                srv4CTA: "Pilih Paket",
+                srv5Title: "Instalasi Panel Surya",
+                srv5Desc: "Hemat tagihan listrik dan ramah lingkungan. Pemasangan panel surya efisiensi tinggi secara profesional.",
+                srv5CTA: 'Kalkulasi <i class="ph ph-arrow-right ml-1"></i>',
+                portfolioLabel: "Karya Unggulan Kami",
+                portfolioTitle: "Residensial @ Cimandala",
+                portfolioDesc: "Proyek residensial 3 lantai yang memukau di Bogor, Jawa Barat, menampilkan keahlian kami dalam desain arsitektur, interior, dan eksterior.",
+                portLiving: "Ruang Tamu",
+                portKitchen: "Dapur Modern",
+                portMaster: "Kamar Tidur Utama",
+                portGameRoom: "Ruang Santai & Game",
+                portCredit: "Perencanaan arsitektur dan rendering 3D disajikan bekerja sama dengan Room Arsitek.",
+                whyLabel: "Kenapa Memilih Kami",
+                whyBadge: "Keunggulan Industri",
+                whyTitle: "Kami Tidak Hanya Membangun Rumah, Kami Merancang Gaya Hidup.",
+                whyDesc: "Pendekatan unik kami menggabungkan keahlian tradisional dengan teknologi mutakhir, memastikan rumah Anda indah, tahan lama, dan siap menghadapi masa depan.",
+                feat1Title: "Integrasi Teknologi Mulus",
+                feat1Desc: "Sistem smart home dan surya dibangun ke dalam arsitektur sejak hari pertama, bukan sekadar tambahan.",
+                feat2Title: "Harga Transparan",
+                feat2Desc: "Tanpa biaya tersembunyi. Kami memberikan penawaran rinci sebelum pekerjaan dimulai.",
+                feat3Title: "Ramah Lingkungan",
+                feat3Desc: "Kami mengutamakan material berkelanjutan dan desain hemat energi untuk mengurangi jejak karbon.",
+                formTitle: "Estimasi Proyek Anda",
+                formDesc: "Pilih layanan yang Anda butuhkan, dan kami akan menghubungi Anda untuk konsultasi khusus dan estimasi kasar.",
+                formQ1: "1. Layanan apa yang Anda cari?",
+                formQ2: "2. Detail Anda",
+                formName: "Nama Lengkap",
+                formEmail: "Email atau Nomor WhatsApp",
+                formNotes: "Deskripsi Singkat (Opsional)",
+                formSubmit: "Minta Konsultasi",
+                formSuccessTitle: "Permintaan Terkirim!",
+                formSuccessDesc: "Tim kami akan menghubungi Anda dalam waktu 24 jam.",
+                footerDesc: "Mendefinisikan ulang kehidupan modern dengan menggabungkan arsitektur luar biasa dengan teknologi pintar dan berkelanjutan.",
+                footerServices: "Layanan",
+                footerContact: "Kontak",
+                footerNewsletter: "Buletin",
+                footerNewsDesc: "Dapatkan tren terbaru dalam smart home dan arsitektur modern."
+            }
+        };
+
+        // --- 2. Language Toggle Logic ---
+        function setLanguage(lang) {
+            // Update buttons styling
+            const btnEn = document.getElementById('btn-en');
+            const btnId = document.getElementById('btn-id');
+            
+            if(lang === 'en') {
+                btnEn.className = "px-3 py-1 rounded-full text-sm font-semibold transition-all bg-white shadow-sm text-brand-navy";
+                btnId.className = "px-3 py-1 rounded-full text-sm font-semibold transition-all text-gray-500 hover:text-gray-800";
+            } else {
+                btnId.className = "px-3 py-1 rounded-full text-sm font-semibold transition-all bg-white shadow-sm text-brand-navy";
+                btnEn.className = "px-3 py-1 rounded-full text-sm font-semibold transition-all text-gray-500 hover:text-gray-800";
+            }
+
+            // Update all texts
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            // Update form placeholders
+            const inputs = document.querySelectorAll('input, textarea');
+            if(lang === 'id') {
+                if(inputs[5]) inputs[5].placeholder = "Budi Santoso";
+                if(inputs[6]) inputs[6].placeholder = "contoh@email.com";
+                if(inputs[7]) inputs[7].placeholder = "Saya memiliki tanah seluas 200m2...";
+            } else {
+                if(inputs[5]) inputs[5].placeholder = "John Doe";
+                if(inputs[6]) inputs[6].placeholder = "example@mail.com";
+                if(inputs[7]) inputs[7].placeholder = "I have a 200sqm land...";
+            }
+        }
+
+        // --- 3. UI Interactions (Mobile Menu, Scroll, Observer) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu Toggle
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Navbar Background on Scroll
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    navbar.classList.add('shadow-md');
+                } else {
+                    navbar.classList.remove('shadow-md');
+                }
+            });
+
+            // Intersection Observer for scroll animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            animatedElements.forEach(el => observer.observe(el));
+        });
+
+        // --- 4. Form Simulation ---
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            // In a real app, you would collect form data here and send to API
+            
+            // Show success message
+            document.getElementById('estimation-form').classList.add('hidden');
+            const successDiv = document.getElementById('form-success');
+            successDiv.classList.remove('hidden');
+            successDiv.classList.add('animate-fade-in-up');
+        }
+
+        function resetForm() {
+            document.getElementById('estimation-form').reset();
+            document.getElementById('estimation-form').classList.remove('hidden');
+            document.getElementById('form-success').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>

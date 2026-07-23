@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Home Systems | Aetheria Homes</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            navy: '#0B1B3D',
+                            navyLight: '#162A57',
+                            gold: '#D4AF37',
+                            goldLight: '#F3D573',
+                            emerald: '#10B981',
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles for inputs and scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #0B1B3D; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #162A57; }
+
+        .service-card { transition: all 0.3s ease; }
+        .service-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+
+        /* Animation classes for observer */
+        .opacity-0 { opacity: 0; }
+        .animate-on-scroll.is-visible { animation: fadeInUp 0.8s ease-out forwards; }
+
+        /* Phone mockup toggle switch */
+        .toggle-pill { width: 2.5rem; height: 1.375rem; border-radius: 9999px; position: relative; transition: background-color 0.3s ease; }
+        .toggle-pill .toggle-knob { width: 1rem; height: 1rem; border-radius: 9999px; background: white; position: absolute; top: 0.1875rem; transition: all 0.3s ease; }
+        .toggle-on { background-color: #10B981; }
+        .toggle-on .toggle-knob { right: 0.1875rem; }
+        .toggle-off { background-color: #334467; }
+        .toggle-off .toggle-knob { left: 0.1875rem; }
+
+        .pricing-card-popular { border: 2px solid #D4AF37; }
+    </style>
+</head>
+<body class="font-sans text-gray-800 antialiased bg-gray-50 selection:bg-brand-gold selection:text-brand-navy">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300 backdrop-blur-md bg-white/80 border-b border-gray-200" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="index.html" class="flex-shrink-0 flex items-center cursor-pointer">
+                    <i class="ph-fill ph-house-line text-3xl text-brand-navy mr-2"></i>
+                    <span class="font-heading font-bold text-2xl text-brand-navy tracking-tight">Aetheria<span class="text-brand-gold">.</span></span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-brand-navy font-medium transition-colors" data-i18n="navHome">Home</a>
+                    <a href="index.html#services" class="text-gray-600 hover:text-brand-navy font-medium transition-colors" data-i18n="navServices">Services</a>
+                    <a href="index.html#why-us" class="text-gray-600 hover:text-brand-navy font-medium transition-colors" data-i18n="navWhyUs">Why Us</a>
+                    <a href="index.html#portfolio" class="text-gray-600 hover:text-brand-navy font-medium transition-colors" data-i18n="navPortfolio">Portfolio</a>
+
+                    <!-- Language Toggle -->
+                    <div class="flex items-center bg-gray-100 p-1 rounded-full border border-gray-200">
+                        <button onclick="setLanguage('en')" id="btn-en" class="px-3 py-1 rounded-full text-sm font-semibold transition-all bg-white shadow-sm text-brand-navy">EN</button>
+                        <button onclick="setLanguage('id')" id="btn-id" class="px-3 py-1 rounded-full text-sm font-semibold transition-all text-gray-500 hover:text-gray-800">ID</button>
+                    </div>
+
+                    <a href="#pricing" class="bg-brand-navy hover:bg-brand-navyLight text-white px-6 py-2.5 rounded-full font-medium transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5" data-i18n="navCTA">View Pricing</a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-brand-navy focus:outline-none p-2">
+                        <i class="ph ph-list text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200 absolute w-full shadow-lg">
+            <div class="px-4 pt-2 pb-6 space-y-3">
+                <a href="index.html" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md" data-i18n="navHome">Home</a>
+                <a href="index.html#services" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md" data-i18n="navServices">Services</a>
+                <a href="index.html#why-us" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md" data-i18n="navWhyUs">Why Us</a>
+                <a href="index.html#portfolio" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md" data-i18n="navPortfolio">Portfolio</a>
+
+                <div class="flex items-center space-x-4 px-3 py-2">
+                    <span class="text-sm font-medium text-gray-500">Language:</span>
+                    <button onclick="setLanguage('en')" class="font-bold text-brand-navy">EN</button>
+                    <span class="text-gray-300">|</span>
+                    <button onclick="setLanguage('id')" class="font-bold text-brand-navy">ID</button>
+                </div>
+
+                <a href="#pricing" class="block w-full text-center mt-4 bg-brand-navy text-white px-5 py-3 rounded-xl font-medium" data-i18n="navCTA">View Pricing</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-brand-navy">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1558002038-1055907df827?ixlib=rb-4.0.3&auto=format&fit=crop&w=2075&q=80" alt="Smart home interior with ambient lighting" class="w-full h-full object-cover object-center" />
+            <div class="absolute inset-0 bg-gradient-to-r from-brand-navy/95 via-brand-navy/85 to-brand-navy/60"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <!-- Text Side -->
+                <div class="w-full lg:w-1/2 animate-fade-in-up">
+                    <div class="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-6">
+                        <span class="flex h-2 w-2 rounded-full bg-brand-emerald animate-pulse"></span>
+                        <span class="text-white text-sm font-medium tracking-wide" data-i18n="heroBadge">Smart Home Systems</span>
+                    </div>
+
+                    <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6 tracking-tight" data-i18n="heroTitle">
+                        Full Control of Your Home, <span class="text-brand-gold">In the Palm of Your Hand.</span>
+                    </h1>
+
+                    <p class="text-lg md:text-xl text-gray-300 mb-10 leading-relaxed max-w-lg" data-i18n="heroDesc">
+                        Lock your doors, dim your lights, and watch every corner of your home from anywhere in the world &mdash; all from a single, elegant app.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="https://wa.me/6281234567890" target="_blank" class="bg-brand-gold hover:bg-brand-goldLight text-brand-navy px-8 py-4 rounded-full font-bold text-lg transition-all text-center shadow-[0_0_20px_rgba(212,175,55,0.4)]" data-i18n="heroCTA1">
+                            Book a Free Consultation
+                        </a>
+                        <a href="#pricing" class="bg-transparent border-2 border-white/30 text-white hover:bg-white/10 px-8 py-4 rounded-full font-bold text-lg transition-all text-center flex items-center justify-center group" data-i18n="heroCTA2">
+                            View Pricing
+                            <i class="ph ph-arrow-down ml-2 group-hover:translate-y-1 transition-transform"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Phone Mockup Side -->
+                <div class="w-full lg:w-1/2 flex justify-center animate-fade-in-up" style="animation-delay: 150ms;">
+                    <div class="relative animate-float">
+                        <!-- Phone Frame -->
+                        <div class="relative w-[260px] h-[540px] bg-gray-900 rounded-[2.75rem] border-[10px] border-gray-800 shadow-2xl">
+                            <!-- Notch -->
+                            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-gray-800 rounded-b-2xl z-20"></div>
+                            <!-- Screen -->
+                            <div class="relative w-full h-full bg-gradient-to-b from-brand-navyLight to-brand-navy rounded-[2rem] overflow-hidden px-4 pt-8 pb-6 flex flex-col">
+                                <div class="flex items-center justify-between mb-5">
+                                    <div>
+                                        <p class="text-white/50 text-[10px] uppercase tracking-wider" data-i18n="appGreeting">Good Evening</p>
+                                        <p class="text-white font-heading font-bold text-lg" data-i18n="appHome">My Home</p>
+                                    </div>
+                                    <div class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-brand-gold">
+                                        <i class="ph-fill ph-bell text-lg"></i>
+                                    </div>
+                                </div>
+
+                                <!-- Status Card -->
+                                <div class="bg-white/10 backdrop-blur rounded-2xl p-3 mb-4 flex items-center justify-between border border-white/10">
+                                    <div class="flex items-center gap-2">
+                                        <i class="ph-fill ph-shield-check text-brand-emerald text-xl"></i>
+                                        <span class="text-white text-xs font-semibold" data-i18n="appSecured">All Doors Secured</span>
+                                    </div>
+                                    <span class="w-2 h-2 rounded-full bg-brand-emerald"></span>
+                                </div>
+
+                                <!-- Room Rows -->
+                                <div class="space-y-2.5 flex-1">
+                                    <div class="bg-white/5 rounded-xl p-3 flex items-center justify-between">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-lg bg-brand-gold/20 flex items-center justify-center text-brand-gold"><i class="ph-fill ph-lightbulb text-sm"></i></div>
+                                            <span class="text-white text-xs font-medium" data-i18n="appLivingRoom">Living Room</span>
+                                        </div>
+                                        <div class="toggle-pill toggle-on"><div class="toggle-knob"></div></div>
+                                    </div>
+                                    <div class="bg-white/5 rounded-xl p-3 flex items-center justify-between">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-lg bg-brand-gold/20 flex items-center justify-center text-brand-gold"><i class="ph-fill ph-lock-key text-sm"></i></div>
+                                            <span class="text-white text-xs font-medium" data-i18n="appFrontDoor">Front Door</span>
+                                        </div>
+                                        <div class="toggle-pill toggle-on"><div class="toggle-knob"></div></div>
+                                    </div>
+                                    <div class="bg-white/5 rounded-xl p-3 flex items-center justify-between">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-lg bg-brand-gold/20 flex items-center justify-center text-brand-gold"><i class="ph-fill ph-video-camera text-sm"></i></div>
+                                            <span class="text-white text-xs font-medium" data-i18n="appCCTV">Front Yard CCTV</span>
+                                        </div>
+                                        <div class="toggle-pill toggle-on"><div class="toggle-knob"></div></div>
+                                    </div>
+                                    <div class="bg-white/5 rounded-xl p-3 flex items-center justify-between">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-gray-400"><i class="ph-fill ph-arrows-left-right text-sm"></i></div>
+                                            <span class="text-white text-xs font-medium" data-i18n="appCurtains">Bedroom Curtains</span>
+                                        </div>
+                                        <div class="toggle-pill toggle-off"><div class="toggle-knob"></div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Floating Badge -->
+                        <div class="absolute -bottom-6 -left-8 md:-left-12 bg-white p-4 rounded-2xl shadow-xl hidden sm:block">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-brand-emerald/20 p-2.5 rounded-full text-brand-emerald">
+                                    <i class="ph-fill ph-shield-check text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold text-gray-900" data-i18n="badgeEncrypt">Bank-Grade Encryption</p>
+                                    <p class="text-xs text-gray-500" data-i18n="badgeEncryptSub">24/7 Monitoring</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Features Section -->
+    <section id="features" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 animate-on-scroll opacity-0">
+                <h2 class="text-brand-gold font-bold tracking-wider uppercase text-sm mb-2" data-i18n="featuresLabel">Core Features</h2>
+                <h3 class="text-4xl md:text-5xl font-heading font-bold text-brand-navy mb-4" data-i18n="featuresTitle">Technology That Feels Like Magic</h3>
+                <p class="text-gray-600 text-lg" data-i18n="featuresDesc">Every module is designed to work together seamlessly, giving you effortless control and genuine peace of mind.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+                <!-- Feature 1: Smart Door Locks -->
+                <div class="service-card bg-white rounded-3xl border border-gray-100 p-8 group animate-on-scroll opacity-0">
+                    <div class="bg-brand-navy/5 w-14 h-14 rounded-xl flex items-center justify-center text-brand-navy mb-6 group-hover:bg-brand-navy group-hover:text-white transition-colors">
+                        <i class="ph ph-lock-key text-3xl"></i>
+                    </div>
+                    <h4 class="text-xl font-heading font-bold text-gray-900 mb-3" data-i18n="feat1Title">Smart Door Locks</h4>
+                    <p class="text-gray-600 text-sm leading-relaxed" data-i18n="feat1Desc">Unlock with a fingerprint, PIN, or your phone. Grant temporary access to guests remotely and get instant alerts on every entry.</p>
+                </div>
+
+                <!-- Feature 2: Voice-Controlled Lighting -->
+                <div class="service-card bg-white rounded-3xl border border-gray-100 p-8 group animate-on-scroll opacity-0" style="animation-delay: 100ms;">
+                    <div class="bg-brand-navy/5 w-14 h-14 rounded-xl flex items-center justify-center text-brand-navy mb-6 group-hover:bg-brand-navy group-hover:text-white transition-colors">
+                        <i class="ph ph-microphone-stage text-3xl"></i>
+                    </div>
+                    <h4 class="text-xl font-heading font-bold text-gray-900 mb-3" data-i18n="feat2Title">Voice-Controlled Lighting</h4>
+                    <p class="text-gray-600 text-sm leading-relaxed" data-i18n="feat2Desc">Dim, brighten, or set the mood with a simple voice command or tap. Schedule scenes for morning, movie nights, and beyond.</p>
+                </div>
+
+                <!-- Feature 3: Smart CCTV -->
+                <div class="service-card bg-white rounded-3xl border border-gray-100 p-8 group animate-on-scroll opacity-0" style="animation-delay: 200ms;">
+                    <div class="bg-brand-navy/5 w-14 h-14 rounded-xl flex items-center justify-center text-brand-navy mb-6 group-hover:bg-brand-navy group-hover:text-white transition-colors">
+                        <i class="ph ph-video-camera text-3xl"></i>
+                    </div>
+                    <h4 class="text-xl font-heading font-bold text-gray-900 mb-3" data-i18n="feat3Title">Smart CCTV</h4>
+                    <p class="text-gray-600 text-sm leading-relaxed" data-i18n="feat3Desc">HD live streaming with night vision and motion detection. Review footage anytime and get alerts the moment something moves.</p>
+                </div>
+
+                <!-- Feature 4: Automated Curtains -->
+                <div class="service-card bg-white rounded-3xl border border-gray-100 p-8 group animate-on-scroll opacity-0" style="animation-delay: 300ms;">
+                    <div class="bg-brand-navy/5 w-14 h-14 rounded-xl flex items-center justify-center text-brand-navy mb-6 group-hover:bg-brand-navy group-hover:text-white transition-colors">
+                        <i class="ph ph-arrows-left-right text-3xl"></i>
+                    </div>
+                    <h4 class="text-xl font-heading font-bold text-gray-900 mb-3" data-i18n="feat4Title">Automated Curtains</h4>
+                    <p class="text-gray-600 text-sm leading-relaxed" data-i18n="feat4Desc">Let sunlight wake you up naturally and close automatically at dusk. Schedule or control every curtain from your phone.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Bundles Section -->
+    <section id="pricing" class="py-24 bg-gray-50 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 animate-on-scroll opacity-0">
+                <h2 class="text-brand-gold font-bold tracking-wider uppercase text-sm mb-2" data-i18n="pricingLabel">Pricing Bundles</h2>
+                <h3 class="text-4xl md:text-5xl font-heading font-bold text-brand-navy mb-4" data-i18n="pricingTitle">Choose Your Smart Home Package</h3>
+                <p class="text-gray-600 text-lg" data-i18n="pricingDesc">Start small and grow, or go all-in from day one. Every bundle includes professional installation and a 1-year warranty.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+
+                <!-- Bundle 1: Basic Security Starter -->
+                <div class="service-card bg-white rounded-3xl border border-gray-200 p-8 flex flex-col animate-on-scroll opacity-0">
+                    <div class="bg-brand-navy/5 w-14 h-14 rounded-xl flex items-center justify-center text-brand-navy mb-6">
+                        <i class="ph ph-shield-check text-3xl"></i>
+                    </div>
+                    <h4 class="text-2xl font-heading font-bold text-gray-900 mb-2" data-i18n="pkg1Title">Basic Security Starter</h4>
+                    <p class="text-gray-500 text-sm mb-6" data-i18n="pkg1Desc">The essential toolkit to secure your front line and get started with home automation.</p>
+                    <ul class="space-y-3 mb-8 flex-1">
+                        <li class="flex items-center text-gray-700 text-sm"><i class="ph-bold ph-check text-brand-emerald mr-3"></i><span data-i18n="pkg1Item1">1x Smart Door Lock</span></li>
+                        <li class="flex items-center text-gray-700 text-sm"><i class="ph-bold ph-check text-brand-emerald mr-3"></i><span data-i18n="pkg1Item2">1x Indoor CCTV Camera</span></li>
+                        <li class="flex items-center text-gray-700 text-sm"><i class="ph-bold ph-check text-brand-emerald mr-3"></i><span data-i18n="pkg1Item3">2x Smart Switches</span></li>
+                        <li class="flex items-center text-gray-700 text-sm"><i class="ph-bold ph-check text-brand-emerald mr-3"></i><span data-i18n="pkg1Item4">1x Central Smart Hub</span></li>
+                    </ul>
+                    <div class="border-t border-gray-100 pt-6">
+                        <span class="text-xs text-gray-500 block" data-i18n="startFrom">Starts from</span>
+                        <span class="text-2xl font-heading font-bold text-brand-navy">Rp 3.500.000</span>
+                    </div>
+                    <a href="https://wa.me/6281234567890" target="_blank" class="mt-6 w-full text-center bg-gray-100 hover:bg-brand-navy hover:text-white text-brand-navy px-5 py-3 rounded-full font-semibold transition-colors" data-i18n="pkgCTA">Get This Package</a>
+                </div>
+
+                <!-- Bundle 2: Living Room Experience (Most Popular) -->
+                <div class="service-card pricing-card-popular bg-brand-navy rounded-3xl p-8 flex flex-col relative lg:-translate-y-4 shadow-2xl animate-on-scroll opacity-0" style="animation-delay: 100ms;">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-gold text-brand-navy text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full shadow-md" data-i18n="pkgPopular">Most Popular</div>
+                    <div class="bg-brand-gold/20 w-14 h-14 rounded-xl flex items-center justify-center text-brand-gold mb-6 mt-2">
+                        <i class="ph ph-sparkle text-3xl"></i>
+                    </div>
+                    <h4 class="text-2xl font-heading font-bold text-white mb-2" data-i18n="pkg2Title">Living Room Experience</h4>
+                    <p class="text-gray-400 text-sm mb-6" data-i18n="pkg2Desc">Everything in the Starter, plus the automation and ambience upgrades that transform your favorite room.</p>
+                    <ul class="space-y-3 mb-8 flex-1">
+                        <li class="flex items-center text-gray-200 text-sm"><i class="ph-bold ph-check text-brand-gold mr-3"></i><span data-i18n="pkg2Item1">Everything in Starter Kit</span></li>
+                        <li class="flex items-center text-gray-200 text-sm"><i class="ph-bold ph-check text-brand-gold mr-3"></i><span data-i18n="pkg2Item2">1x Smart Curtain Motor</span></li>
+                        <li class="flex items-center text-gray-200 text-sm"><i class="ph-bold ph-check text-brand-gold mr-3"></i><span data-i18n="pkg2Item3">TV / AC Smart Controller</span></li>
+                        <li class="flex items-center text-gray-200 text-sm"><i class="ph-bold ph-check text-brand-gold mr-3"></i><span data-i18n="pkg2Item4">Smart LED Strip Lighting</span></li>
+                    </ul>
+                    <div class="border-t border-white/10 pt-6">
+                        <span class="text-xs text-gray-400 block" data-i18n="startFrom">Starts from</span>
+                        <span class="text-2xl font-heading font-bold text-white">Rp 6.000.000</span>
+                    </div>
+                    <a href="https://wa.me/6281234567890" target="_blank" class="mt-6 w-full text-center bg-brand-gold hover:bg-brand-goldLight text-brand-navy px-5 py-3 rounded-full font-bold transition-colors" data-i18n="pkgCTA">Get This Package</a>
+                </div>
+
+                <!-- Bundle 3: Ultimate Full House -->
+                <div class="service-card bg-white rounded-3xl border border-gray-200 p-8 flex flex-col animate-on-scroll opacity-0" style="animation-delay: 200ms;">
+                    <div class="bg-brand-navy/5 w-14 h-14 rounded-xl flex items-center justify-center text-brand-navy mb-6">
+                        <i class="ph ph-cpu text-3xl"></i>
+                    </div>
+                    <h4 class="text-2xl font-heading font-bold text-gray-900 mb-2" data-i18n="pkg3Title">Ultimate Full House</h4>
+                    <p class="text-gray-500 text-sm mb-6" data-i18n="pkg3Desc">A fully integrated smart home tailored to your floor plan, wired into the architecture itself.</p>
+                    <ul class="space-y-3 mb-8 flex-1">
+                        <li class="flex items-center text-gray-700 text-sm"><i class="ph-bold ph-check text-brand-emerald mr-3"></i><span data-i18n="pkg3Item1">Whole-House Sensor Network</span></li>
+                        <li class="flex items-center text-gray-700 text-sm"><i class="ph-bold ph-check text-brand-emerald mr-3"></i><span data-i18n="pkg3Item2">Smart Alarm & Fire Detection</span></li>
+                        <li class="flex items-center text-gray-700 text-sm"><i class="ph-bold ph-check text-brand-emerald mr-3"></i><span data-i18n="pkg3Item3">Full Architectural Integration</span></li>
+                        <li class="flex items-center text-gray-700 text-sm"><i class="ph-bold ph-check text-brand-emerald mr-3"></i><span data-i18n="pkg3Item4">Dedicated Project Engineer</span></li>
+                    </ul>
+                    <div class="border-t border-gray-100 pt-6">
+                        <span class="text-xs text-gray-500 block" data-i18n="pkg3PriceLabel">Pricing</span>
+                        <span class="text-2xl font-heading font-bold text-brand-navy" data-i18n="pkg3Price">Custom Quote</span>
+                    </div>
+                    <a href="https://wa.me/6281234567890" target="_blank" class="mt-6 w-full text-center bg-gray-100 hover:bg-brand-navy hover:text-white text-brand-navy px-5 py-3 rounded-full font-semibold transition-colors" data-i18n="pkg3CTA">Talk to an Expert</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="py-24 bg-brand-navy relative overflow-hidden">
+        <!-- Abstract Shapes -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
+            <svg viewBox="0 0 100 100" class="absolute -top-20 -left-20 w-96 h-96 fill-brand-gold"><circle cx="50" cy="50" r="50"/></svg>
+            <svg viewBox="0 0 100 100" class="absolute -bottom-20 -right-20 w-[40rem] h-[40rem] fill-white"><circle cx="50" cy="50" r="50"/></svg>
+        </div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center animate-on-scroll opacity-0">
+            <div class="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-6">
+                <i class="ph-fill ph-house-line text-brand-gold"></i>
+                <span class="text-white text-sm font-medium tracking-wide" data-i18n="ctaBadge">Aetheria Smart Home</span>
+            </div>
+            <h2 class="text-4xl md:text-5xl font-heading font-bold text-white mb-6" data-i18n="ctaTitle">Upgrade Your Home Today</h2>
+            <p class="text-gray-300 text-lg mb-10 max-w-xl mx-auto" data-i18n="ctaDesc">Chat with our smart home specialists on WhatsApp and get a free, no-obligation consultation within the hour.</p>
+            <a href="https://wa.me/6281234567890" target="_blank" class="inline-flex items-center bg-brand-gold hover:bg-brand-goldLight text-brand-navy px-10 py-4 rounded-full font-bold text-lg transition-all shadow-[0_0_20px_rgba(212,175,55,0.4)]" data-i18n="ctaButton">
+                <i class="ph-fill ph-whatsapp-logo mr-2 text-2xl"></i> Chat on WhatsApp
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-20 pb-10 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+
+                <!-- Brand -->
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center mb-6">
+                        <i class="ph-fill ph-house-line text-3xl text-white mr-2"></i>
+                        <span class="font-heading font-bold text-2xl tracking-tight">Aetheria<span class="text-brand-gold">.</span></span>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6" data-i18n="footerDesc">
+                        Redefining modern living by combining exceptional architecture with sustainable, smart technology.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-gold hover:text-brand-navy transition-all"><i class="ph-fill ph-instagram-logo text-xl"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-gold hover:text-brand-navy transition-all"><i class="ph-fill ph-facebook-logo text-xl"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-gold hover:text-brand-navy transition-all"><i class="ph-fill ph-linkedin-logo text-xl"></i></a>
+                    </div>
+                </div>
+
+                <!-- Links -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-white" data-i18n="footerServices">Services</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="index.html#services" class="hover:text-brand-gold transition-colors">Architecture & Design</a></li>
+                        <li><a href="index.html#services" class="hover:text-brand-gold transition-colors">Home Building</a></li>
+                        <li><a href="index.html#services" class="hover:text-brand-gold transition-colors">Renovation</a></li>
+                        <li><a href="smart-home.html" class="hover:text-brand-gold transition-colors">Smart Home Integration</a></li>
+                        <li><a href="index.html#services" class="hover:text-brand-gold transition-colors">Solar Panel Setup</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-white" data-i18n="footerContact">Contact</h4>
+                    <ul class="space-y-4 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="ph-fill ph-map-pin text-brand-gold mt-1 mr-3 text-xl"></i>
+                            <span class="text-sm">Sudirman Central Business District (SCBD), Jakarta, Indonesia</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="ph-fill ph-phone text-brand-gold mr-3 text-xl"></i>
+                            <span class="text-sm">+62 812 3456 7890</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="ph-fill ph-envelope text-brand-gold mr-3 text-xl"></i>
+                            <span class="text-sm">hello@aetheriahomes.com</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-white" data-i18n="footerNewsletter">Newsletter</h4>
+                    <p class="text-gray-400 text-sm mb-4" data-i18n="footerNewsDesc">Get the latest trends in smart homes and modern architecture.</p>
+                    <form class="flex" onsubmit="event.preventDefault();">
+                        <input type="email" placeholder="Your email" class="w-full px-4 py-2 rounded-l-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:border-brand-gold text-sm">
+                        <button class="bg-brand-gold text-brand-navy px-4 py-2 rounded-r-lg font-bold hover:bg-brand-goldLight transition-colors">
+                            <i class="ph-bold ph-paper-plane-right"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
+                <p>&copy; 2026 Aetheria Homes. All rights reserved.</p>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/6281234567890" target="_blank" class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:shadow-2xl hover:scale-110 transition-all duration-300">
+        <i class="ph-fill ph-whatsapp-logo text-3xl"></i>
+        <!-- Ping effect -->
+        <span class="absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-75 animate-ping -z-10"></span>
+    </a>
+
+    <!-- Scripts -->
+    <script>
+        // --- 1. Language Translation Dictionary ---
+        const translations = {
+            en: {
+                navHome: "Home",
+                navServices: "Services",
+                navWhyUs: "Why Us",
+                navPortfolio: "Portfolio",
+                navCTA: "View Pricing",
+                heroBadge: "Smart Home Systems",
+                heroTitle: 'Full Control of Your Home, <span class="text-brand-gold">In the Palm of Your Hand.</span>',
+                heroDesc: "Lock your doors, dim your lights, and watch every corner of your home from anywhere in the world — all from a single, elegant app.",
+                heroCTA1: "Book a Free Consultation",
+                heroCTA2: 'View Pricing <i class="ph ph-arrow-down ml-2 group-hover:translate-y-1 transition-transform"></i>',
+                appGreeting: "Good Evening",
+                appHome: "My Home",
+                appSecured: "All Doors Secured",
+                appLivingRoom: "Living Room",
+                appFrontDoor: "Front Door",
+                appCCTV: "Front Yard CCTV",
+                appCurtains: "Bedroom Curtains",
+                badgeEncrypt: "Bank-Grade Encryption",
+                badgeEncryptSub: "24/7 Monitoring",
+                featuresLabel: "Core Features",
+                featuresTitle: "Technology That Feels Like Magic",
+                featuresDesc: "Every module is designed to work together seamlessly, giving you effortless control and genuine peace of mind.",
+                feat1Title: "Smart Door Locks",
+                feat1Desc: "Unlock with a fingerprint, PIN, or your phone. Grant temporary access to guests remotely and get instant alerts on every entry.",
+                feat2Title: "Voice-Controlled Lighting",
+                feat2Desc: "Dim, brighten, or set the mood with a simple voice command or tap. Schedule scenes for morning, movie nights, and beyond.",
+                feat3Title: "Smart CCTV",
+                feat3Desc: "HD live streaming with night vision and motion detection. Review footage anytime and get alerts the moment something moves.",
+                feat4Title: "Automated Curtains",
+                feat4Desc: "Let sunlight wake you up naturally and close automatically at dusk. Schedule or control every curtain from your phone.",
+                pricingLabel: "Pricing Bundles",
+                pricingTitle: "Choose Your Smart Home Package",
+                pricingDesc: "Start small and grow, or go all-in from day one. Every bundle includes professional installation and a 1-year warranty.",
+                startFrom: "Starts from",
+                pkgCTA: "Get This Package",
+                pkg1Title: "Basic Security Starter",
+                pkg1Desc: "The essential toolkit to secure your front line and get started with home automation.",
+                pkg1Item1: "1x Smart Door Lock",
+                pkg1Item2: "1x Indoor CCTV Camera",
+                pkg1Item3: "2x Smart Switches",
+                pkg1Item4: "1x Central Smart Hub",
+                pkgPopular: "Most Popular",
+                pkg2Title: "Living Room Experience",
+                pkg2Desc: "Everything in the Starter, plus the automation and ambience upgrades that transform your favorite room.",
+                pkg2Item1: "Everything in Starter Kit",
+                pkg2Item2: "1x Smart Curtain Motor",
+                pkg2Item3: "TV / AC Smart Controller",
+                pkg2Item4: "Smart LED Strip Lighting",
+                pkg3Title: "Ultimate Full House",
+                pkg3Desc: "A fully integrated smart home tailored to your floor plan, wired into the architecture itself.",
+                pkg3Item1: "Whole-House Sensor Network",
+                pkg3Item2: "Smart Alarm & Fire Detection",
+                pkg3Item3: "Full Architectural Integration",
+                pkg3Item4: "Dedicated Project Engineer",
+                pkg3PriceLabel: "Pricing",
+                pkg3Price: "Custom Quote",
+                pkg3CTA: "Talk to an Expert",
+                ctaBadge: "Aetheria Smart Home",
+                ctaTitle: "Upgrade Your Home Today",
+                ctaDesc: "Chat with our smart home specialists on WhatsApp and get a free, no-obligation consultation within the hour.",
+                ctaButton: '<i class="ph-fill ph-whatsapp-logo mr-2 text-2xl"></i> Chat on WhatsApp',
+                footerDesc: "Redefining modern living by combining exceptional architecture with sustainable, smart technology.",
+                footerServices: "Services",
+                footerContact: "Contact",
+                footerNewsletter: "Newsletter",
+                footerNewsDesc: "Get the latest trends in smart homes and modern architecture."
+            },
+            id: {
+                navHome: "Beranda",
+                navServices: "Layanan",
+                navWhyUs: "Kenapa Kami",
+                navPortfolio: "Portofolio",
+                navCTA: "Lihat Harga",
+                heroBadge: "Sistem Smart Home",
+                heroTitle: 'Kendali Penuh Rumah Anda <span class="text-brand-gold">dalam Satu Genggaman.</span>',
+                heroDesc: "Kunci pintu, redupkan lampu, dan pantau setiap sudut rumah Anda dari mana saja di dunia — semua dari satu aplikasi yang elegan.",
+                heroCTA1: "Jadwalkan Konsultasi Gratis",
+                heroCTA2: 'Lihat Harga <i class="ph ph-arrow-down ml-2 group-hover:translate-y-1 transition-transform"></i>',
+                appGreeting: "Selamat Malam",
+                appHome: "Rumah Saya",
+                appSecured: "Semua Pintu Terkunci",
+                appLivingRoom: "Ruang Tamu",
+                appFrontDoor: "Pintu Depan",
+                appCCTV: "CCTV Halaman Depan",
+                appCurtains: "Tirai Kamar Tidur",
+                badgeEncrypt: "Enkripsi Setara Perbankan",
+                badgeEncryptSub: "Pemantauan 24/7",
+                featuresLabel: "Fitur Utama",
+                featuresTitle: "Teknologi yang Terasa Seperti Sihir",
+                featuresDesc: "Setiap modul dirancang untuk bekerja sama secara mulus, memberi Anda kendali tanpa usaha dan ketenangan pikiran yang nyata.",
+                feat1Title: "Kunci Pintu Pintar",
+                feat1Desc: "Buka kunci dengan sidik jari, PIN, atau ponsel Anda. Berikan akses sementara untuk tamu dari jarak jauh dan dapatkan notifikasi instan setiap ada yang masuk.",
+                feat2Title: "Pencahayaan Kendali Suara",
+                feat2Desc: "Redupkan, terangkan, atau atur suasana hanya dengan perintah suara atau sentuhan. Jadwalkan skenario untuk pagi hari, nonton film, dan lainnya.",
+                feat3Title: "Smart CCTV",
+                feat3Desc: "Siaran langsung HD dengan night vision dan deteksi gerakan. Tinjau rekaman kapan saja dan dapatkan notifikasi saat ada pergerakan.",
+                feat4Title: "Tirai Otomatis",
+                feat4Desc: "Biarkan sinar matahari membangunkan Anda secara alami dan tirai menutup otomatis saat senja. Jadwalkan atau kendalikan setiap tirai dari ponsel Anda.",
+                pricingLabel: "Paket Harga",
+                pricingTitle: "Pilih Paket Smart Home Anda",
+                pricingDesc: "Mulai dari yang kecil dan berkembang, atau langsung lengkap sejak awal. Setiap paket mencakup instalasi profesional dan garansi 1 tahun.",
+                startFrom: "Mulai dari",
+                pkgCTA: "Ambil Paket Ini",
+                pkg1Title: "Paket Keamanan Dasar",
+                pkg1Desc: "Perangkat esensial untuk mengamankan lini depan rumah Anda dan memulai otomatisasi rumah.",
+                pkg1Item1: "1x Kunci Pintu Pintar",
+                pkg1Item2: "1x Kamera CCTV Indoor",
+                pkg1Item3: "2x Smart Switch",
+                pkg1Item4: "1x Hub Pusat Pintar",
+                pkgPopular: "Paling Populer",
+                pkg2Title: "Pengalaman Ruang Tamu",
+                pkg2Desc: "Semua fitur di Paket Dasar, ditambah peningkatan otomatisasi dan suasana yang mengubah ruang favorit Anda.",
+                pkg2Item1: "Semua Fitur Paket Dasar",
+                pkg2Item2: "1x Motor Tirai Pintar",
+                pkg2Item3: "Kontroler Pintar TV / AC",
+                pkg2Item4: "Lampu LED Strip Pintar",
+                pkg3Title: "Rumah Penuh Terintegrasi",
+                pkg3Desc: "Smart home yang sepenuhnya terintegrasi, disesuaikan dengan denah rumah Anda dan menyatu dengan arsitekturnya.",
+                pkg3Item1: "Jaringan Sensor Seluruh Rumah",
+                pkg3Item2: "Alarm Pintar & Deteksi Kebakaran",
+                pkg3Item3: "Integrasi Arsitektur Penuh",
+                pkg3Item4: "Insinyur Proyek Khusus",
+                pkg3PriceLabel: "Harga",
+                pkg3Price: "Penawaran Khusus",
+                pkg3CTA: "Bicara dengan Ahli",
+                ctaBadge: "Aetheria Smart Home",
+                ctaTitle: "Jadikan Rumah Anda Pintar Hari Ini",
+                ctaDesc: "Chat dengan spesialis smart home kami di WhatsApp dan dapatkan konsultasi gratis tanpa syarat dalam waktu satu jam.",
+                ctaButton: '<i class="ph-fill ph-whatsapp-logo mr-2 text-2xl"></i> Chat di WhatsApp',
+                footerDesc: "Mendefinisikan ulang kehidupan modern dengan menggabungkan arsitektur luar biasa dengan teknologi pintar dan berkelanjutan.",
+                footerServices: "Layanan",
+                footerContact: "Kontak",
+                footerNewsletter: "Buletin",
+                footerNewsDesc: "Dapatkan tren terbaru dalam smart home dan arsitektur modern."
+            }
+        };
+
+        // --- 2. Language Toggle Logic ---
+        function setLanguage(lang) {
+            // Update buttons styling
+            const btnEn = document.getElementById('btn-en');
+            const btnId = document.getElementById('btn-id');
+
+            if(lang === 'en') {
+                btnEn.className = "px-3 py-1 rounded-full text-sm font-semibold transition-all bg-white shadow-sm text-brand-navy";
+                btnId.className = "px-3 py-1 rounded-full text-sm font-semibold transition-all text-gray-500 hover:text-gray-800";
+            } else {
+                btnId.className = "px-3 py-1 rounded-full text-sm font-semibold transition-all bg-white shadow-sm text-brand-navy";
+                btnEn.className = "px-3 py-1 rounded-full text-sm font-semibold transition-all text-gray-500 hover:text-gray-800";
+            }
+
+            // Update all texts
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+        }
+
+        // --- 3. UI Interactions (Mobile Menu, Scroll, Observer) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu Toggle
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Navbar Background on Scroll
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    navbar.classList.add('shadow-md');
+                } else {
+                    navbar.classList.remove('shadow-md');
+                }
+            });
+
+            // Intersection Observer for scroll animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            animatedElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>

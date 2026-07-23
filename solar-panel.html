@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Panel Installation | Aetheria Homes</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            navy: '#0B1B3D',
+                            navyLight: '#162A57',
+                            gold: '#D4AF37',
+                            goldLight: '#F3D573',
+                            emerald: '#10B981',
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles for inputs and scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #0B1B3D; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #162A57; }
+
+        .service-card { transition: all 0.3s ease; }
+        .service-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+
+        /* Pricing card highlight */
+        .pricing-card-popular { transform: scale(1.03); }
+        @media (min-width: 768px) {
+            .pricing-card-popular { transform: scale(1.05); }
+        }
+
+        /* Animation classes for observer */
+        .opacity-0 { opacity: 0; }
+        .animate-on-scroll.is-visible { animation: fadeInUp 0.8s ease-out forwards; }
+    </style>
+</head>
+<body class="font-sans text-gray-800 antialiased bg-gray-50 selection:bg-brand-gold selection:text-brand-navy">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300 backdrop-blur-md bg-white/80 border-b border-gray-200" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="index.html" class="flex-shrink-0 flex items-center cursor-pointer">
+                    <i class="ph-fill ph-house-line text-3xl text-brand-navy mr-2"></i>
+                    <span class="font-heading font-bold text-2xl text-brand-navy tracking-tight">Aetheria<span class="text-brand-gold">.</span></span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-brand-navy font-medium transition-colors" data-i18n="navHome">Home</a>
+                    <a href="index.html#services" class="text-gray-600 hover:text-brand-navy font-medium transition-colors" data-i18n="navServices">Services</a>
+                    <a href="index.html#why-us" class="text-gray-600 hover:text-brand-navy font-medium transition-colors" data-i18n="navWhyUs">Why Us</a>
+                    <a href="index.html#portfolio" class="text-gray-600 hover:text-brand-navy font-medium transition-colors" data-i18n="navPortfolio">Portfolio</a>
+
+                    <!-- Language Toggle -->
+                    <div class="flex items-center bg-gray-100 p-1 rounded-full border border-gray-200">
+                        <button onclick="setLanguage('en')" id="btn-en" class="px-3 py-1 rounded-full text-sm font-semibold transition-all bg-white shadow-sm text-brand-navy">EN</button>
+                        <button onclick="setLanguage('id')" id="btn-id" class="px-3 py-1 rounded-full text-sm font-semibold transition-all text-gray-500 hover:text-gray-800">ID</button>
+                    </div>
+
+                    <a href="https://wa.me/6281234567890" target="_blank" class="bg-brand-emerald hover:bg-emerald-600 text-white px-6 py-2.5 rounded-full font-medium transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5" data-i18n="navCTA">Free Assessment</a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-brand-navy focus:outline-none p-2">
+                        <i class="ph ph-list text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200 absolute w-full shadow-lg">
+            <div class="px-4 pt-2 pb-6 space-y-3">
+                <a href="index.html" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md" data-i18n="navHome">Home</a>
+                <a href="index.html#services" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md" data-i18n="navServices">Services</a>
+                <a href="index.html#why-us" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md" data-i18n="navWhyUs">Why Us</a>
+                <a href="index.html#portfolio" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md" data-i18n="navPortfolio">Portfolio</a>
+
+                <div class="flex items-center space-x-4 px-3 py-2">
+                    <span class="text-sm font-medium text-gray-500">Language:</span>
+                    <button onclick="setLanguage('en')" class="font-bold text-brand-navy">EN</button>
+                    <span class="text-gray-300">|</span>
+                    <button onclick="setLanguage('id')" class="font-bold text-brand-navy">ID</button>
+                </div>
+
+                <a href="https://wa.me/6281234567890" target="_blank" class="block w-full text-center mt-4 bg-brand-emerald text-white px-5 py-3 rounded-xl font-medium" data-i18n="navCTA">Free Assessment</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1509391366360-1e97f52ce23b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2075&q=80" alt="Modern Home with Rooftop Solar Panels" class="w-full h-full object-cover object-center" />
+            <div class="absolute inset-0 bg-gradient-to-r from-brand-navy/95 via-brand-navy/80 to-brand-navy/40"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="max-w-2xl animate-fade-in-up">
+                <div class="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-6">
+                    <span class="flex h-2 w-2 rounded-full bg-brand-emerald animate-pulse"></span>
+                    <span class="text-white text-sm font-medium tracking-wide" data-i18n="heroBadge">Solar Energy Solutions</span>
+                </div>
+
+                <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6 tracking-tight" data-i18n="heroTitle">
+                    Smart Investment. <span class="text-brand-gold">Cut Your Electricity Bill</span> by up to 60%.
+                </h1>
+
+                <p class="text-lg md:text-xl text-gray-300 mb-10 leading-relaxed max-w-lg" data-i18n="heroDesc">
+                    Harness the power of the sun with premium, high-efficiency solar panel systems — professionally engineered, installed, and backed by real savings you can see on every bill.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-4 mb-14">
+                    <a href="https://wa.me/6281234567890" target="_blank" class="bg-brand-emerald hover:bg-emerald-600 text-white px-8 py-4 rounded-full font-bold text-lg transition-all text-center shadow-[0_0_20px_rgba(16,185,129,0.4)]" data-i18n="heroCTA1">
+                        Get a Free Solar Assessment
+                    </a>
+                    <a href="#pricing" class="bg-transparent border-2 border-white/30 text-white hover:bg-white/10 px-8 py-4 rounded-full font-bold text-lg transition-all text-center flex items-center justify-center group" data-i18n="heroCTA2">
+                        View Packages
+                        <i class="ph ph-arrow-down ml-2 group-hover:translate-y-1 transition-transform"></i>
+                    </a>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="grid grid-cols-3 gap-4 max-w-lg border-t border-white/20 pt-8">
+                    <div>
+                        <p class="text-3xl md:text-4xl font-heading font-extrabold text-brand-gold" data-i18n="heroStat1Value">60%</p>
+                        <p class="text-xs md:text-sm text-gray-300 mt-1" data-i18n="heroStat1Label">Lower Bills</p>
+                    </div>
+                    <div>
+                        <p class="text-3xl md:text-4xl font-heading font-extrabold text-brand-gold" data-i18n="heroStat2Value">25+</p>
+                        <p class="text-xs md:text-sm text-gray-300 mt-1" data-i18n="heroStat2Label">Years Lifespan</p>
+                    </div>
+                    <div>
+                        <p class="text-3xl md:text-4xl font-heading font-extrabold text-brand-gold" data-i18n="heroStat3Value">4-6</p>
+                        <p class="text-xs md:text-sm text-gray-300 mt-1" data-i18n="heroStat3Label">Years Payback</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-20 animate-on-scroll opacity-0">
+                <h2 class="text-brand-emerald font-bold tracking-wider uppercase text-sm mb-2" data-i18n="howLabel">The Process</h2>
+                <h3 class="text-4xl md:text-5xl font-heading font-bold text-brand-navy mb-4" data-i18n="howTitle">From Sunlight to Savings in 3 Simple Steps</h3>
+                <p class="text-gray-600 text-lg" data-i18n="howDesc">Our solar systems are engineered for maximum efficiency, converting daylight into real household savings — automatically, every single day.</p>
+            </div>
+
+            <div class="relative">
+                <!-- Connector line (desktop only) -->
+                <div class="hidden md:block absolute top-12 left-[16.6%] right-[16.6%] h-0.5 bg-gradient-to-r from-brand-emerald via-brand-gold to-brand-emerald z-0"></div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-14 md:gap-8 relative z-10">
+                    <!-- Step 1 -->
+                    <div class="flex flex-col items-center text-center animate-on-scroll opacity-0">
+                        <div class="relative w-24 h-24 rounded-full bg-white border-4 border-brand-emerald flex items-center justify-center text-4xl text-brand-emerald shadow-lg mb-6">
+                            <i class="ph-fill ph-sun"></i>
+                            <span class="absolute -top-2 -right-2 bg-brand-navy text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border-2 border-white">1</span>
+                        </div>
+                        <h4 class="text-xl font-heading font-bold text-gray-900 mb-2" data-i18n="step1Title">Sunlight Capture</h4>
+                        <p class="text-gray-600 max-w-xs" data-i18n="step1Desc">High-efficiency monocrystalline panels absorb sunlight and convert it into clean DC electricity, even on cloudy days.</p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="flex flex-col items-center text-center animate-on-scroll opacity-0" style="animation-delay: 150ms;">
+                        <div class="relative w-24 h-24 rounded-full bg-white border-4 border-brand-gold flex items-center justify-center text-4xl text-brand-gold shadow-lg mb-6">
+                            <i class="ph-fill ph-cpu"></i>
+                            <span class="absolute -top-2 -right-2 bg-brand-navy text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border-2 border-white">2</span>
+                        </div>
+                        <h4 class="text-xl font-heading font-bold text-gray-900 mb-2" data-i18n="step2Title">Smart Inverter Conversion</h4>
+                        <p class="text-gray-600 max-w-xs" data-i18n="step2Desc">Our grid-tied inverter instantly converts DC power into usable AC electricity for your home appliances.</p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="flex flex-col items-center text-center animate-on-scroll opacity-0" style="animation-delay: 300ms;">
+                        <div class="relative w-24 h-24 rounded-full bg-white border-4 border-brand-emerald flex items-center justify-center text-4xl text-brand-emerald shadow-lg mb-6">
+                            <i class="ph-fill ph-house-line"></i>
+                            <span class="absolute -top-2 -right-2 bg-brand-navy text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border-2 border-white">3</span>
+                        </div>
+                        <h4 class="text-xl font-heading font-bold text-gray-900 mb-2" data-i18n="step3Title">Home & Grid Integration</h4>
+                        <p class="text-gray-600 max-w-xs" data-i18n="step3Desc">Power flows straight to your home. Excess energy is exported to the grid via net-metering, reducing your bill even further.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Packages Section -->
+    <section id="pricing" class="py-24 bg-gray-50 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 animate-on-scroll opacity-0">
+                <h2 class="text-brand-emerald font-bold tracking-wider uppercase text-sm mb-2" data-i18n="pricingLabel">Pricing Packages</h2>
+                <h3 class="text-4xl md:text-5xl font-heading font-bold text-brand-navy mb-4" data-i18n="pricingTitle">Choose the Right System for Your Home</h3>
+                <p class="text-gray-600 text-lg" data-i18n="pricingDesc">Transparent, all-in pricing including installation, permits, and a standard warranty. No hidden fees.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+
+                <!-- Eco Package -->
+                <div class="service-card bg-white rounded-3xl border border-gray-200 p-8 flex flex-col h-full animate-on-scroll opacity-0">
+                    <div class="bg-emerald-50 w-14 h-14 rounded-2xl flex items-center justify-center text-brand-emerald mb-6">
+                        <i class="ph-fill ph-leaf text-2xl"></i>
+                    </div>
+                    <h4 class="text-2xl font-heading font-bold text-gray-900 mb-1" data-i18n="pkg1Name">Eco Package</h4>
+                    <p class="text-sm text-gray-500 mb-4" data-i18n="pkg1For">For 2200-3500 VA homes</p>
+                    <p class="text-sm font-semibold text-brand-emerald mb-6" data-i18n="pkg1Capacity">~2,000 Wp System</p>
+                    <div class="mb-6">
+                        <span class="text-xs text-gray-500 block" data-i18n="startFrom">Starts from</span>
+                        <span class="text-3xl font-heading font-extrabold text-brand-navy" data-i18n="pkg1Price">Rp 25.000.000</span>
+                    </div>
+                    <ul class="space-y-3 mb-8 flex-grow">
+                        <li class="flex items-start"><i class="ph-bold ph-check text-brand-emerald mt-1 mr-2"></i><span class="text-gray-600 text-sm" data-i18n="pkg1Feat1">~2,000 Wp Solar Capacity</span></li>
+                        <li class="flex items-start"><i class="ph-bold ph-check text-brand-emerald mt-1 mr-2"></i><span class="text-gray-600 text-sm" data-i18n="pkg1Feat2">Grid-Tied Inverter Included</span></li>
+                        <li class="flex items-start"><i class="ph-bold ph-check text-brand-emerald mt-1 mr-2"></i><span class="text-gray-600 text-sm" data-i18n="pkg1Feat3">Net-Metering Setup Assistance</span></li>
+                        <li class="flex items-start"><i class="ph-bold ph-check text-brand-emerald mt-1 mr-2"></i><span class="text-gray-600 text-sm" data-i18n="pkg1Feat4">5-Year Workmanship Warranty</span></li>
+                    </ul>
+                    <a href="https://wa.me/6281234567890" target="_blank" class="block w-full text-center border-2 border-brand-navy text-brand-navy hover:bg-brand-navy hover:text-white px-5 py-3 rounded-xl font-semibold transition-all" data-i18n="pkg1CTA">Choose Eco Package</a>
+                </div>
+
+                <!-- Family Package (Most Popular) -->
+                <div class="pricing-card-popular service-card bg-brand-navy rounded-3xl border-2 border-brand-gold p-8 flex flex-col h-full relative shadow-2xl animate-on-scroll opacity-0" style="animation-delay: 100ms;">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-gold text-brand-navy text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full shadow-lg whitespace-nowrap" data-i18n="pkg2Badge">Most Popular</div>
+                    <div class="bg-brand-navyLight w-14 h-14 rounded-2xl flex items-center justify-center text-brand-gold mb-6">
+                        <i class="ph-fill ph-house-line text-2xl"></i>
+                    </div>
+                    <h4 class="text-2xl font-heading font-bold text-white mb-1" data-i18n="pkg2Name">Family Package</h4>
+                    <p class="text-sm text-gray-400 mb-4" data-i18n="pkg2For">For 4400-5500 VA homes</p>
+                    <p class="text-sm font-semibold text-brand-gold mb-6" data-i18n="pkg2Capacity">~3,000-4,000 Wp System</p>
+                    <div class="mb-6">
+                        <span class="text-xs text-gray-400 block" data-i18n="startFrom">Starts from</span>
+                        <span class="text-3xl font-heading font-extrabold text-white" data-i18n="pkg2Price">Rp 35.000.000</span>
+                    </div>
+                    <ul class="space-y-3 mb-8 flex-grow">
+                        <li class="flex items-start"><i class="ph-bold ph-check text-brand-gold mt-1 mr-2"></i><span class="text-gray-300 text-sm" data-i18n="pkg2Feat1">~3,000-4,000 Wp Solar Capacity</span></li>
+                        <li class="flex items-start"><i class="ph-bold ph-check text-brand-gold mt-1 mr-2"></i><span class="text-gray-300 text-sm" data-i18n="pkg2Feat2">Premium Grid-Tied Inverter</span></li>
+                        <li class="flex items-start"><i class="ph-bold ph-check text-brand-gold mt-1 mr-2"></i><span class="text-gray-300 text-sm" data-i18n="pkg2Feat3">Full Net-Metering Setup & Approval</span></li>
+                        <li class="flex items-start"><i class="ph-bold ph-check text-brand-gold mt-1 mr-2"></i><span class="text-gray-300 text-sm" data-i18n="pkg2Feat4">10-Year Workmanship Warranty</span></li>
+                    </ul>
+                    <a href="https://wa.me/6281234567890" target="_blank" class="block w-full text-center bg-brand-gold hover:bg-brand-goldLight text-brand-navy px-5 py-3 rounded-xl font-bold transition-all shadow-lg" data-i18n="pkg2CTA">Choose Family Package</a>
+                </div>
+
+                <!-- Hybrid / Custom Package -->
+                <div class="service-card bg-white rounded-3xl border border-gray-200 p-8 flex flex-col h-full animate-on-scroll opacity-0" style="animation-delay: 200ms;">
+                    <div class="bg-emerald-50 w-14 h-14 rounded-2xl flex items-center justify-center text-brand-emerald mb-6">
+                        <i class="ph-fill ph-battery-charging text-2xl"></i>
+                    </div>
+                    <h4 class="text-2xl font-heading font-bold text-gray-900 mb-1" data-i18n="pkg3Name">Hybrid / Custom</h4>
+                    <p class="text-sm text-gray-500 mb-4" data-i18n="pkg3For">For homes needing battery backup</p>
+                    <p class="text-sm font-semibold text-brand-emerald mb-6" data-i18n="pkg3Capacity">Custom-Sized System</p>
+                    <div class="mb-6">
+                        <span class="text-xs text-gray-500 block" data-i18n="startFrom">Starts from</span>
+                        <span class="text-2xl font-heading font-extrabold text-brand-navy" data-i18n="pkg3Price">Contact for Quote</span>
+                    </div>
+                    <ul class="space-y-3 mb-8 flex-grow">
+                        <li class="flex items-start"><i class="ph-bold ph-check text-brand-emerald mt-1 mr-2"></i><span class="text-gray-600 text-sm" data-i18n="pkg3Feat1">Battery Storage Included</span></li>
+                        <li class="flex items-start"><i class="ph-bold ph-check text-brand-emerald mt-1 mr-2"></i><span class="text-gray-600 text-sm" data-i18n="pkg3Feat2">Backup Power During Outages</span></li>
+                        <li class="flex items-start"><i class="ph-bold ph-check text-brand-emerald mt-1 mr-2"></i><span class="text-gray-600 text-sm" data-i18n="pkg3Feat3">Fully Customized System Design</span></li>
+                        <li class="flex items-start"><i class="ph-bold ph-check text-brand-emerald mt-1 mr-2"></i><span class="text-gray-600 text-sm" data-i18n="pkg3Feat4">Dedicated Solar Consultant</span></li>
+                    </ul>
+                    <a href="https://wa.me/6281234567890" target="_blank" class="block w-full text-center bg-brand-emerald hover:bg-emerald-600 text-white px-5 py-3 rounded-xl font-semibold transition-all" data-i18n="pkg3CTA">Get a Custom Quote</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ROI Section -->
+    <section id="roi" class="py-24 bg-white border-t border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 animate-on-scroll opacity-0">
+                <h2 class="text-brand-emerald font-bold tracking-wider uppercase text-sm mb-2" data-i18n="roiLabel">Return on Investment</h2>
+                <h3 class="text-4xl md:text-5xl font-heading font-bold text-brand-navy mb-4" data-i18n="roiTitle">Your Panels Pay for Themselves — Then Keep Paying You</h3>
+                <p class="text-gray-600 text-lg" data-i18n="roiDesc">Most homeowners recover their investment within 4 to 6 years. With a panel lifespan of 25+ years, that means two decades or more of dramatically reduced — or even free — electricity.</p>
+            </div>
+
+            <!-- Stat Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-14 animate-on-scroll opacity-0">
+                <div class="bg-gray-50 border border-gray-100 rounded-2xl p-8 flex items-center gap-5">
+                    <div class="bg-brand-gold/20 p-4 rounded-full text-brand-gold flex-shrink-0">
+                        <i class="ph-fill ph-hourglass-medium text-3xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium" data-i18n="roiPaybackLabel">Payback Period</p>
+                        <p class="text-3xl font-heading font-extrabold text-brand-navy" data-i18n="roiPaybackValue">4-6 Years</p>
+                        <p class="text-sm text-gray-500 mt-1" data-i18n="roiPaybackDesc">Time to fully recover your initial investment through bill savings.</p>
+                    </div>
+                </div>
+                <div class="bg-gray-50 border border-gray-100 rounded-2xl p-8 flex items-center gap-5">
+                    <div class="bg-brand-emerald/20 p-4 rounded-full text-brand-emerald flex-shrink-0">
+                        <i class="ph-fill ph-infinity text-3xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium" data-i18n="roiLifespanLabel">Panel Lifespan</p>
+                        <p class="text-3xl font-heading font-extrabold text-brand-navy" data-i18n="roiLifespanValue">25+ Years</p>
+                        <p class="text-sm text-gray-500 mt-1" data-i18n="roiLifespanDesc">Industry-standard performance warranty on panel output.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payback Timeline Bar -->
+            <div class="bg-gray-50 border border-gray-100 rounded-3xl p-8 md:p-12 animate-on-scroll opacity-0" style="animation-delay: 150ms;">
+                <div class="flex justify-between text-xs md:text-sm font-semibold text-gray-500 mb-3">
+                    <span data-i18n="roiYear0">Year 0</span>
+                    <span data-i18n="roiYear25">Year 25+</span>
+                </div>
+                <div class="w-full h-10 md:h-12 rounded-full overflow-hidden shadow-inner bg-gray-200 flex">
+                    <div class="h-full bg-gradient-to-r from-brand-gold to-brand-goldLight flex items-center justify-center relative" style="width: 20%;">
+                        <span class="hidden sm:inline text-xs md:text-sm font-bold text-brand-navy px-2 text-center" data-i18n="roiBarPayback">Payback (4-6 yrs)</span>
+                    </div>
+                    <div class="h-full bg-gradient-to-r from-brand-emerald to-emerald-400 flex items-center justify-center relative" style="width: 80%;">
+                        <span class="text-xs md:text-sm font-bold text-white px-2 text-center" data-i18n="roiBarProfit">Pure Savings (~20 Years)</span>
+                    </div>
+                </div>
+                <div class="flex mt-3 text-xs text-gray-400">
+                    <div style="width: 20%;" class="text-center" data-i18n="roiPaybackValue">4-6 Years</div>
+                    <div style="width: 80%;" class="text-center" data-i18n="roiLifespanValue">25+ Years</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="py-24 bg-brand-navy relative overflow-hidden">
+        <!-- Abstract Shapes -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
+            <svg viewBox="0 0 100 100" class="absolute -top-20 -left-20 w-96 h-96 fill-brand-emerald"><circle cx="50" cy="50" r="50"/></svg>
+            <svg viewBox="0 0 100 100" class="absolute -bottom-20 -right-20 w-[40rem] h-[40rem] fill-brand-gold"><circle cx="50" cy="50" r="50"/></svg>
+        </div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center animate-on-scroll opacity-0">
+            <div class="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-6">
+                <span class="flex h-2 w-2 rounded-full bg-brand-emerald animate-pulse"></span>
+                <span class="text-white text-sm font-medium tracking-wide" data-i18n="ctaLabel">Ready to Go Solar?</span>
+            </div>
+            <h2 class="text-3xl md:text-5xl font-heading font-bold text-white mb-6" data-i18n="ctaTitle">Get a Free Solar Assessment</h2>
+            <p class="text-gray-300 text-lg mb-10 max-w-2xl mx-auto leading-relaxed" data-i18n="ctaDesc">Our engineers will evaluate your roof, energy consumption, and budget to design the perfect solar system for your home — no cost, no obligation.</p>
+            <a href="https://wa.me/6281234567890" target="_blank" class="inline-flex items-center bg-brand-emerald hover:bg-emerald-600 text-white px-10 py-4 rounded-full font-bold text-lg transition-all shadow-[0_0_20px_rgba(16,185,129,0.4)]">
+                <i class="ph-fill ph-whatsapp-logo text-2xl mr-3"></i>
+                <span data-i18n="ctaButton">Chat With Us on WhatsApp</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-20 pb-10 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+
+                <!-- Brand -->
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center mb-6">
+                        <i class="ph-fill ph-house-line text-3xl text-white mr-2"></i>
+                        <span class="font-heading font-bold text-2xl tracking-tight">Aetheria<span class="text-brand-gold">.</span></span>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6" data-i18n="footerDesc">
+                        Redefining modern living by combining exceptional architecture with sustainable, smart technology.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-gold hover:text-brand-navy transition-all"><i class="ph-fill ph-instagram-logo text-xl"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-gold hover:text-brand-navy transition-all"><i class="ph-fill ph-facebook-logo text-xl"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-gold hover:text-brand-navy transition-all"><i class="ph-fill ph-linkedin-logo text-xl"></i></a>
+                    </div>
+                </div>
+
+                <!-- Links -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-white" data-i18n="footerServices">Services</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="index.html#services" class="hover:text-brand-gold transition-colors">Architecture & Design</a></li>
+                        <li><a href="index.html#services" class="hover:text-brand-gold transition-colors">Home Building</a></li>
+                        <li><a href="index.html#services" class="hover:text-brand-gold transition-colors">Renovation</a></li>
+                        <li><a href="index.html#services" class="hover:text-brand-gold transition-colors">Smart Home Integration</a></li>
+                        <li><a href="solar-panel.html" class="hover:text-brand-gold transition-colors">Solar Panel Setup</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-white" data-i18n="footerContact">Contact</h4>
+                    <ul class="space-y-4 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="ph-fill ph-map-pin text-brand-gold mt-1 mr-3 text-xl"></i>
+                            <span class="text-sm">Sudirman Central Business District (SCBD), Jakarta, Indonesia</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="ph-fill ph-phone text-brand-gold mr-3 text-xl"></i>
+                            <span class="text-sm">+62 812 3456 7890</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="ph-fill ph-envelope text-brand-gold mr-3 text-xl"></i>
+                            <span class="text-sm">hello@aetheriahomes.com</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-white" data-i18n="footerNewsletter">Newsletter</h4>
+                    <p class="text-gray-400 text-sm mb-4" data-i18n="footerNewsDesc">Get the latest trends in smart homes and modern architecture.</p>
+                    <form class="flex" onsubmit="event.preventDefault();">
+                        <input type="email" placeholder="Your email" class="w-full px-4 py-2 rounded-l-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:border-brand-gold text-sm">
+                        <button class="bg-brand-gold text-brand-navy px-4 py-2 rounded-r-lg font-bold hover:bg-brand-goldLight transition-colors">
+                            <i class="ph-bold ph-paper-plane-right"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
+                <p>&copy; 2026 Aetheria Homes. All rights reserved.</p>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/6281234567890" target="_blank" class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:shadow-2xl hover:scale-110 transition-all duration-300">
+        <i class="ph-fill ph-whatsapp-logo text-3xl"></i>
+        <!-- Ping effect -->
+        <span class="absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-75 animate-ping -z-10"></span>
+    </a>
+
+    <!-- Scripts -->
+    <script>
+        // --- 1. Language Translation Dictionary ---
+        const translations = {
+            en: {
+                navHome: "Home",
+                navServices: "Services",
+                navWhyUs: "Why Us",
+                navPortfolio: "Portfolio",
+                navCTA: "Free Assessment",
+                heroBadge: "Solar Energy Solutions",
+                heroTitle: 'Smart Investment. <span class="text-brand-gold">Cut Your Electricity Bill</span> by up to 60%.',
+                heroDesc: "Harness the power of the sun with premium, high-efficiency solar panel systems — professionally engineered, installed, and backed by real savings you can see on every bill.",
+                heroCTA1: "Get a Free Solar Assessment",
+                heroCTA2: 'View Packages <i class="ph ph-arrow-down ml-2 group-hover:translate-y-1 transition-transform"></i>',
+                heroStat1Value: "60%",
+                heroStat1Label: "Lower Bills",
+                heroStat2Value: "25+",
+                heroStat2Label: "Years Lifespan",
+                heroStat3Value: "4-6",
+                heroStat3Label: "Years Payback",
+                howLabel: "The Process",
+                howTitle: "From Sunlight to Savings in 3 Simple Steps",
+                howDesc: "Our solar systems are engineered for maximum efficiency, converting daylight into real household savings — automatically, every single day.",
+                step1Title: "Sunlight Capture",
+                step1Desc: "High-efficiency monocrystalline panels absorb sunlight and convert it into clean DC electricity, even on cloudy days.",
+                step2Title: "Smart Inverter Conversion",
+                step2Desc: "Our grid-tied inverter instantly converts DC power into usable AC electricity for your home appliances.",
+                step3Title: "Home & Grid Integration",
+                step3Desc: "Power flows straight to your home. Excess energy is exported to the grid via net-metering, reducing your bill even further.",
+                pricingLabel: "Pricing Packages",
+                pricingTitle: "Choose the Right System for Your Home",
+                pricingDesc: "Transparent, all-in pricing including installation, permits, and a standard warranty. No hidden fees.",
+                startFrom: "Starts from",
+                pkg1Name: "Eco Package",
+                pkg1For: "For 2200-3500 VA homes",
+                pkg1Capacity: "~2,000 Wp System",
+                pkg1Price: "Rp 25.000.000",
+                pkg1Feat1: "~2,000 Wp Solar Capacity",
+                pkg1Feat2: "Grid-Tied Inverter Included",
+                pkg1Feat3: "Net-Metering Setup Assistance",
+                pkg1Feat4: "5-Year Workmanship Warranty",
+                pkg1CTA: "Choose Eco Package",
+                pkg2Badge: "Most Popular",
+                pkg2Name: "Family Package",
+                pkg2For: "For 4400-5500 VA homes",
+                pkg2Capacity: "~3,000-4,000 Wp System",
+                pkg2Price: "Rp 35.000.000",
+                pkg2Feat1: "~3,000-4,000 Wp Solar Capacity",
+                pkg2Feat2: "Premium Grid-Tied Inverter",
+                pkg2Feat3: "Full Net-Metering Setup & Approval",
+                pkg2Feat4: "10-Year Workmanship Warranty",
+                pkg2CTA: "Choose Family Package",
+                pkg3Name: "Hybrid / Custom",
+                pkg3For: "For homes needing battery backup",
+                pkg3Capacity: "Custom-Sized System",
+                pkg3Price: "Contact for Quote",
+                pkg3Feat1: "Battery Storage Included",
+                pkg3Feat2: "Backup Power During Outages",
+                pkg3Feat3: "Fully Customized System Design",
+                pkg3Feat4: "Dedicated Solar Consultant",
+                pkg3CTA: "Get a Custom Quote",
+                roiLabel: "Return on Investment",
+                roiTitle: "Your Panels Pay for Themselves — Then Keep Paying You",
+                roiDesc: "Most homeowners recover their investment within 4 to 6 years. With a panel lifespan of 25+ years, that means two decades or more of dramatically reduced — or even free — electricity.",
+                roiPaybackLabel: "Payback Period",
+                roiPaybackValue: "4-6 Years",
+                roiPaybackDesc: "Time to fully recover your initial investment through bill savings.",
+                roiLifespanLabel: "Panel Lifespan",
+                roiLifespanValue: "25+ Years",
+                roiLifespanDesc: "Industry-standard performance warranty on panel output.",
+                roiBarPayback: "Payback (4-6 yrs)",
+                roiBarProfit: "Pure Savings (~20 Years)",
+                roiYear0: "Year 0",
+                roiYear25: "Year 25+",
+                ctaLabel: "Ready to Go Solar?",
+                ctaTitle: "Get a Free Solar Assessment",
+                ctaDesc: "Our engineers will evaluate your roof, energy consumption, and budget to design the perfect solar system for your home — no cost, no obligation.",
+                ctaButton: "Chat With Us on WhatsApp",
+                footerDesc: "Redefining modern living by combining exceptional architecture with sustainable, smart technology.",
+                footerServices: "Services",
+                footerContact: "Contact",
+                footerNewsletter: "Newsletter",
+                footerNewsDesc: "Get the latest trends in smart homes and modern architecture."
+            },
+            id: {
+                navHome: "Beranda",
+                navServices: "Layanan",
+                navWhyUs: "Kenapa Kami",
+                navPortfolio: "Portofolio",
+                navCTA: "Konsultasi Gratis",
+                heroBadge: "Solusi Energi Surya",
+                heroTitle: 'Investasi Cerdas. <span class="text-brand-gold">Potong Tagihan Listrik</span> Hingga 60%.',
+                heroDesc: "Manfaatkan tenaga matahari dengan sistem panel surya premium berefisiensi tinggi — direkayasa dan dipasang secara profesional, dengan penghematan nyata yang bisa Anda lihat di setiap tagihan.",
+                heroCTA1: "Dapatkan Asesmen Surya Gratis",
+                heroCTA2: 'Lihat Paket <i class="ph ph-arrow-down ml-2 group-hover:translate-y-1 transition-transform"></i>',
+                heroStat1Value: "60%",
+                heroStat1Label: "Tagihan Lebih Hemat",
+                heroStat2Value: "25+",
+                heroStat2Label: "Tahun Masa Pakai",
+                heroStat3Value: "4-6",
+                heroStat3Label: "Tahun Balik Modal",
+                howLabel: "Prosesnya",
+                howTitle: "Dari Sinar Matahari Menjadi Penghematan dalam 3 Langkah",
+                howDesc: "Sistem surya kami dirancang untuk efisiensi maksimal, mengubah cahaya matahari menjadi penghematan nyata bagi rumah Anda — secara otomatis, setiap hari.",
+                step1Title: "Penangkapan Sinar Matahari",
+                step1Desc: "Panel monokristalin berefisiensi tinggi menyerap sinar matahari dan mengubahnya menjadi listrik DC bersih, bahkan saat mendung.",
+                step2Title: "Konversi Inverter Pintar",
+                step2Desc: "Inverter grid-tied kami langsung mengubah daya DC menjadi listrik AC yang siap digunakan oleh peralatan rumah Anda.",
+                step3Title: "Integrasi Rumah & Jaringan Listrik",
+                step3Desc: "Daya mengalir langsung ke rumah Anda. Kelebihan energi diekspor ke jaringan PLN melalui net-metering, memangkas tagihan Anda lebih jauh lagi.",
+                pricingLabel: "Paket Harga",
+                pricingTitle: "Pilih Sistem yang Tepat untuk Rumah Anda",
+                pricingDesc: "Harga transparan dan menyeluruh termasuk instalasi, perizinan, dan garansi standar. Tanpa biaya tersembunyi.",
+                startFrom: "Mulai dari",
+                pkg1Name: "Paket Eco",
+                pkg1For: "Untuk rumah 2200-3500 VA",
+                pkg1Capacity: "Sistem ~2.000 Wp",
+                pkg1Price: "Rp 25.000.000",
+                pkg1Feat1: "Kapasitas Surya ~2.000 Wp",
+                pkg1Feat2: "Termasuk Inverter Grid-Tied",
+                pkg1Feat3: "Bantuan Pengurusan Net-Metering",
+                pkg1Feat4: "Garansi Pengerjaan 5 Tahun",
+                pkg1CTA: "Pilih Paket Eco",
+                pkg2Badge: "Paling Populer",
+                pkg2Name: "Paket Keluarga",
+                pkg2For: "Untuk rumah 4400-5500 VA",
+                pkg2Capacity: "Sistem ~3.000-4.000 Wp",
+                pkg2Price: "Rp 35.000.000",
+                pkg2Feat1: "Kapasitas Surya ~3.000-4.000 Wp",
+                pkg2Feat2: "Inverter Grid-Tied Premium",
+                pkg2Feat3: "Pengurusan & Persetujuan Net-Metering Lengkap",
+                pkg2Feat4: "Garansi Pengerjaan 10 Tahun",
+                pkg2CTA: "Pilih Paket Keluarga",
+                pkg3Name: "Hybrid / Kustom",
+                pkg3For: "Untuk rumah yang butuh baterai cadangan",
+                pkg3Capacity: "Sistem Ukuran Kustom",
+                pkg3Price: "Hubungi untuk Penawaran",
+                pkg3Feat1: "Termasuk Penyimpanan Baterai",
+                pkg3Feat2: "Daya Cadangan Saat Listrik Padam",
+                pkg3Feat3: "Desain Sistem Sepenuhnya Kustom",
+                pkg3Feat4: "Konsultan Surya Khusus",
+                pkg3CTA: "Minta Penawaran Kustom",
+                roiLabel: "Pengembalian Investasi",
+                roiTitle: "Panel Anda Melunasi Diri Sendiri — Lalu Terus Menguntungkan Anda",
+                roiDesc: "Sebagian besar pemilik rumah kembali modal dalam 4 hingga 6 tahun. Dengan masa pakai panel 25+ tahun, artinya dua dekade lebih listrik yang jauh lebih hemat — bahkan gratis.",
+                roiPaybackLabel: "Periode Balik Modal",
+                roiPaybackValue: "4-6 Tahun",
+                roiPaybackDesc: "Waktu untuk sepenuhnya mengembalikan investasi awal Anda melalui penghematan tagihan.",
+                roiLifespanLabel: "Masa Pakai Panel",
+                roiLifespanValue: "25+ Tahun",
+                roiLifespanDesc: "Garansi performa standar industri untuk output panel.",
+                roiBarPayback: "Balik Modal (4-6 Thn)",
+                roiBarProfit: "Penghematan Murni (~20 Tahun)",
+                roiYear0: "Tahun 0",
+                roiYear25: "Tahun 25+",
+                ctaLabel: "Siap Beralih ke Surya?",
+                ctaTitle: "Dapatkan Asesmen Surya Gratis",
+                ctaDesc: "Tim insinyur kami akan mengevaluasi atap, konsumsi listrik, dan anggaran Anda untuk merancang sistem surya yang sempurna untuk rumah Anda — tanpa biaya, tanpa kewajiban.",
+                ctaButton: "Chat via WhatsApp",
+                footerDesc: "Mendefinisikan ulang kehidupan modern dengan menggabungkan arsitektur luar biasa dengan teknologi pintar dan berkelanjutan.",
+                footerServices: "Layanan",
+                footerContact: "Kontak",
+                footerNewsletter: "Buletin",
+                footerNewsDesc: "Dapatkan tren terbaru dalam smart home dan arsitektur modern."
+            }
+        };
+
+        // --- 2. Language Toggle Logic ---
+        function setLanguage(lang) {
+            // Update buttons styling
+            const btnEn = document.getElementById('btn-en');
+            const btnId = document.getElementById('btn-id');
+
+            if(lang === 'en') {
+                btnEn.className = "px-3 py-1 rounded-full text-sm font-semibold transition-all bg-white shadow-sm text-brand-navy";
+                btnId.className = "px-3 py-1 rounded-full text-sm font-semibold transition-all text-gray-500 hover:text-gray-800";
+            } else {
+                btnId.className = "px-3 py-1 rounded-full text-sm font-semibold transition-all bg-white shadow-sm text-brand-navy";
+                btnEn.className = "px-3 py-1 rounded-full text-sm font-semibold transition-all text-gray-500 hover:text-gray-800";
+            }
+
+            // Update all texts
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+        }
+
+        // --- 3. UI Interactions (Mobile Menu, Scroll, Observer) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu Toggle
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Navbar Background on Scroll
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    navbar.classList.add('shadow-md');
+                } else {
+                    navbar.classList.remove('shadow-md');
+                }
+            });
+
+            // Intersection Observer for scroll animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            animatedElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
