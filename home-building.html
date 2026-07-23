@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="id" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
@@ -132,9 +132,9 @@
                     <!-- Language Toggle -->
                     <div class="flex items-center bg-gray-100 p-1 rounded-full border border-gray-200">
                         <button onclick="setLanguage('en')" id="btn-en"
-                            class="px-3 py-1 rounded-full text-sm font-semibold transition-all bg-white shadow-sm text-brand-navy">EN</button>
+                            class="px-3 py-1 rounded-full text-sm font-semibold transition-all text-gray-500 hover:text-gray-800">EN</button>
                         <button onclick="setLanguage('id')" id="btn-id"
-                            class="px-3 py-1 rounded-full text-sm font-semibold transition-all text-gray-500 hover:text-gray-800">ID</button>
+                            class="px-3 py-1 rounded-full text-sm font-semibold transition-all bg-white shadow-sm text-brand-navy">ID</button>
                     </div>
 
                     <a href="index.html#estimate"
@@ -743,6 +743,9 @@
 
         // --- 3. UI Interactions (Mobile Menu, Scroll, Observer) ---
         document.addEventListener('DOMContentLoaded', () => {
+            // Set default language to Indonesian
+            setLanguage('id');
+
             // Mobile Menu Toggle
             const mobileBtn = document.getElementById('mobile-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
