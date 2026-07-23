@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,9 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -53,48 +56,90 @@
 
     <style>
         /* Custom Styles for inputs and scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: #0B1B3D; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #162A57; }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
 
-        .service-card { transition: all 0.3s ease; }
-        .service-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
 
-        .pricing-card { transition: all 0.3s ease; }
-        .pricing-card:hover { transform: translateY(-8px); }
+        ::-webkit-scrollbar-thumb {
+            background: #0B1B3D;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #162A57;
+        }
+
+        .service-card {
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .pricing-card {
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+        }
 
         /* Animation classes for observer */
-        .opacity-0 { opacity: 0; }
-        .animate-on-scroll.is-visible { animation: fadeInUp 0.8s ease-out forwards; }
+        .opacity-0 {
+            opacity: 0;
+        }
+
+        .animate-on-scroll.is-visible {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
     </style>
 </head>
+
 <body class="font-sans text-gray-800 antialiased bg-gray-50 selection:bg-brand-gold selection:text-brand-navy">
 
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 transition-all duration-300 backdrop-blur-md bg-white/80 border-b border-gray-200" id="navbar">
+    <nav class="fixed w-full z-50 transition-all duration-300 backdrop-blur-md bg-white/80 border-b border-gray-200"
+        id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <!-- Logo -->
                 <a href="index.html" class="flex-shrink-0 flex items-center cursor-pointer">
                     <i class="ph-fill ph-house-line text-3xl text-brand-navy mr-2"></i>
-                    <span class="font-heading font-bold text-2xl text-brand-navy tracking-tight">Aetheria<span class="text-brand-gold">.</span></span>
+                    <span class="font-heading font-bold text-2xl text-brand-navy tracking-tight">Aetheria<span
+                            class="text-brand-gold">.</span></span>
                 </a>
 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="index.html" class="text-gray-600 hover:text-brand-navy font-medium transition-colors" data-i18n="navHome">Home</a>
-                    <a href="index.html#services" class="text-gray-600 hover:text-brand-navy font-medium transition-colors" data-i18n="navServices">Services</a>
-                    <a href="index.html#why-us" class="text-gray-600 hover:text-brand-navy font-medium transition-colors" data-i18n="navWhyUs">Why Us</a>
-                    <a href="index.html#portfolio" class="text-gray-600 hover:text-brand-navy font-medium transition-colors" data-i18n="navPortfolio">Portfolio</a>
+                    <a href="index.html" class="text-gray-600 hover:text-brand-navy font-medium transition-colors"
+                        data-i18n="navHome">Home</a>
+                    <a href="index.html#services"
+                        class="text-gray-600 hover:text-brand-navy font-medium transition-colors"
+                        data-i18n="navServices">Services</a>
+                    <a href="index.html#why-us"
+                        class="text-gray-600 hover:text-brand-navy font-medium transition-colors"
+                        data-i18n="navWhyUs">Why Us</a>
+                    <a href="index.html#portfolio"
+                        class="text-gray-600 hover:text-brand-navy font-medium transition-colors"
+                        data-i18n="navPortfolio">Portfolio</a>
 
                     <!-- Language Toggle -->
                     <div class="flex items-center bg-gray-100 p-1 rounded-full border border-gray-200">
-                        <button onclick="setLanguage('en')" id="btn-en" class="px-3 py-1 rounded-full text-sm font-semibold transition-all bg-white shadow-sm text-brand-navy">EN</button>
-                        <button onclick="setLanguage('id')" id="btn-id" class="px-3 py-1 rounded-full text-sm font-semibold transition-all text-gray-500 hover:text-gray-800">ID</button>
+                        <button onclick="setLanguage('en')" id="btn-en"
+                            class="px-3 py-1 rounded-full text-sm font-semibold transition-all bg-white shadow-sm text-brand-navy">EN</button>
+                        <button onclick="setLanguage('id')" id="btn-id"
+                            class="px-3 py-1 rounded-full text-sm font-semibold transition-all text-gray-500 hover:text-gray-800">ID</button>
                     </div>
 
-                    <a href="https://wa.me/6281234567890" target="_blank" class="bg-brand-navy hover:bg-brand-navyLight text-white px-6 py-2.5 rounded-full font-medium transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5" data-i18n="navCTA">Consult Now</a>
+                    <a href="https://wa.me/message/LF6F6WDKW64SA1" target="_blank"
+                        class="bg-brand-navy hover:bg-brand-navyLight text-white px-6 py-2.5 rounded-full font-medium transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                        data-i18n="navCTA">Consult Now</a>
                 </div>
 
                 <!-- Mobile menu button -->
@@ -109,10 +154,18 @@
         <!-- Mobile Menu (Hidden by default) -->
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200 absolute w-full shadow-lg">
             <div class="px-4 pt-2 pb-6 space-y-3">
-                <a href="index.html" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md" data-i18n="navHome">Home</a>
-                <a href="index.html#services" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md" data-i18n="navServices">Services</a>
-                <a href="index.html#why-us" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md" data-i18n="navWhyUs">Why Us</a>
-                <a href="index.html#portfolio" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md" data-i18n="navPortfolio">Portfolio</a>
+                <a href="index.html"
+                    class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md"
+                    data-i18n="navHome">Home</a>
+                <a href="index.html#services"
+                    class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md"
+                    data-i18n="navServices">Services</a>
+                <a href="index.html#why-us"
+                    class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md"
+                    data-i18n="navWhyUs">Why Us</a>
+                <a href="index.html#portfolio"
+                    class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md"
+                    data-i18n="navPortfolio">Portfolio</a>
 
                 <div class="flex items-center space-x-4 px-3 py-2">
                     <span class="text-sm font-medium text-gray-500">Language:</span>
@@ -121,7 +174,9 @@
                     <button onclick="setLanguage('id')" class="font-bold text-brand-navy">ID</button>
                 </div>
 
-                <a href="https://wa.me/6281234567890" target="_blank" class="block w-full text-center mt-4 bg-brand-navy text-white px-5 py-3 rounded-xl font-medium" data-i18n="navCTA">Consult Now</a>
+                <a href="https://wa.me/message/LF6F6WDKW64SA1" target="_blank"
+                    class="block w-full text-center mt-4 bg-brand-navy text-white px-5 py-3 rounded-xl font-medium"
+                    data-i18n="navCTA">Consult Now</a>
             </div>
         </div>
     </nav>
@@ -130,30 +185,40 @@
     <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
         <!-- Background Image with Overlay -->
         <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80" alt="Modern Home Interior Design" class="w-full h-full object-cover object-center" />
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80"
+                alt="Modern Home Interior Design" class="w-full h-full object-cover object-center" />
             <div class="absolute inset-0 bg-gradient-to-r from-brand-navy/95 via-brand-navy/80 to-transparent"></div>
         </div>
 
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <div class="max-w-2xl animate-fade-in-up">
-                <div class="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-6">
+                <div
+                    class="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-6">
                     <span class="flex h-2 w-2 rounded-full bg-brand-emerald animate-pulse"></span>
-                    <span class="text-white text-sm font-medium tracking-wide" data-i18n="heroBadge">Architecture & Interior Design</span>
+                    <span class="text-white text-sm font-medium tracking-wide" data-i18n="heroBadge">Architecture &
+                        Interior Design</span>
                 </div>
 
-                <h1 class="text-5xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6 tracking-tight" data-i18n="heroTitle">
+                <h1 class="text-5xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6 tracking-tight"
+                    data-i18n="heroTitle">
                     Design Your <span class="text-brand-gold">Dream Home</span> Before It's Built.
                 </h1>
 
                 <p class="text-lg md:text-xl text-gray-300 mb-10 leading-relaxed max-w-lg" data-i18n="heroDesc">
-                    Walk through every room before the first brick is laid. Our architects turn your vision into precise floor plans, photorealistic 3D renders, and construction-ready drawings — so there are no costly surprises on site.
+                    Walk through every room before the first brick is laid. Our architects turn your vision into precise
+                    floor plans, photorealistic 3D renders, and construction-ready drawings — so there are no costly
+                    surprises on site.
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="https://wa.me/6281234567890" target="_blank" class="bg-brand-gold hover:bg-brand-goldLight text-brand-navy px-8 py-4 rounded-full font-bold text-lg transition-all text-center shadow-[0_0_20px_rgba(212,175,55,0.4)]" data-i18n="heroCTA1">
+                    <a href="https://wa.me/message/LF6F6WDKW64SA1" target="_blank"
+                        class="bg-brand-gold hover:bg-brand-goldLight text-brand-navy px-8 py-4 rounded-full font-bold text-lg transition-all text-center shadow-[0_0_20px_rgba(212,175,55,0.4)]"
+                        data-i18n="heroCTA1">
                         Consult with Our Architects
                     </a>
-                    <a href="#pricing" class="bg-transparent border-2 border-white/30 text-white hover:bg-white/10 px-8 py-4 rounded-full font-bold text-lg transition-all text-center flex items-center justify-center group" data-i18n="heroCTA2">
+                    <a href="#pricing"
+                        class="bg-transparent border-2 border-white/30 text-white hover:bg-white/10 px-8 py-4 rounded-full font-bold text-lg transition-all text-center flex items-center justify-center group"
+                        data-i18n="heroCTA2">
                         View Pricing
                         <i class="ph ph-arrow-down ml-2 group-hover:translate-y-1 transition-transform"></i>
                     </a>
@@ -166,47 +231,69 @@
     <section id="design-services" class="py-24 bg-white relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-16 animate-on-scroll opacity-0">
-                <h2 class="text-brand-gold font-bold tracking-wider uppercase text-sm mb-2" data-i18n="servicesLabel">Our Design Services</h2>
-                <h3 class="text-4xl md:text-5xl font-heading font-bold text-brand-navy mb-4" data-i18n="servicesTitle">From Concept to Construction-Ready Drawings</h3>
-                <p class="text-gray-600 text-lg" data-i18n="servicesDesc">Every project moves through four disciplined design stages, giving you full clarity and confidence before construction begins.</p>
+                <h2 class="text-brand-gold font-bold tracking-wider uppercase text-sm mb-2" data-i18n="servicesLabel">
+                    Our Design Services</h2>
+                <h3 class="text-4xl md:text-5xl font-heading font-bold text-brand-navy mb-4" data-i18n="servicesTitle">
+                    From Concept to Construction-Ready Drawings</h3>
+                <p class="text-gray-600 text-lg" data-i18n="servicesDesc">Every project moves through four disciplined
+                    design stages, giving you full clarity and confidence before construction begins.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 
                 <!-- Service 1: 2D Floor Plans -->
-                <div class="service-card bg-white rounded-3xl border border-gray-100 p-8 group animate-on-scroll opacity-0">
-                    <div class="bg-brand-navy/5 w-14 h-14 rounded-xl flex items-center justify-center text-brand-navy mb-6 group-hover:bg-brand-navy group-hover:text-white transition-all">
+                <div
+                    class="service-card bg-white rounded-3xl border border-gray-100 p-8 group animate-on-scroll opacity-0">
+                    <div
+                        class="bg-brand-navy/5 w-14 h-14 rounded-xl flex items-center justify-center text-brand-navy mb-6 group-hover:bg-brand-navy group-hover:text-white transition-all">
                         <i class="ph ph-ruler text-3xl"></i>
                     </div>
-                    <h4 class="text-xl font-heading font-bold text-gray-900 mb-3" data-i18n="srv1Title">2D Floor Plans</h4>
-                    <p class="text-gray-600 leading-relaxed" data-i18n="srv1Desc">Functional room layouts that optimize space, natural light, and airflow. Serves as the accurate foundation for your building permit (PBG/IMB) submission.</p>
+                    <h4 class="text-xl font-heading font-bold text-gray-900 mb-3" data-i18n="srv1Title">2D Floor Plans
+                    </h4>
+                    <p class="text-gray-600 leading-relaxed" data-i18n="srv1Desc">Functional room layouts that optimize
+                        space, natural light, and airflow. Serves as the accurate foundation for your building permit
+                        (PBG/IMB) submission.</p>
                 </div>
 
                 <!-- Service 2: 3D Rendering -->
-                <div class="service-card bg-white rounded-3xl border border-gray-100 p-8 group animate-on-scroll opacity-0" style="animation-delay: 100ms;">
-                    <div class="bg-brand-navy/5 w-14 h-14 rounded-xl flex items-center justify-center text-brand-navy mb-6 group-hover:bg-brand-navy group-hover:text-white transition-all">
+                <div class="service-card bg-white rounded-3xl border border-gray-100 p-8 group animate-on-scroll opacity-0"
+                    style="animation-delay: 100ms;">
+                    <div
+                        class="bg-brand-navy/5 w-14 h-14 rounded-xl flex items-center justify-center text-brand-navy mb-6 group-hover:bg-brand-navy group-hover:text-white transition-all">
                         <i class="ph ph-cube text-3xl"></i>
                     </div>
-                    <h4 class="text-xl font-heading font-bold text-gray-900 mb-3" data-i18n="srv2Title">3D Photorealistic Rendering</h4>
-                    <p class="text-gray-600 leading-relaxed" data-i18n="srv2Desc">See your future home in stunning realistic detail — materials, lighting, and landscaping — long before ground is broken.</p>
+                    <h4 class="text-xl font-heading font-bold text-gray-900 mb-3" data-i18n="srv2Title">3D
+                        Photorealistic Rendering</h4>
+                    <p class="text-gray-600 leading-relaxed" data-i18n="srv2Desc">See your future home in stunning
+                        realistic detail — materials, lighting, and landscaping — long before ground is broken.</p>
                 </div>
 
                 <!-- Service 3: DED -->
-                <div class="service-card bg-white rounded-3xl border border-gray-100 p-8 group animate-on-scroll opacity-0" style="animation-delay: 200ms;">
-                    <div class="bg-brand-navy/5 w-14 h-14 rounded-xl flex items-center justify-center text-brand-navy mb-6 group-hover:bg-brand-navy group-hover:text-white transition-all">
+                <div class="service-card bg-white rounded-3xl border border-gray-100 p-8 group animate-on-scroll opacity-0"
+                    style="animation-delay: 200ms;">
+                    <div
+                        class="bg-brand-navy/5 w-14 h-14 rounded-xl flex items-center justify-center text-brand-navy mb-6 group-hover:bg-brand-navy group-hover:text-white transition-all">
                         <i class="ph ph-hard-hat text-3xl"></i>
                     </div>
-                    <h4 class="text-xl font-heading font-bold text-gray-900 mb-3" data-i18n="srv3Title">Detailed Engineering Design (DED)</h4>
-                    <p class="text-gray-600 leading-relaxed" data-i18n="srv3Desc">Complete technical documentation covering structural, mechanical, electrical, and plumbing (MEP) — ready for accurate budgeting and zero on-site guesswork.</p>
+                    <h4 class="text-xl font-heading font-bold text-gray-900 mb-3" data-i18n="srv3Title">Detailed
+                        Engineering Design (DED)</h4>
+                    <p class="text-gray-600 leading-relaxed" data-i18n="srv3Desc">Complete technical documentation
+                        covering structural, mechanical, electrical, and plumbing (MEP) — ready for accurate budgeting
+                        and zero on-site guesswork.</p>
                 </div>
 
                 <!-- Service 4: Interior Design -->
-                <div class="service-card bg-white rounded-3xl border border-gray-100 p-8 group animate-on-scroll opacity-0" style="animation-delay: 300ms;">
-                    <div class="bg-brand-navy/5 w-14 h-14 rounded-xl flex items-center justify-center text-brand-navy mb-6 group-hover:bg-brand-navy group-hover:text-white transition-all">
+                <div class="service-card bg-white rounded-3xl border border-gray-100 p-8 group animate-on-scroll opacity-0"
+                    style="animation-delay: 300ms;">
+                    <div
+                        class="bg-brand-navy/5 w-14 h-14 rounded-xl flex items-center justify-center text-brand-navy mb-6 group-hover:bg-brand-navy group-hover:text-white transition-all">
                         <i class="ph ph-armchair text-3xl"></i>
                     </div>
-                    <h4 class="text-xl font-heading font-bold text-gray-900 mb-3" data-i18n="srv4Title">Interior Design</h4>
-                    <p class="text-gray-600 leading-relaxed" data-i18n="srv4Desc">Curated material palettes, custom furniture layouts, and lighting design tailored to your taste — from minimalist to classic luxury.</p>
+                    <h4 class="text-xl font-heading font-bold text-gray-900 mb-3" data-i18n="srv4Title">Interior Design
+                    </h4>
+                    <p class="text-gray-600 leading-relaxed" data-i18n="srv4Desc">Curated material palettes, custom
+                        furniture layouts, and lighting design tailored to your taste — from minimalist to classic
+                        luxury.</p>
                 </div>
 
             </div>
@@ -217,24 +304,32 @@
     <section id="pricing" class="py-24 bg-gray-50 border-t border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-12 animate-on-scroll opacity-0">
-                <h2 class="text-brand-gold font-bold tracking-wider uppercase text-sm mb-2" data-i18n="pricingLabel">Transparent Pricing</h2>
-                <h3 class="text-4xl md:text-5xl font-heading font-bold text-brand-navy mb-4" data-i18n="pricingTitle">Design Packages for Every Budget</h3>
-                <p class="text-gray-600 text-lg" data-i18n="pricingDesc">Simple, per-square-meter pricing with no hidden fees. Choose the level of detail that fits your project.</p>
+                <h2 class="text-brand-gold font-bold tracking-wider uppercase text-sm mb-2" data-i18n="pricingLabel">
+                    Transparent Pricing</h2>
+                <h3 class="text-4xl md:text-5xl font-heading font-bold text-brand-navy mb-4" data-i18n="pricingTitle">
+                    Design Packages for Every Budget</h3>
+                <p class="text-gray-600 text-lg" data-i18n="pricingDesc">Simple, per-square-meter pricing with no hidden
+                    fees. Choose the level of detail that fits your project.</p>
             </div>
 
             <!-- Promo Banner -->
             <div class="max-w-4xl mx-auto mb-16 animate-on-scroll opacity-0">
-                <div class="bg-gradient-to-r from-brand-emerald to-brand-gold rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-4 shadow-xl">
+                <div
+                    class="bg-gradient-to-r from-brand-emerald to-brand-gold rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-4 shadow-xl">
                     <div class="flex items-center gap-4 text-center md:text-left">
                         <div class="bg-white/20 p-3 rounded-full text-white hidden sm:flex">
                             <i class="ph-fill ph-gift text-3xl"></i>
                         </div>
                         <div>
-                            <p class="text-white font-heading font-extrabold text-xl md:text-2xl" data-i18n="promoTitle">Free Design if you build with us!</p>
-                            <p class="text-white/90 text-sm mt-1" data-i18n="promoDesc">Ask about our combined Design & Build bundle and waive your design fee entirely.</p>
+                            <p class="text-white font-heading font-extrabold text-xl md:text-2xl"
+                                data-i18n="promoTitle">Free Design if you build with us!</p>
+                            <p class="text-white/90 text-sm mt-1" data-i18n="promoDesc">Ask about our combined Design &
+                                Build bundle and waive your design fee entirely.</p>
                         </div>
                     </div>
-                    <a href="https://wa.me/6281234567890" target="_blank" class="flex-shrink-0 bg-white text-brand-navy px-6 py-3 rounded-full font-bold hover:bg-gray-100 transition-colors whitespace-nowrap" data-i18n="promoCTA">Ask Now</a>
+                    <a href="https://wa.me/message/LF6F6WDKW64SA1" target="_blank"
+                        class="flex-shrink-0 bg-white text-brand-navy px-6 py-3 rounded-full font-bold hover:bg-gray-100 transition-colors whitespace-nowrap"
+                        data-i18n="promoCTA">Ask Now</a>
                 </div>
             </div>
 
@@ -242,12 +337,16 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
 
                 <!-- Basic Package -->
-                <div class="pricing-card bg-white rounded-3xl border-2 border-gray-200 p-8 md:p-10 animate-on-scroll opacity-0">
-                    <h4 class="text-2xl font-heading font-bold text-gray-900 mb-2" data-i18n="basicTitle">Basic Package</h4>
-                    <p class="text-gray-500 mb-6" data-i18n="basicSubtitle">Essential drawings to get your permit and build started.</p>
+                <div
+                    class="pricing-card bg-white rounded-3xl border-2 border-gray-200 p-8 md:p-10 animate-on-scroll opacity-0">
+                    <h4 class="text-2xl font-heading font-bold text-gray-900 mb-2" data-i18n="basicTitle">Basic Package
+                    </h4>
+                    <p class="text-gray-500 mb-6" data-i18n="basicSubtitle">Essential drawings to get your permit and
+                        build started.</p>
                     <div class="mb-8">
                         <span class="text-sm text-gray-500 block" data-i18n="startFrom">Starts from</span>
-                        <span class="text-3xl md:text-4xl font-heading font-extrabold text-brand-navy">Rp 150.000 - 250.000</span>
+                        <span class="text-3xl md:text-4xl font-heading font-extrabold text-brand-navy">Rp 150.000 -
+                            250.000</span>
                         <span class="text-gray-500 font-medium"> / m²</span>
                     </div>
                     <ul class="space-y-4 mb-10">
@@ -261,45 +360,59 @@
                         </li>
                         <li class="flex items-start">
                             <i class="ph-bold ph-check text-brand-emerald text-lg mt-1 mr-3"></i>
-                            <span class="text-gray-700" data-i18n="basicFeat3">Basic architectural drawings for permit</span>
+                            <span class="text-gray-700" data-i18n="basicFeat3">Basic architectural drawings for
+                                permit</span>
                         </li>
                         <li class="flex items-start">
                             <i class="ph-bold ph-check text-brand-emerald text-lg mt-1 mr-3"></i>
                             <span class="text-gray-700" data-i18n="basicFeat4">1x round of revisions</span>
                         </li>
                     </ul>
-                    <a href="https://wa.me/6281234567890" target="_blank" class="block w-full text-center bg-gray-100 hover:bg-gray-200 text-brand-navy px-6 py-4 rounded-xl font-bold transition-colors" data-i18n="basicCTA">Choose Basic</a>
+                    <a href="https://wa.me/message/LF6F6WDKW64SA1" target="_blank"
+                        class="block w-full text-center bg-gray-100 hover:bg-gray-200 text-brand-navy px-6 py-4 rounded-xl font-bold transition-colors"
+                        data-i18n="basicCTA">Choose Basic</a>
                 </div>
 
                 <!-- Premium Package -->
-                <div class="pricing-card relative bg-brand-navy rounded-3xl border-2 border-brand-gold p-8 md:p-10 shadow-2xl animate-on-scroll opacity-0" style="animation-delay: 150ms;">
-                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-gold text-brand-navy text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full shadow-lg" data-i18n="premiumBadge">Most Popular</div>
-                    <h4 class="text-2xl font-heading font-bold text-white mb-2" data-i18n="premiumTitle">Premium Package</h4>
-                    <p class="text-gray-400 mb-6" data-i18n="premiumSubtitle">Full engineering and design, ready for flawless execution.</p>
+                <div class="pricing-card relative bg-brand-navy rounded-3xl border-2 border-brand-gold p-8 md:p-10 shadow-2xl animate-on-scroll opacity-0"
+                    style="animation-delay: 150ms;">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-gold text-brand-navy text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full shadow-lg"
+                        data-i18n="premiumBadge">Most Popular</div>
+                    <h4 class="text-2xl font-heading font-bold text-white mb-2" data-i18n="premiumTitle">Premium Package
+                    </h4>
+                    <p class="text-gray-400 mb-6" data-i18n="premiumSubtitle">Full engineering and design, ready for
+                        flawless execution.</p>
                     <div class="mb-8">
                         <span class="text-sm text-gray-400 block" data-i18n="startFrom">Starts from</span>
-                        <span class="text-3xl md:text-4xl font-heading font-extrabold text-white">Rp 350.000 - 500.000+</span>
+                        <span class="text-3xl md:text-4xl font-heading font-extrabold text-white">Rp 350.000 -
+                            500.000+</span>
                         <span class="text-gray-400 font-medium"> / m²</span>
                     </div>
                     <ul class="space-y-4 mb-10">
                         <li class="flex items-start">
                             <i class="ph-bold ph-check text-brand-gold text-lg mt-1 mr-3"></i>
-                            <span class="text-gray-200" data-i18n="premiumFeat1">Full Detailed Engineering Design (DED)</span>
+                            <span class="text-gray-200" data-i18n="premiumFeat1">Full Detailed Engineering Design
+                                (DED)</span>
                         </li>
                         <li class="flex items-start">
                             <i class="ph-bold ph-check text-brand-gold text-lg mt-1 mr-3"></i>
-                            <span class="text-gray-200" data-i18n="premiumFeat2">Structural, mechanical, electrical & plumbing (MEP)</span>
+                            <span class="text-gray-200" data-i18n="premiumFeat2">Structural, mechanical, electrical &
+                                plumbing (MEP)</span>
                         </li>
                         <li class="flex items-start">
                             <i class="ph-bold ph-check text-brand-gold text-lg mt-1 mr-3"></i>
-                            <span class="text-gray-200" data-i18n="premiumFeat3">High-end 3D exterior & interior rendering</span>
+                            <span class="text-gray-200" data-i18n="premiumFeat3">High-end 3D exterior & interior
+                                rendering</span>
                         </li>
                         <li class="flex items-start">
                             <i class="ph-bold ph-check text-brand-gold text-lg mt-1 mr-3"></i>
-                            <span class="text-gray-200" data-i18n="premiumFeat4">Unlimited revisions & dedicated consultant</span>
+                            <span class="text-gray-200" data-i18n="premiumFeat4">Unlimited revisions & dedicated
+                                consultant</span>
                         </li>
                     </ul>
-                    <a href="https://wa.me/6281234567890" target="_blank" class="block w-full text-center bg-brand-gold hover:bg-brand-goldLight text-brand-navy px-6 py-4 rounded-xl font-bold transition-colors" data-i18n="premiumCTA">Choose Premium</a>
+                    <a href="https://wa.me/message/LF6F6WDKW64SA1" target="_blank"
+                        class="block w-full text-center bg-brand-gold hover:bg-brand-goldLight text-brand-navy px-6 py-4 rounded-xl font-bold transition-colors"
+                        data-i18n="premiumCTA">Choose Premium</a>
                 </div>
 
             </div>
@@ -309,18 +422,27 @@
     <!-- Final Call to Action -->
     <section id="cta" class="py-24 bg-white relative overflow-hidden">
         <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
-            <svg viewBox="0 0 100 100" class="absolute -top-20 -left-20 w-96 h-96 fill-brand-navy"><circle cx="50" cy="50" r="50"/></svg>
-            <svg viewBox="0 0 100 100" class="absolute -bottom-20 -right-20 w-[40rem] h-[40rem] fill-brand-gold"><circle cx="50" cy="50" r="50"/></svg>
+            <svg viewBox="0 0 100 100" class="absolute -top-20 -left-20 w-96 h-96 fill-brand-navy">
+                <circle cx="50" cy="50" r="50" />
+            </svg>
+            <svg viewBox="0 0 100 100" class="absolute -bottom-20 -right-20 w-[40rem] h-[40rem] fill-brand-gold">
+                <circle cx="50" cy="50" r="50" />
+            </svg>
         </div>
 
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="bg-brand-navy rounded-3xl shadow-2xl p-10 md:p-16 text-center animate-on-scroll opacity-0">
-                <div class="bg-brand-navyLight w-16 h-16 rounded-2xl flex items-center justify-center text-brand-gold mx-auto mb-8">
+                <div
+                    class="bg-brand-navyLight w-16 h-16 rounded-2xl flex items-center justify-center text-brand-gold mx-auto mb-8">
                     <i class="ph-fill ph-chats-circle text-3xl"></i>
                 </div>
-                <h2 class="text-3xl md:text-5xl font-heading font-bold text-white mb-6" data-i18n="ctaTitle">Consult with Our Architects</h2>
-                <p class="text-gray-300 text-lg mb-10 max-w-2xl mx-auto leading-relaxed" data-i18n="ctaDesc">Tell us about your land size, budget, and dream design. Our architects will respond within 24 hours with a tailored recommendation and free initial consultation.</p>
-                <a href="https://wa.me/6281234567890" target="_blank" class="inline-flex items-center bg-brand-gold hover:bg-brand-goldLight text-brand-navy px-10 py-5 rounded-full font-bold text-lg transition-all shadow-[0_0_20px_rgba(212,175,55,0.4)]">
+                <h2 class="text-3xl md:text-5xl font-heading font-bold text-white mb-6" data-i18n="ctaTitle">Consult
+                    with Our Architects</h2>
+                <p class="text-gray-300 text-lg mb-10 max-w-2xl mx-auto leading-relaxed" data-i18n="ctaDesc">Tell us
+                    about your land size, budget, and dream design. Our architects will respond within 24 hours with a
+                    tailored recommendation and free initial consultation.</p>
+                <a href="https://wa.me/message/LF6F6WDKW64SA1" target="_blank"
+                    class="inline-flex items-center bg-brand-gold hover:bg-brand-goldLight text-brand-navy px-10 py-5 rounded-full font-bold text-lg transition-all shadow-[0_0_20px_rgba(212,175,55,0.4)]">
                     <i class="ph-fill ph-whatsapp-logo text-2xl mr-3"></i>
                     <span data-i18n="ctaButton">Chat on WhatsApp</span>
                 </a>
@@ -337,15 +459,23 @@
                 <div class="col-span-1 md:col-span-1">
                     <div class="flex items-center mb-6">
                         <i class="ph-fill ph-house-line text-3xl text-white mr-2"></i>
-                        <span class="font-heading font-bold text-2xl tracking-tight">Aetheria<span class="text-brand-gold">.</span></span>
+                        <span class="font-heading font-bold text-2xl tracking-tight">Aetheria<span
+                                class="text-brand-gold">.</span></span>
                     </div>
                     <p class="text-gray-400 text-sm leading-relaxed mb-6" data-i18n="footerDesc">
-                        Redefining modern living by combining exceptional architecture with sustainable, smart technology.
+                        Redefining modern living by combining exceptional architecture with sustainable, smart
+                        technology.
                     </p>
                     <div class="flex space-x-4">
-                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-gold hover:text-brand-navy transition-all"><i class="ph-fill ph-instagram-logo text-xl"></i></a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-gold hover:text-brand-navy transition-all"><i class="ph-fill ph-facebook-logo text-xl"></i></a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-gold hover:text-brand-navy transition-all"><i class="ph-fill ph-linkedin-logo text-xl"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-gold hover:text-brand-navy transition-all"><i
+                                class="ph-fill ph-instagram-logo text-xl"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-gold hover:text-brand-navy transition-all"><i
+                                class="ph-fill ph-facebook-logo text-xl"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-gold hover:text-brand-navy transition-all"><i
+                                class="ph-fill ph-linkedin-logo text-xl"></i></a>
                     </div>
                 </div>
 
@@ -353,11 +483,16 @@
                 <div>
                     <h4 class="font-bold text-lg mb-6 text-white" data-i18n="footerServices">Services</h4>
                     <ul class="space-y-3 text-gray-400">
-                        <li><a href="architecture-design.html" class="hover:text-brand-gold transition-colors">Architecture & Design</a></li>
-                        <li><a href="index.html#services" class="hover:text-brand-gold transition-colors">Home Building</a></li>
-                        <li><a href="index.html#services" class="hover:text-brand-gold transition-colors">Renovation</a></li>
-                        <li><a href="index.html#services" class="hover:text-brand-gold transition-colors">Smart Home Integration</a></li>
-                        <li><a href="index.html#services" class="hover:text-brand-gold transition-colors">Solar Panel Setup</a></li>
+                        <li><a href="architecture-design.html"
+                                class="hover:text-brand-gold transition-colors">Architecture & Design</a></li>
+                        <li><a href="index.html#services" class="hover:text-brand-gold transition-colors">Home
+                                Building</a></li>
+                        <li><a href="index.html#services" class="hover:text-brand-gold transition-colors">Renovation</a>
+                        </li>
+                        <li><a href="index.html#services" class="hover:text-brand-gold transition-colors">Smart Home
+                                Integration</a></li>
+                        <li><a href="index.html#services" class="hover:text-brand-gold transition-colors">Solar Panel
+                                Setup</a></li>
                     </ul>
                 </div>
 
@@ -371,7 +506,7 @@
                         </li>
                         <li class="flex items-center">
                             <i class="ph-fill ph-phone text-brand-gold mr-3 text-xl"></i>
-                            <span class="text-sm">+62 812 3456 7890</span>
+                            <span class="text-sm">+62 82322780571</span>
                         </li>
                         <li class="flex items-center">
                             <i class="ph-fill ph-envelope text-brand-gold mr-3 text-xl"></i>
@@ -383,17 +518,21 @@
                 <!-- Newsletter -->
                 <div>
                     <h4 class="font-bold text-lg mb-6 text-white" data-i18n="footerNewsletter">Newsletter</h4>
-                    <p class="text-gray-400 text-sm mb-4" data-i18n="footerNewsDesc">Get the latest trends in smart homes and modern architecture.</p>
+                    <p class="text-gray-400 text-sm mb-4" data-i18n="footerNewsDesc">Get the latest trends in smart
+                        homes and modern architecture.</p>
                     <form class="flex" onsubmit="event.preventDefault();">
-                        <input type="email" placeholder="Your email" class="w-full px-4 py-2 rounded-l-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:border-brand-gold text-sm">
-                        <button class="bg-brand-gold text-brand-navy px-4 py-2 rounded-r-lg font-bold hover:bg-brand-goldLight transition-colors">
+                        <input type="email" placeholder="Your email"
+                            class="w-full px-4 py-2 rounded-l-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:border-brand-gold text-sm">
+                        <button
+                            class="bg-brand-gold text-brand-navy px-4 py-2 rounded-r-lg font-bold hover:bg-brand-goldLight transition-colors">
                             <i class="ph-bold ph-paper-plane-right"></i>
                         </button>
                     </form>
                 </div>
             </div>
 
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
+            <div
+                class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
                 <p>&copy; 2026 Aetheria Homes. All rights reserved.</p>
                 <div class="flex space-x-4 mt-4 md:mt-0">
                     <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
@@ -404,7 +543,8 @@
     </footer>
 
     <!-- Floating WhatsApp Button -->
-    <a href="https://wa.me/6281234567890" target="_blank" class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:shadow-2xl hover:scale-110 transition-all duration-300">
+    <a href="https://wa.me/message/LF6F6WDKW64SA1" target="_blank"
+        class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:shadow-2xl hover:scale-110 transition-all duration-300">
         <i class="ph-fill ph-whatsapp-logo text-3xl"></i>
         <!-- Ping effect -->
         <span class="absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-75 animate-ping -z-10"></span>
@@ -528,7 +668,7 @@
             const btnEn = document.getElementById('btn-en');
             const btnId = document.getElementById('btn-id');
 
-            if(lang === 'en') {
+            if (lang === 'en') {
                 btnEn.className = "px-3 py-1 rounded-full text-sm font-semibold transition-all bg-white shadow-sm text-brand-navy";
                 btnId.className = "px-3 py-1 rounded-full text-sm font-semibold transition-all text-gray-500 hover:text-gray-800";
             } else {
@@ -540,7 +680,7 @@
             const elements = document.querySelectorAll('[data-i18n]');
             elements.forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if(translations[lang][key]) {
+                if (translations[lang][key]) {
                     el.innerHTML = translations[lang][key];
                 }
             });
@@ -587,4 +727,5 @@
         });
     </script>
 </body>
+
 </html>
